@@ -1,6 +1,4 @@
-package fishing_prediction.model;
-
-import java.util.Date;
+package model;
 
 /**
  * Created by AZagorskyi on 23.03.2017.

@@ -1,13 +1,13 @@
 package fishing_prediction.service;
 
-import fishing_prediction.service.MoonRelationPeaceFish;
+import java.util.List;
 
 /**
  * Created by AZagorskyi on 22.03.2017.
  */
 public class Service {
 
-    public int calculatePeacePrediction(int moonDay, int month, int [] arrayAtmospherePressure){
+    public static int calculatePeacePrediction(int moonDay, int month, List<Integer> arrayAtmospherePressure){
         int predictionValue = 0;
         int ratingForMoonDay = MoonRelationPeaceFish.getRatingByMoonDay(moonDay);
         int temperature = AverageWaterTemperatureInMonth.getTemperatureByMonth(month);
@@ -17,7 +17,7 @@ public class Service {
         return predictionValue;
     }
 
-    private int getTemperaturePredictionValue(int temperature){
+    private static int getTemperaturePredictionValue(int temperature){
         int temperaturePredictionValue = 0;
         switch (temperature){
             case 3:
@@ -49,13 +49,13 @@ public class Service {
         return temperaturePredictionValue;
     }
 
-    private int getAtmospherePressurePredictionValue(int [] arrayAtmospherePressure){
+    private static int getAtmospherePressurePredictionValue(List<Integer> arrayAtmospherePressure){
         int atmospherePressurePredictionValue = 0;
         int averageDifferencesAtmospherePressure = 0;
-        for (int i = 0; i < arrayAtmospherePressure.length; i++){
-            averageDifferencesAtmospherePressure = + Math.abs(arrayAtmospherePressure[i] - arrayAtmospherePressure[i + 1]);
+        for (int i = 1; i < arrayAtmospherePressure.size(); i++){
+            averageDifferencesAtmospherePressure = + Math.abs(arrayAtmospherePressure.get(i - 1) - arrayAtmospherePressure.get(i));
         }
-        averageDifferencesAtmospherePressure = averageDifferencesAtmospherePressure/arrayAtmospherePressure.length;
+        averageDifferencesAtmospherePressure = averageDifferencesAtmospherePressure/arrayAtmospherePressure.size();
 
         if (averageDifferencesAtmospherePressure >= 0 && averageDifferencesAtmospherePressure <= 3)
             atmospherePressurePredictionValue = 10;

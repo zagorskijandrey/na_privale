@@ -1,4 +1,4 @@
-package fishing_prediction.enumeration;
+package enumeration;
 
 import java.util.HashMap;
 
