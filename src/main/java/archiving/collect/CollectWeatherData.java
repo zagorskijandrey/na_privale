@@ -32,9 +32,9 @@ public class CollectWeatherData {
             PreparedStatement statement = DataBaseConnection.getConnection().prepareStatement(sqlQuery);
             statement.setString(1,city.getCity());
             ResultSet result = statement.executeQuery();
-            model.setWindSpeed(Integer.parseInt(result.getString("yesterday_wind_speed")));
-            model.setWindRout(Integer.parseInt(result.getString("yesterday_wind_rout")));
-            model.setPressure(Integer.parseInt(result.getString("yesterday_pressure")));
+            model.setWindSpeed(Integer.parseInt(result.getString("wind_speed")));
+            model.setWindRout(Integer.parseInt(result.getString("wind_rout")));
+            model.setPressure(Integer.parseInt(result.getString("pressure")));
             result.close();
             statement.close();
         } catch (SQLException sql){

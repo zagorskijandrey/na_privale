@@ -16,9 +16,9 @@ import java.sql.SQLException;
  */
 public class UpdateWeatherData {
 
-    public void updateYesterdayData(WeatherModel model, Region city){
+    public void updateWeatherData(WeatherModel model, Region city, String sqlQuery){
         try{
-            PreparedStatement statement = DataBaseConnection.getConnection().prepareStatement(Constant.SQL_QUERY_UPDATE_YESTERDAY);
+            PreparedStatement statement = DataBaseConnection.getConnection().prepareStatement(sqlQuery);
             statement.setString(0, String.valueOf(model.getWindSpeed()));
             statement.setString(1, String.valueOf(model.getWindRout()));
             statement.setString(2, String.valueOf(model.getPressure()));
@@ -33,19 +33,19 @@ public class UpdateWeatherData {
     }
 
     public void updateBeforeYesterdayData(Region city){
-        try{
-            WeatherModel model = CollectWeatherData.getWeatherByCity(city, Constant.SQL_QUERY_SELECT_YESTERDAY_WEATHER);
-            PreparedStatement statement = DataBaseConnection.getConnection().prepareStatement(Constant.SQL_QUERY_UPDATE_BEFORE_YESTERDAY);
-            statement.setString(0, String.valueOf(model.getWindSpeed()));
-            statement.setString(1, String.valueOf(model.getWindRout()));
-            statement.setString(2, String.valueOf(model.getPressure()));
-            statement.setString(3, city.getCity());
-            statement.execute();
-            statement.close();
-        } catch (SQLException sql){
-            sql.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+//        try{
+//            WeatherModel model = CollectWeatherData.getWeatherByCity(city, Constant.SQL_QUERY_SELECT_YESTERDAY_WEATHER);
+//            PreparedStatement statement = DataBaseConnection.getConnection().prepareStatement(Constant.SQL_QUERY_UPDATE_BEFORE_YESTERDAY);
+//            statement.setString(0, String.valueOf(model.getWindSpeed()));
+//            statement.setString(1, String.valueOf(model.getWindRout()));
+//            statement.setString(2, String.valueOf(model.getPressure()));
+//            statement.setString(3, city.getCity());
+//            statement.execute();
+//            statement.close();
+//        } catch (SQLException sql){
+//            sql.printStackTrace();
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
     }
 }
