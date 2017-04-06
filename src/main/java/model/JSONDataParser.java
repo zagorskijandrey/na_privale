@@ -1,5 +1,6 @@
 package model;
 
+import constant.Constant;
 import enumeration.Region;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -15,7 +16,7 @@ import java.net.URLConnection;
  * Created by AZagorskyi on 05.04.2017.
  */
 public class JSONDataParser {
-    public static JSONObject parseMoonDataJson(String moonDataUrl) throws IOException {
+    public JSONObject parseMoonDataJson(String moonDataUrl) throws IOException {
         URL url = new URL(moonDataUrl);
         URLConnection connection = url.openConnection();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -29,7 +30,7 @@ public class JSONDataParser {
         return object;
     }
 
-    public static int getMoonDayTomorrow(JSONObject object){
+    public int getMoonDayTomorrow(JSONObject object){
         Long valueLong = Math.round(Double.parseDouble((object.get("age")).toString()));
         Integer moonDay = valueLong.intValue() + 1;
         if (moonDay == 30){
@@ -38,11 +39,8 @@ public class JSONDataParser {
         return moonDay;
     }
 
-    public static JSONObject parseWeatherDataJson(String weatherDataTodayUrl, String city) throws IOException{
-        String trueUrl = null;
-        if (city.equals(Region.valueOf(city).getCity())){
-            trueUrl = weatherDataTodayUrl.replace("XXXXX", city);
-        }
+    public JSONObject parseWeatherDataJson(String weatherDataTodayUrl, Region city) throws IOException{
+        String trueUrl = weatherDataTodayUrl.replace("XXXXX", city.getCity());
         URL url = new URL(trueUrl);
         URLConnection connection = url.openConnection();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -56,7 +54,7 @@ public class JSONDataParser {
         return object;
     }
 
-    public static WeatherModel getPresentWeather(JSONObject object){
+    public WeatherModel getPresentWeather(JSONObject object){
         WeatherModel presentWeather = new WeatherModel();
         JSONObject dt = getJSONObjectByName(object, "list", "dt", 1);
         JSONObject main = getJSONObjectByName(object, "list", "main", 1);
@@ -71,13 +69,13 @@ public class JSONDataParser {
         Long degree = Math.round(Double.parseDouble((wind.get("deg")).toString()));
         presentWeather.setWindRout(degree.intValue());
 
-        Long pressure = Math.round(Double.parseDouble((main.get("pressure")).toString()));
+        Long pressure = Math.round(Double.parseDouble((main.get("pressure")).toString())/ Constant.FACTOR_PRESSURE);
         presentWeather.setPressure(pressure.intValue());
 
         return presentWeather;
     }
 
-    public static WeatherModel getFutureWeather(JSONObject object){
+    public WeatherModel getFutureWeather(JSONObject object){
         WeatherModel presentWeather = new WeatherModel();
         JSONObject dt = getJSONObjectByName(object, "list", "dt", 10);
         JSONObject main = getJSONObjectByName(object, "list", "main", 10);
@@ -90,13 +88,13 @@ public class JSONDataParser {
         Long degree = Math.round(Double.parseDouble((wind.get("deg")).toString()));
         presentWeather.setWindRout(degree.intValue());
 
-        Long pressure = Math.round(Double.parseDouble((main.get("pressure")).toString()));
+        Long pressure = Math.round(Double.parseDouble((main.get("pressure")).toString())/ Constant.FACTOR_PRESSURE);
         presentWeather.setPressure(pressure.intValue());
 
         return presentWeather;
     }
 
-    private static JSONObject getJSONObjectByName(JSONObject object, String nameArray, String nameObject, int index){
+    private JSONObject getJSONObjectByName(JSONObject object, String nameArray, String nameObject, int index){
         JSONArray array = (JSONArray) object.get(nameArray);
         JSONObject objectFromArray = null;
         JSONObject ob = (JSONObject) array.get(index);

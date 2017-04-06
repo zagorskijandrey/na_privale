@@ -4,7 +4,6 @@ import mysql_connection.DataBaseConnection;
 import org.json.simple.JSONObject;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -28,15 +27,8 @@ public class FishingStoryServlet extends HttpServlet {
         String base_id = httpRequest.getParameter("id");
         logger.log(Level.INFO, base_id);
         String sqlQuery = "SELECT * FROM fishing_story where id_fishing_story=?";
-        Connection connection = null;
-        try {
-            connection = DataBaseConnection.getConnection();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        logger.log(Level.INFO, "connection");
         try{
-            PreparedStatement statement = connection.prepareStatement(sqlQuery);
+            PreparedStatement statement = DataBaseConnection.getConnection().prepareStatement(sqlQuery);
             statement.setString(1,base_id);
             logger.log(Level.INFO, "statement");
             ResultSet result = statement.executeQuery();
@@ -54,6 +46,8 @@ public class FishingStoryServlet extends HttpServlet {
             statement.close();
         } catch (SQLException sql){
             sql.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
         httpResponse.setContentType("application/json");
         httpResponse.setCharacterEncoding("UTF-8");
