@@ -19,10 +19,10 @@ public class UpdateWeatherData {
     public void updateWeatherData(WeatherModel model, Region city, String sqlQuery){
         try{
             PreparedStatement statement = DataBaseConnection.getConnection().prepareStatement(sqlQuery);
-            statement.setString(0, String.valueOf(model.getWindSpeed()));
-            statement.setString(1, String.valueOf(model.getWindRout()));
-            statement.setString(2, String.valueOf(model.getPressure()));
-            statement.setString(3, city.getCity());
+            statement.setString(1, String.valueOf(model.getWindSpeed()));
+            statement.setString(2, String.valueOf(model.getWindRout()));
+            statement.setString(3, String.valueOf(model.getPressure()));
+            statement.setString(4, city.getCity());
             statement.execute();
             statement.close();
         } catch (SQLException sql){

@@ -1,5 +1,8 @@
 package constant;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+
 /**
  * Created by AZagorskyi on 06.04.2017.
  */
@@ -25,4 +28,14 @@ public class Constant {
 
     public static String MOON_DATA_URL = "http://api.burningsoul.in/moon";
     public static String WEATHER_DATA_TODAY_URL = "http://api.openweathermap.org/data/2.5/forecast?q=XXXXX,ua&APPID=bf64caf37de45d7b2e9751adc28f384a";
+
+    public static LinkedHashMap <String, String> MAP_QUERY_REFRESH_DATA_BASE = null;
+
+    static{
+        MAP_QUERY_REFRESH_DATA_BASE = new LinkedHashMap<String, String>();
+        MAP_QUERY_REFRESH_DATA_BASE.put(SQL_QUERY_SELECT_TWICE_YESTERDAY_WEATHER, SQL_QUERY_UPDATE_THIRD_YESTERDAY_WEATHER);
+        MAP_QUERY_REFRESH_DATA_BASE.put(SQL_QUERY_SELECT_ONCE_YESTERDAY_WEATHER, SQL_QUERY_UPDATE_TWICE_YESTERDAY_WEATHER);
+        MAP_QUERY_REFRESH_DATA_BASE.put(SQL_QUERY_SELECT_TODAY_WEATHER, SQL_QUERY_UPDATE_ONCE_YESTERDAY_WEATHER);
+    }
+
 }

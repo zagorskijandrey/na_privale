@@ -25,16 +25,18 @@ public class CollectWeatherData {
         return pressures;
     }
 
-    public static WeatherModel getWeatherByCity(Region city, String sqlQuery){
+    public WeatherModel getWeatherByCity(Region city, String sqlQuery){
         WeatherModel model = null;
         try{
             model = new WeatherModel();
             PreparedStatement statement = DataBaseConnection.getConnection().prepareStatement(sqlQuery);
             statement.setString(1,city.getCity());
             ResultSet result = statement.executeQuery();
-            model.setWindSpeed(Integer.parseInt(result.getString("wind_speed")));
-            model.setWindRout(Integer.parseInt(result.getString("wind_rout")));
-            model.setPressure(Integer.parseInt(result.getString("pressure")));
+            while (result.next()){
+                model.setWindSpeed(Integer.parseInt(result.getString("wind_speed")));
+                model.setWindRout(Integer.parseInt(result.getString("wind_rout")));
+                model.setPressure(Integer.parseInt(result.getString("pressure")));
+            }
             result.close();
             statement.close();
         } catch (SQLException sql){

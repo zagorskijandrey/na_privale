@@ -1,11 +1,11 @@
-package fishing_prediction.service;
+package fishing_prediction;
 
 import java.util.HashMap;
 
 /**
  * Created by AZagorskyi on 22.03.2017.
  */
-class MoonRelationPeaceFish {
+public class MoonRelationPeaceFish {
 
     private static HashMap<Integer, Integer> moonDayRatingMap = null;
 
@@ -43,7 +43,7 @@ class MoonRelationPeaceFish {
         moonDayRatingMap.put(30, 0);
     }
 
-    static int getRatingByMoonDay(int day){
+    public static int getRatingByMoonDay(int day){
         return moonDayRatingMap.get(day);
     }
 }

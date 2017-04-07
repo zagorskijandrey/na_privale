@@ -1,4 +1,4 @@
-package fishing_prediction.servlet;
+package servlet;
 
 import archiving.collect.CollectWeatherData;
 import constant.Constant;
@@ -43,7 +43,9 @@ public class FishingPredictionServlet extends HttpServlet {
         calendar.setTime(today);
 
 
-        String [] sqlQuery = {Constant.SQL_QUERY_SELECT_YESTERDAY_WEATHER, Constant.SQL_QUERY_SELECT_BEFORE_YESTERDAY_WEATHER};
+        String [] sqlQuery = {Constant.SQL_QUERY_SELECT_THIRD_YESTERDAY_WEATHER, Constant.SQL_QUERY_SELECT_TWICE_YESTERDAY_WEATHER,
+                Constant.SQL_QUERY_SELECT_ONCE_YESTERDAY_WEATHER, Constant.SQL_QUERY_SELECT_TODAY_WEATHER,
+                Constant.SQL_QUERY_SELECT_TOMORROW_WEATHER};
         CollectWeatherData collectWeatherData = new CollectWeatherData();
         List<Integer> pressures = collectWeatherData.getPressures(city, sqlQuery);
         pressures.add(presentWeather.getPressure());

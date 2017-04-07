@@ -1,4 +1,4 @@
-package fishing_prediction.service;
+package fishing_prediction;
 
 import java.util.HashMap;
 

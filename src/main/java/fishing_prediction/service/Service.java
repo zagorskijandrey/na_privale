@@ -1,5 +1,8 @@
 package fishing_prediction.service;
 
+import fishing_prediction.AverageWaterTemperatureInMonth;
+import fishing_prediction.MoonRelationPeaceFish;
+
 import java.util.List;
 
 /**
