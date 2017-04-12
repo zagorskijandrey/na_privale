@@ -15,26 +15,29 @@ import java.util.logging.Logger;
 /**
  * Created by AZagorskyi on 06.04.2017.
  */
-public class CollectWeatherData {
+public class CollectWeatherData implements ICollectWeatherData{
     private static Logger log = Logger.getLogger(CollectWeatherData.class.getName());
 
-    public List<Integer> getPressures(Region city, String [] sqlQuery){
-        List<Integer> pressures = new ArrayList<Integer>();
+    private List<Integer> pressures = null;
+    private int windRout = 0;
+    private int windSpeed = 0;
+
+    public void setPressures(Region city, String [] sqlQuery){
+        pressures = new ArrayList<Integer>();
         for (int i = 0; i < sqlQuery.length; i++){
             WeatherModel weatherModel = getWeatherByCity(city, sqlQuery[i]);
             pressures.add(weatherModel.getPressure());
         }
-        return pressures;
     }
 
-    public int getWindRout(Region city, String sqlQuery){
+    public void setWindRout(Region city, String sqlQuery){
         WeatherModel model = getWeatherByCity(city, sqlQuery);
-        return model.getWindRout();
+        windRout = model.getWindRout();
     }
 
-    public int getWindSpeed(Region city, String sqlQuery){
+    public void setWindSpeed(Region city, String sqlQuery){
         WeatherModel model = getWeatherByCity(city, sqlQuery);
-        return model.getWindSpeed();
+        windSpeed = model.getWindSpeed();
     }
 
     public WeatherModel getWeatherByCity(Region city, String sqlQuery){
@@ -61,5 +64,17 @@ public class CollectWeatherData {
             e.printStackTrace();
         }
         return model;
+    }
+
+    public List<Integer> getPressures() {
+        return pressures;
+    }
+
+    public int getWindRout() {
+        return windRout;
+    }
+
+    public int getWindSpeed() {
+        return 0;
     }
 }
