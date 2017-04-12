@@ -4,6 +4,7 @@ import constant.Constant;
 import enumeration.Region;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.BufferedReader;
@@ -20,10 +21,11 @@ public class JSONDataParser {
         URL url = new URL(moonDataUrl);
         URLConnection connection = url.openConnection();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        org.json.simple.parser.JSONParser parser = new org.json.simple.parser.JSONParser();
+        JSONParser parser = new JSONParser();
         JSONObject object = null;
         try {
             object = (JSONObject) parser.parse(bufferedReader);
+            bufferedReader.close();
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -40,14 +42,15 @@ public class JSONDataParser {
     }
 
     public JSONObject parseWeatherDataJson(String weatherDataTodayUrl, Region city) throws IOException{
-        String trueUrl = weatherDataTodayUrl.replace("XXXXX", city.getCity());
+        String trueUrl = weatherDataTodayUrl.replace("XXXXX", city.getRegion());
         URL url = new URL(trueUrl);
         URLConnection connection = url.openConnection();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        org.json.simple.parser.JSONParser parser = new org.json.simple.parser.JSONParser();
+        JSONParser parser = new JSONParser();
         JSONObject object = null;
         try {
             object = (JSONObject) parser.parse(bufferedReader);
+            bufferedReader.close();
         } catch (ParseException e) {
             e.printStackTrace();
         }

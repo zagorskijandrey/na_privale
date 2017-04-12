@@ -4,8 +4,7 @@ import archiving.collect.CollectWeatherData;
 import constant.Constant;
 import enumeration.Region;
 import model.JSONDataParser;
-import model.WeatherModel;
-import fishing_prediction.service.Service;
+import fishing_prediction.service.ServiceForPeaceFish;
 import org.json.simple.JSONObject;
 
 import javax.servlet.ServletException;
@@ -14,7 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +22,6 @@ import java.util.List;
  */
 @WebServlet("/fishingPrediction")
 public class FishingPredictionServlet extends HttpServlet {
-    private Region city = null;
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)  throws ServletException, IOException{
@@ -34,11 +31,8 @@ public class FishingPredictionServlet extends HttpServlet {
         int moonDay = jsonDataParser.getMoonDayTomorrow(objectMoonDay);
 
         Region city = getCity(request.getParameter("city"));
-        JSONObject objectWeatherData = jsonDataParser.parseWeatherDataJson(Constant.WEATHER_DATA_TODAY_URL, city);
-        WeatherModel presentWeather = jsonDataParser.getPresentWeather(objectWeatherData);
-        WeatherModel futureWeather = jsonDataParser.getFutureWeather(objectWeatherData);
 
-        Date today = new Date(presentWeather.getTimeInSeconds()*1000);
+        Date today = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(today);
 
@@ -48,15 +42,15 @@ public class FishingPredictionServlet extends HttpServlet {
                 Constant.SQL_QUERY_SELECT_TOMORROW_WEATHER};
         CollectWeatherData collectWeatherData = new CollectWeatherData();
         List<Integer> pressures = collectWeatherData.getPressures(city, sqlQuery);
-        pressures.add(presentWeather.getPressure());
-        pressures.add(futureWeather.getPressure());
-        int rating = Service.calculatePeacePrediction(moonDay, calendar.get(Calendar.MONTH), pressures);
+        int windRout = collectWeatherData.getWindRout(city, Constant.SQL_QUERY_SELECT_TOMORROW_WEATHER);
+        int windSpeed = collectWeatherData.getWindSpeed(city, Constant.SQL_QUERY_SELECT_TOMORROW_WEATHER);
+
+        int rating = new ServiceForPeaceFish().calculatePeacePrediction(moonDay, calendar.get(Calendar.MONTH),
+                pressures, windRout, windSpeed);
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(moonDay);
-        response.getWriter().write(presentWeather.toString());
-        response.getWriter().write(futureWeather.toString());
         response.getWriter().write(rating);
     }
 
@@ -66,8 +60,8 @@ public class FishingPredictionServlet extends HttpServlet {
     }
 
     private Region getCity(String urlParameter){
-        Region city = Region.Kyiv;
-        if (urlParameter.equals(Region.valueOf(urlParameter).getCity())){
+        Region city = Region.Kiev;
+        if (urlParameter.equals(Region.valueOf(urlParameter).getRegion())){
             city = Region.valueOf(urlParameter);
         }
         return city;

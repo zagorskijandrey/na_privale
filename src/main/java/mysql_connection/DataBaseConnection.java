@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DataBaseConnection {
+    private static Logger log = Logger.getLogger(DataBaseConnection.class.getName());
     static String url = "jdbc:mysql://localhost:3306/fisherman_hunter";
     static String user = "root";
     static String password = "root";
@@ -19,7 +20,7 @@ public class DataBaseConnection {
         try{
             connection = DriverManager.getConnection(url, user, password);
         }catch (SQLException sql){
-            Logger.getLogger(DataBaseConnection.class.getName()).log(Level.SEVERE, null, sql);
+            log.info("Connection failed : " + sql);
         }
         return connection;
     }

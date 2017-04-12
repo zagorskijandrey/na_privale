@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,7 +28,8 @@ public class FishingStoryServlet extends HttpServlet {
         logger.log(Level.INFO, base_id);
         String sqlQuery = "SELECT * FROM fishing_story where id_fishing_story=?";
         try{
-            PreparedStatement statement = DataBaseConnection.getConnection().prepareStatement(sqlQuery);
+            Connection connection = DataBaseConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sqlQuery);
             statement.setString(1,base_id);
             logger.log(Level.INFO, "statement");
             ResultSet result = statement.executeQuery();
@@ -43,6 +45,7 @@ public class FishingStoryServlet extends HttpServlet {
             }
             result.close();
             statement.close();
+            connection.close();
         } catch (SQLException sql){
             sql.printStackTrace();
         } catch (ClassNotFoundException e) {

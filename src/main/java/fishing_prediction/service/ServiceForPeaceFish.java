@@ -8,33 +8,35 @@ import java.util.List;
 /**
  * Created by AZagorskyi on 22.03.2017.
  */
-public class Service {
+public class ServiceForPeaceFish {
 
-    public static int calculatePeacePrediction(int moonDay, int month, List<Integer> arrayAtmospherePressure){
-        int predictionValue = 0;
+    public int calculatePeacePrediction(int moonDay, int month, List<Integer> arrayAtmospherePressure, int windRout, int windSpeed){
         int ratingForMoonDay = MoonRelationPeaceFish.getRatingByMoonDay(moonDay);
         int temperature = AverageWaterTemperatureInMonth.getTemperatureByMonth(month);
         int temperaturePredictionValue = getTemperaturePredictionValue(temperature);
         int atmospherePressurePredictionValue = getAtmospherePressurePredictionValue(arrayAtmospherePressure);
-        predictionValue = (ratingForMoonDay + temperaturePredictionValue + atmospherePressurePredictionValue)/3;
-        return predictionValue;
+        int windRoutValue = getWindRoutPredictionValue(windRout, temperature);
+        int windSpeedValue = getWindSpeedValue(windSpeed);
+
+        return (ratingForMoonDay + temperaturePredictionValue + atmospherePressurePredictionValue +
+                windRoutValue + windSpeedValue)/5;
     }
 
-    private static int getTemperaturePredictionValue(int temperature){
+    private int getTemperaturePredictionValue(int temperature){
         int temperaturePredictionValue = 0;
         switch (temperature){
             case 3:
             case 4:
-                temperaturePredictionValue = 3;
+                temperaturePredictionValue = 1;
                 break;
             case 5:
-                temperaturePredictionValue = 4;
+                temperaturePredictionValue = 2;
                 break;
             case 9:
-                temperaturePredictionValue = 5;
+                temperaturePredictionValue = 3;
                 break;
             case 16:
-                temperaturePredictionValue = 6;
+                temperaturePredictionValue = 5;
                 break;
             case 18:
                 temperaturePredictionValue = 9;
@@ -52,7 +54,7 @@ public class Service {
         return temperaturePredictionValue;
     }
 
-    private static int getAtmospherePressurePredictionValue(List<Integer> arrayAtmospherePressure){
+    private int getAtmospherePressurePredictionValue(List<Integer> arrayAtmospherePressure){
         int atmospherePressurePredictionValue = 0;
         int averageDifferencesAtmospherePressure = 0;
         for (int i = 1; i < arrayAtmospherePressure.size(); i++){
@@ -75,5 +77,39 @@ public class Service {
         if (averageDifferencesAtmospherePressure > 15)
             atmospherePressurePredictionValue = 0;
         return atmospherePressurePredictionValue;
+    }
+
+    private int getWindRoutPredictionValue(int windRout, int temperatureWater){
+        int windRoutValue = 2;
+        if (windRout <= 22 || windRout > 338){
+            if (temperatureWater >= 22)
+                windRoutValue = 10;
+        }
+        if (windRout > 22 && windRout <= 112)
+            windRoutValue = 0;
+        if (windRout > 112 && windRout <= 158)
+            windRoutValue = 5;
+        if (windRout > 158 && windRout <= 248)
+            windRoutValue = 8;
+        if (windRout > 248 && windRout <= 292)
+            windRoutValue = 10;
+        if (windRout > 292 && windRout <= 315)
+            windRoutValue = 6;
+        return windRoutValue;
+    }
+
+    private int getWindSpeedValue(int windSpeed){
+        int windSpeedValue = 1;
+        if (windSpeed < 3)
+            windSpeedValue = 3;
+        if (windSpeed >= 3 && windSpeed < 5)
+            windSpeedValue = 6;
+        if (windSpeed >=5 && windSpeed < 10)
+            windSpeedValue = 10;
+        if (windSpeed >= 10 && windSpeed < 15)
+            windSpeedValue = 6;
+        if (windSpeed >= 15 && windSpeed < 20)
+            windSpeedValue = 3;
+        return windSpeedValue;
     }
 }

@@ -1,5 +1,6 @@
 package servlet;
 
+import concurrent_tasks.ExecuteTimerTask;
 import concurrent_tasks.RefreshInformationInDataBase;
 
 import javax.servlet.ServletException;
@@ -19,9 +20,9 @@ public class TimerTaskRefreshDataBaseServlet extends HttpServlet{
 
     @Override
     public void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse){
-        TimerTask refresh = new RefreshInformationInDataBase();
+        TimerTask timerTask = new ExecuteTimerTask();
         Timer timer = new Timer();
-        timer.schedule(refresh, 100000);
+        timer.scheduleAtFixedRate(timerTask, 10000, 100000);
     }
 
     @Override
