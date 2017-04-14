@@ -1,9 +1,8 @@
 package concurrent_tasks;
 
-import archiving.collect.CollectWeatherData;
-import archiving.collect.ICollectWeatherData;
-import archiving.collect.proxy.ProxyCollectWeatherData;
-import archiving.update.UpdateWeatherData;
+import archiv.collect.ICollectWeatherData;
+import archiv.collect.proxy.ProxyCollectWeatherData;
+import archiv.update.UpdateWeatherData;
 import constant.Constant;
 import enumeration.Region;
 import model.WeatherModel;

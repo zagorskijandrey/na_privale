@@ -1,12 +1,11 @@
 package servlet;
 
-import archiving.collect.CollectWeatherData;
-import archiving.collect.ICollectWeatherData;
-import archiving.collect.proxy.ProxyCollectWeatherData;
+import archiv.collect.ICollectWeatherData;
+import archiv.collect.proxy.ProxyCollectWeatherData;
 import constant.Constant;
 import enumeration.Region;
 import model.DateModel;
-import model.JSONDataParser;
+import json_parser.JSONToObjectParserForWeather;
 import fishing_prediction.service.ServiceForPeaceFish;
 import org.json.simple.JSONObject;
 
@@ -16,7 +15,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.lang.reflect.Proxy;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -29,10 +27,10 @@ public class FishingPredictionServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)  throws ServletException, IOException{
-        JSONDataParser jsonDataParser = new JSONDataParser();
+        JSONToObjectParserForWeather jsonDataParserForWeather = new JSONToObjectParserForWeather();
 
-        JSONObject objectMoonDay = jsonDataParser.parseMoonDataJson(Constant.MOON_DATA_URL);
-        int moonDay = jsonDataParser.getMoonDayTomorrow(objectMoonDay);
+        JSONObject objectMoonDay = jsonDataParserForWeather.parseMoonDataJson(Constant.MOON_DATA_URL);
+        int moonDay = jsonDataParserForWeather.getMoonDayTomorrow(objectMoonDay);
 
         Region region = getCity(request.getParameter("region"));
 

@@ -1,7 +1,8 @@
-package model;
+package json_parser;
 
 import constant.Constant;
 import enumeration.Region;
+import model.WeatherModel;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -16,7 +17,7 @@ import java.net.URLConnection;
 /**
  * Created by AZagorskyi on 05.04.2017.
  */
-public class JSONDataParser {
+public class JSONToObjectParserForWeather {
     public JSONObject parseMoonDataJson(String moonDataUrl) throws IOException {
         URL url = new URL(moonDataUrl);
         URLConnection connection = url.openConnection();

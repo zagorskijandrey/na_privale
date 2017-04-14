@@ -1,4 +1,4 @@
-package archiving.collect;
+package archiv.collect;
 
 import enumeration.Region;
 import model.WeatherModel;

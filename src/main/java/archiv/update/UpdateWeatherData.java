@@ -1,8 +1,8 @@
-package archiving.update;
+package archiv.update;
 
 import constant.Constant;
 import enumeration.Region;
-import model.JSONDataParser;
+import json_parser.JSONToObjectParserForWeather;
 import model.WeatherModel;
 import mysql_connection.DataBaseConnection;
 import org.json.simple.JSONObject;
@@ -40,12 +40,12 @@ public class UpdateWeatherData {
     }
 
     public void updateWeatherDataFromDynamicJSON(Region region){
-        JSONDataParser jsonDataParser = new JSONDataParser();
+        JSONToObjectParserForWeather jsonDataParserForWeather = new JSONToObjectParserForWeather();
         JSONObject objectWeatherData = null;
         try {
-            objectWeatherData = jsonDataParser.parseWeatherDataJson(Constant.WEATHER_DATA_TODAY_URL, region);
-            WeatherModel presentWeather = jsonDataParser.getPresentWeather(objectWeatherData);
-            WeatherModel futureWeather = jsonDataParser.getFutureWeather(objectWeatherData);
+            objectWeatherData = jsonDataParserForWeather.parseWeatherDataJson(Constant.WEATHER_DATA_TODAY_URL, region);
+            WeatherModel presentWeather = jsonDataParserForWeather.getPresentWeather(objectWeatherData);
+            WeatherModel futureWeather = jsonDataParserForWeather.getFutureWeather(objectWeatherData);
             updateWeatherData(presentWeather, region, Constant.SQL_QUERY_UPDATE_TODAY_WEATHER);
             updateWeatherData(futureWeather, region, Constant.SQL_QUERY_UPDATE_TOMORROW_WEATHER);
         } catch (IOException e) {

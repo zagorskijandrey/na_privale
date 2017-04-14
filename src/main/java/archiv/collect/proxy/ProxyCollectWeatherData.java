@@ -1,10 +1,9 @@
-package archiving.collect.proxy;
+package archiv.collect.proxy;
 
-import archiving.collect.CollectWeatherData;
-import archiving.collect.ICollectWeatherData;
+import archiv.collect.CollectWeatherData;
+import archiv.collect.ICollectWeatherData;
 import constant.Constant;
 import enumeration.Region;
-import model.DateModel;
 import model.WeatherModel;
 
 import java.util.List;

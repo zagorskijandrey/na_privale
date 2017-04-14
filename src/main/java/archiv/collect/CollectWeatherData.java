@@ -1,7 +1,6 @@
-package archiving.collect;
+package archiv.collect;
 
 import enumeration.Region;
-import model.DateModel;
 import model.WeatherModel;
 import mysql_connection.DataBaseConnection;
 
@@ -10,7 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Logger;
 
