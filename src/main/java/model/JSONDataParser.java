@@ -41,8 +41,8 @@ public class JSONDataParser {
         return moonDay;
     }
 
-    public JSONObject parseWeatherDataJson(String weatherDataTodayUrl, Region city) throws IOException{
-        String trueUrl = weatherDataTodayUrl.replace("XXXXX", city.getRegion());
+    public JSONObject parseWeatherDataJson(String weatherDataTodayUrl, Region region) throws IOException{
+        String trueUrl = weatherDataTodayUrl.replace("XXXXX", region.getRegion());
         URL url = new URL(trueUrl);
         URLConnection connection = url.openConnection();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));

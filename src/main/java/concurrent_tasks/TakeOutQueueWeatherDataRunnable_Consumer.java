@@ -22,9 +22,9 @@ public class TakeOutQueueWeatherDataRunnable_Consumer implements Runnable{
             int count = 0;
             while (count < Region.values().length){
                 RefreshInformationInDataBase refresh = new RefreshInformationInDataBase();
-                Region city = this.queue.take();
-                refresh.executeForRegion(city);
-                log.info("Consumer " + city);
+                Region region = this.queue.take();
+                refresh.executeForRegion(region);
+                log.info("Consumer " + region);
                 ++count;
             }
         } catch (InterruptedException e) {

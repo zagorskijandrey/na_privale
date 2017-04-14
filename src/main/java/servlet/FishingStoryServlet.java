@@ -1,5 +1,6 @@
 package servlet;
 
+import constant.Constant;
 import mysql_connection.DataBaseConnection;
 import org.json.simple.JSONObject;
 
@@ -19,21 +20,16 @@ import java.util.logging.Logger;
 @WebServlet("/fishingStory")
 public class FishingStoryServlet extends HttpServlet {
     public FishingStoryServlet(){}
-    Logger logger = Logger.getLogger(FishingStoryServlet.class.getName());
 
     @Override
     public void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException{
         JSONObject jsonObject = new JSONObject();
         String base_id = httpRequest.getParameter("id");
-        logger.log(Level.INFO, base_id);
-        String sqlQuery = "SELECT * FROM fishing_story where id_fishing_story=?";
         try{
             Connection connection = DataBaseConnection.getConnection();
-            PreparedStatement statement = connection.prepareStatement(sqlQuery);
+            PreparedStatement statement = connection.prepareStatement(Constant.SQL_QUERY_GET_FISHING_STORY_BY_ID);
             statement.setString(1,base_id);
-            logger.log(Level.INFO, "statement");
             ResultSet result = statement.executeQuery();
-            logger.log(Level.INFO, result.toString());
             while (result.next()){
                 int id = Integer.parseInt(result.getString("id_fishing_story"));
                 String name = result.getString("fishing_story_name");

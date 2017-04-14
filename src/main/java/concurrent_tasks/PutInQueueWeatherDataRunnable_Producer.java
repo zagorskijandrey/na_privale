@@ -18,9 +18,9 @@ public class PutInQueueWeatherDataRunnable_Producer implements Runnable{
     }
     public void run() {
         try {
-            for (Region city : Region.values()){
-                this.queue.put(city);
-                log.info("Producer " + city);
+            for (Region region : Region.values()){
+                this.queue.put(region);
+                log.info("Producer " + region);
             }
         } catch (InterruptedException e){
             e.printStackTrace();

@@ -1,6 +1,7 @@
 package archiving.collect;
 
 import enumeration.Region;
+import model.DateModel;
 import model.WeatherModel;
 import mysql_connection.DataBaseConnection;
 
@@ -9,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -22,31 +24,52 @@ public class CollectWeatherData implements ICollectWeatherData{
     private int windRout = 0;
     private int windSpeed = 0;
 
-    public void setPressures(Region city, String [] sqlQuery){
+    public void setPressures(Region region, String [] sqlQuery){
         pressures = new ArrayList<Integer>();
         for (int i = 0; i < sqlQuery.length; i++){
-            WeatherModel weatherModel = getWeatherByCity(city, sqlQuery[i]);
+            WeatherModel weatherModel = getWeatherByCity(region, sqlQuery[i]);
             pressures.add(weatherModel.getPressure());
         }
+        log.info("This collect setPressures");
     }
 
-    public void setWindRout(Region city, String sqlQuery){
-        WeatherModel model = getWeatherByCity(city, sqlQuery);
+    @Override
+    public List<Integer> getPressures(){
+        log.info("This collect getPressures");
+        return pressures;
+    }
+
+    public void setWindRout(Region region, String sqlQuery){
+        WeatherModel model = getWeatherByCity(region, sqlQuery);
         windRout = model.getWindRout();
+        log.info("This collect setWindRout");
     }
 
-    public void setWindSpeed(Region city, String sqlQuery){
-        WeatherModel model = getWeatherByCity(city, sqlQuery);
+    @Override
+    public int getWindRout(){
+        log.info("This collect getWindRout");
+        return windRout;
+    }
+
+    public void setWindSpeed(Region region, String sqlQuery){
+        WeatherModel model = getWeatherByCity(region, sqlQuery);
         windSpeed = model.getWindSpeed();
+        log.info("This collect setWindSpeed");
     }
 
-    public WeatherModel getWeatherByCity(Region city, String sqlQuery){
+    @Override
+    public int getWindSpeed(){
+        log.info("This collect getWindSpeed");
+        return windSpeed;
+    }
+
+    public WeatherModel getWeatherByCity(Region region, String sqlQuery){
         WeatherModel model = null;
         try {
             model = new WeatherModel();
             Connection connection = DataBaseConnection.getConnection();
             PreparedStatement statement = connection.prepareStatement(sqlQuery);
-            statement.setString(1,city.getRegion());
+            statement.setString(1,region.getRegion());
             ResultSet result = statement.executeQuery();
             while (result.next()){
                 model.setWindSpeed(Integer.parseInt(result.getString("wind_speed")));
@@ -64,17 +87,5 @@ public class CollectWeatherData implements ICollectWeatherData{
             e.printStackTrace();
         }
         return model;
-    }
-
-    public List<Integer> getPressures() {
-        return pressures;
-    }
-
-    public int getWindRout() {
-        return windRout;
-    }
-
-    public int getWindSpeed() {
-        return 0;
     }
 }

@@ -9,15 +9,6 @@ public class WeatherModel {
     private int windRout;
     private int pressure;
 
-    public WeatherModel(){}
-
-    public WeatherModel(long timeInSeconds, int windSpeed, int windRout, int pressure){
-        this.timeInSeconds = timeInSeconds;
-        this.windSpeed = windSpeed;
-        this.windRout = windRout;
-        this.pressure = pressure;
-    }
-
     public long getTimeInSeconds(){
         return this.timeInSeconds;
     }

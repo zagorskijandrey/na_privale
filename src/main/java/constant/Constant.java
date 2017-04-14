@@ -38,4 +38,5 @@ public class Constant {
         MAP_QUERY_REFRESH_DATA_BASE.put(SQL_QUERY_SELECT_TODAY_WEATHER, SQL_QUERY_UPDATE_ONCE_YESTERDAY_WEATHER);
     }
 
+    public static String SQL_QUERY_GET_FISHING_STORY_BY_ID = "SELECT * FROM fishing_story where id_fishing_story=?";
 }

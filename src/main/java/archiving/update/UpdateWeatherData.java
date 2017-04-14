@@ -19,14 +19,14 @@ import java.util.logging.Logger;
 public class UpdateWeatherData {
     private static Logger log = Logger.getLogger(UpdateWeatherData.class.getName());
 
-    public void updateWeatherData(WeatherModel model, Region city, String sqlQuery){
+    public void updateWeatherData(WeatherModel model, Region region, String sqlQuery){
         try{
             Connection connection = DataBaseConnection.getConnection();
             PreparedStatement statement = connection.prepareStatement(sqlQuery);
             statement.setString(1, String.valueOf(model.getWindSpeed()));
             statement.setString(2, String.valueOf(model.getWindRout()));
             statement.setString(3, String.valueOf(model.getPressure()));
-            statement.setString(4, city.getRegion());
+            statement.setString(4, region.getRegion());
             statement.execute();
             statement.close();
             connection.close();
@@ -39,15 +39,15 @@ public class UpdateWeatherData {
         }
     }
 
-    public void updateWeatherDataFromDynamicJSON(Region city){
+    public void updateWeatherDataFromDynamicJSON(Region region){
         JSONDataParser jsonDataParser = new JSONDataParser();
         JSONObject objectWeatherData = null;
         try {
-            objectWeatherData = jsonDataParser.parseWeatherDataJson(Constant.WEATHER_DATA_TODAY_URL, city);
+            objectWeatherData = jsonDataParser.parseWeatherDataJson(Constant.WEATHER_DATA_TODAY_URL, region);
             WeatherModel presentWeather = jsonDataParser.getPresentWeather(objectWeatherData);
             WeatherModel futureWeather = jsonDataParser.getFutureWeather(objectWeatherData);
-            updateWeatherData(presentWeather, city, Constant.SQL_QUERY_UPDATE_TODAY_WEATHER);
-            updateWeatherData(futureWeather, city, Constant.SQL_QUERY_UPDATE_TOMORROW_WEATHER);
+            updateWeatherData(presentWeather, region, Constant.SQL_QUERY_UPDATE_TODAY_WEATHER);
+            updateWeatherData(futureWeather, region, Constant.SQL_QUERY_UPDATE_TOMORROW_WEATHER);
         } catch (IOException e) {
             e.printStackTrace();
         }
