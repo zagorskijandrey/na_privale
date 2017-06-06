@@ -2,7 +2,7 @@ package servlet;
 
 import constant.Constant;
 import json_parser.ObjectToJSONParserForStory;
-import mysql_connection.DataBaseConnection;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import javax.servlet.ServletException;
@@ -11,24 +11,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-@WebServlet("/fishingStory")
-public class FishingStoryServlet extends HttpServlet {
-
+/**
+ * Created by AZagorskyi on 18.04.2017.
+ */
+@WebServlet("/fishingStories")
+public class FishingStoriesServlet extends HttpServlet{
     @Override
-    public void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException{
-        String story_id = httpRequest.getParameter("id");
+    public void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
         ObjectToJSONParserForStory objectToJSON = new ObjectToJSONParserForStory();
-        JSONObject jsonObject = objectToJSON.getJSONStory(Constant.SQL_QUERY_GET_FISHING_STORY_BY_ID, story_id);
+        JSONArray jsonArray = objectToJSON.getJSONArrayStories(Constant.SQL_QUERY_GET_FISHING_STORIES);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("FishingStories", jsonArray);
         httpResponse.setContentType("application/json");
         httpResponse.setCharacterEncoding("UTF-8");
-        httpResponse.getWriter().write(jsonObject.toJSONString());
+        httpResponse.getWriter().write(jsonArray.toJSONString());
     }
 
     @Override
