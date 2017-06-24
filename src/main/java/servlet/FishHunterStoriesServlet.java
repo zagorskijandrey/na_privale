@@ -2,6 +2,7 @@ package servlet;
 
 import constant.Constant;
 import json_parser.ObjectToJSONParserForStory;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import javax.servlet.ServletException;
@@ -11,17 +12,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/fishingStory")
-public class FishingStoryServlet extends HttpServlet {
-
+/**
+ * Created by andrey on 24.06.2017.
+ */
+@WebServlet("/fishHunterStories")
+public class FishHunterStoriesServlet extends HttpServlet{
     @Override
-    public void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException{
-        String story_id = httpRequest.getParameter("id");
+    public void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
         ObjectToJSONParserForStory objectToJSON = new ObjectToJSONParserForStory();
-        JSONObject jsonObject = objectToJSON.getJSONStory(Constant.SQL_QUERY_GET_FISHING_STORY_BY_ID, story_id);
+        JSONArray jsonArray = objectToJSON.getJSONArrayStories(Constant.SQL_QUERY_GET_FISH_HUNTER_STORIES);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("FishingStories", jsonArray);
         httpResponse.setContentType("application/json");
         httpResponse.setCharacterEncoding("UTF-8");
-        httpResponse.getWriter().write(jsonObject.toJSONString());
+        httpResponse.getWriter().write(jsonArray.toJSONString());
     }
 
     @Override

@@ -35,10 +35,7 @@ public class GetStoryData {
             ResultSet result = statement.executeQuery();
             story = new Story();
             while (result.next()){
-                story.setId(Integer.parseInt(result.getString("id")));
-                story.setName(result.getString("story_name"));
-                story.setText(result.getString("story"));
-                story.setImageName(result.getString("image_name"));
+                setStory(story, result);
             }
             result.close();
             statement.close();
@@ -62,10 +59,7 @@ public class GetStoryData {
             storiesList = new ArrayList<Story>();
             while (result.next()){
                 Story story = new Story();
-                story.setId(Integer.parseInt(result.getString("id")));
-                story.setName(result.getString("story_name"));
-                story.setText(result.getString("story"));
-                story.setImageName(result.getString("image_name"));
+                setStory(story, result);
                 storiesList.add(story);
             }
         } catch (ClassNotFoundException e) {
@@ -74,5 +68,23 @@ public class GetStoryData {
             e.printStackTrace();
         }
         return storiesList;
+    }
+
+    private void setStory(Story story, ResultSet result){
+        try{
+            if (this.sqlQuery.equals(Constant.SQL_QUERY_GET_FISHING_STORY_BY_ID) || this.sqlQuery.equals(Constant.SQL_QUERY_GET_FISHING_STORIES)) {
+                story.setId(Integer.parseInt(result.getString("id_fishing_story")));
+                story.setName(result.getString("fishing_story_name"));
+                story.setText(result.getString("fishing_story"));
+
+            } else if (this.sqlQuery.equals(Constant.SQL_QUERY_GET_FISH_HUNTER_STORY_BY_ID) || this.sqlQuery.equals(Constant.SQL_QUERY_GET_FISH_HUNTER_STORIES)) {
+                story.setId(Integer.parseInt(result.getString("id_fish_hunter_story")));
+                story.setName(result.getString("fish_hunter_story_name"));
+                story.setText(result.getString("fish_hunter_story"));
+
+            }
+        } catch (SQLException e){
+            e.getMessage();
+        }
     }
 }

@@ -19,7 +19,7 @@ public class ObjectToJSONParserForStory {
         jsonObject.put("id", story.getId());
         jsonObject.put("name", story.getName());
         jsonObject.put("story", story.getText());
-        jsonObject.put("imageName", story.getImageName());
+//        jsonObject.put("imageName", story.getImageName());
         return jsonObject;
     }
 
@@ -31,8 +31,8 @@ public class ObjectToJSONParserForStory {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("id", story.getId());
             jsonObject.put("name", story.getName());
-            jsonObject.put("story", story.getText());
-            jsonObject.put("imageName", story.getImageName());
+            jsonObject.put("story", story.getText().substring(0, 500).concat("..."));
+//            jsonObject.put("imageName", story.getImageName());
             jsonArray.add(jsonObject);
         }
         return jsonArray;
