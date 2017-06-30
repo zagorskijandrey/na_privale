@@ -22,7 +22,7 @@ public class TimerTaskRefreshDataBaseServlet extends HttpServlet{
     public void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse){
         TimerTask timerTask = new ExecuteTimerTask();
         Timer timer = new Timer();
-        timer.scheduleAtFixedRate(timerTask, 10000, 300000);
+        timer.scheduleAtFixedRate(timerTask, 39600000, 86400000);
     }
 
     @Override

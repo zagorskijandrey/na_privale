@@ -1,6 +1,5 @@
 package constant;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 /**
@@ -8,6 +7,9 @@ import java.util.LinkedHashMap;
  */
 public class Constant {
     public static double FACTOR_PRESSURE = 1.333;
+
+    public static String SQL_QUERY_SAVE_WEATHER = "INSERT INTO weather SET time=?, wind_speed=?, " +
+            "wind_rout=?, pressure=?, id_region=(SELECT id_region FROM region WHERE name=?)";
 
     public static String SQL_QUERY_UPDATE_TOMORROW_WEATHER = "UPDATE tomorrow_weather SET wind_speed=?, " +
             "wind_rout=?, pressure=? WHERE city=?";
@@ -20,6 +22,10 @@ public class Constant {
     public static String SQL_QUERY_UPDATE_THIRD_YESTERDAY_WEATHER = "UPDATE third_yesterday_weather SET wind_speed=?, " +
             "wind_rout=?, pressure=? WHERE city=?";
 
+    public static String SQL_QUERY_SELECT_WEATHER = "SELECT * FROM weather WHERE id_region=(SELECT id_region " +
+            "FROM region WHERE name=?)";
+    public static String SQL_QUERY_SELECT_PRESSURES = "SELECT pressure FROM weather WHERE id_region=(SELECT id_region " +
+            "FROM region WHERE name=?) AND time BETWEEN ? AND ?";
     public static String SQL_QUERY_SELECT_TOMORROW_WEATHER = "SELECT * FROM tomorrow_weather WHERE city=?";
     public static String SQL_QUERY_SELECT_TODAY_WEATHER = "SELECT * FROM today_weather WHERE city=?";
     public static String SQL_QUERY_SELECT_ONCE_YESTERDAY_WEATHER = "SELECT * FROM once_yesterday_weather WHERE city=?";
@@ -29,9 +35,9 @@ public class Constant {
     public static String MOON_DATA_URL = "http://api.burningsoul.in/moon";
     public static String WEATHER_DATA_TODAY_URL = "http://api.openweathermap.org/data/2.5/forecast?q=XXXXX,ua&APPID=bf64caf37de45d7b2e9751adc28f384a";
 
-    public static LinkedHashMap <String, String> MAP_QUERY_REFRESH_DATA_BASE = null;
+    public static LinkedHashMap<String, String> MAP_QUERY_REFRESH_DATA_BASE = null;
 
-    static{
+    static {
         MAP_QUERY_REFRESH_DATA_BASE = new LinkedHashMap<String, String>();
         MAP_QUERY_REFRESH_DATA_BASE.put(SQL_QUERY_SELECT_TWICE_YESTERDAY_WEATHER, SQL_QUERY_UPDATE_THIRD_YESTERDAY_WEATHER);
         MAP_QUERY_REFRESH_DATA_BASE.put(SQL_QUERY_SELECT_ONCE_YESTERDAY_WEATHER, SQL_QUERY_UPDATE_TWICE_YESTERDAY_WEATHER);

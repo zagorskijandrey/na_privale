@@ -1,5 +1,6 @@
 package servlet;
 
+import archiv.collect.CollectWeatherData;
 import archiv.collect.ICollectWeatherData;
 import archiv.collect.proxy.ProxyCollectWeatherData;
 import constant.Constant;
@@ -7,6 +8,7 @@ import enumeration.Region;
 import model.DateModel;
 import json_parser.JSONToObjectParserForWeather;
 import fishing_prediction.service.ServiceForPeaceFish;
+import model.WeatherModel;
 import org.json.simple.JSONObject;
 
 import javax.servlet.ServletException;
@@ -39,10 +41,11 @@ public class FishingPredictionServlet extends HttpServlet {
         calendar.setTime(today);
         DateModel dateModel = new DateModel(calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH));
 
-        ICollectWeatherData proxyCollectWeatherData = new ProxyCollectWeatherData(region, Constant.SQL_QUERY_SELECT_TOMORROW_WEATHER);
-        List<Integer> pressures = proxyCollectWeatherData.getPressures();
-        int windRout = proxyCollectWeatherData.getWindRout();
-        int windSpeed = proxyCollectWeatherData.getWindSpeed();
+        ICollectWeatherData proxyCollectWeatherData = new CollectWeatherData();//ProxyCollectWeatherData(region, Constant.SQL_QUERY_SELECT_TOMORROW_WEATHER);
+        WeatherModel weatherModel = proxyCollectWeatherData.getLastWeatherByRegion(region, Constant.SQL_QUERY_SELECT_WEATHER);
+        List<Integer> pressures = proxyCollectWeatherData.getPressuresByRegion(region, Constant.SQL_QUERY_SELECT_PRESSURES, weatherModel);//.getPressures();
+        int windRout = weatherModel.getWindRout();//proxyCollectWeatherData.getWindRout();
+        int windSpeed = weatherModel.getWindSpeed();//proxyCollectWeatherData.getWindSpeed();
 
         int rating = new ServiceForPeaceFish().calculatePeacePrediction(moonDay, dateModel.getMonth(),
                 pressures, windRout, windSpeed);

@@ -1,19 +1,21 @@
 package model;
 
+import java.util.Date;
+
 /**
  * Created by AZagorskyi on 23.03.2017.
  */
 public class WeatherModel {
-    private long timeInSeconds;
+    private Date date;
     private int windSpeed;
     private int windRout;
     private int pressure;
 
-    public long getTimeInSeconds(){
-        return this.timeInSeconds;
+    public Date getDate(){
+        return this.date;
     }
-    public void setTimeInSeconds(long timeInSeconds){
-        this.timeInSeconds = timeInSeconds;
+    public void setDate(Date date){
+        this.date = date;
     }
 
     public int getWindSpeed(){
@@ -39,7 +41,7 @@ public class WeatherModel {
 
     @Override
     public String toString(){
-        return "Weather: time seconds - " + getTimeInSeconds() + ", wind speed - " + getWindSpeed() + ", wind rout - "
+        return "Weather: time seconds - " + getDate() + ", wind speed - " + getWindSpeed() + ", wind rout - "
                 + getWindRout() + ", pressure - " + getPressure();
     }
 }

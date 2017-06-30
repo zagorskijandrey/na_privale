@@ -17,8 +17,17 @@ import java.io.IOException;
  */
 @WebServlet("/fishingStories")
 public class FishingStoriesServlet extends HttpServlet{
+
+    private BaseHandler handler = null;
+
     @Override
-    public void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
+    public void init(){
+        handler = new BaseHandler();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException{
         ObjectToJSONParserForStory objectToJSON = new ObjectToJSONParserForStory();
 //        JSONArray jsonArray = objectToJSON.getJSONArrayStories(Constant.SQL_QUERY_GET_FISHING_STORIES);
         JSONArray jsonArray = new JSONArray();
@@ -40,19 +49,29 @@ public class FishingStoriesServlet extends HttpServlet{
         jsonObject2.put("text", "Много людей ходят вдоль берега и отпугивают рыбу.");
         jsonArray.add(jsonObject2);
 
-        JSONObject object = new JSONObject();
-        object.put("body", jsonArray);
-        httpResponse.setContentType("application/json");
-        httpResponse.setCharacterEncoding("UTF-8");
-        httpResponse.setHeader("Access-Control-Allow-Origin", "*");
-        httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
-        httpResponse.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
-        httpResponse.setHeader("Access-Control-Allow-Headers, Origin, X-Auth-Token, cache-control, Content-Type, Access-Control-Allow-Headers, Access-Control-Allow-Credentials, Access-Control-Allow-Methods, Authorization", "X-Requested-With");
-        httpResponse.getWriter().write(jsonArray.toJSONString());
+        JSONObject object = null;
+        handler.setDefaultHeader(httpResponse);
+        if (jsonArray.size() > 0){
+            object = new JSONObject();
+            object.put("stories", jsonArray);
+            handler.responseFactory(httpResponse, object, null);
+        } else {
+            String error = "Ошибка сервиса!";
+            httpResponse.setStatus(400);
+            handler.responseFactory(httpResponse, null, error);
+        }
+
+//        httpResponse.setContentType("application/json");
+//        httpResponse.setCharacterEncoding("UTF-8");
+//        httpResponse.setHeader("Access-Control-Allow-Origin", "*");
+//        httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
+//        httpResponse.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+//        httpResponse.setHeader("Access-Control-Allow-Headers, Origin, X-Auth-Token, cache-control, Content-Type, Access-Control-Allow-Headers, Access-Control-Allow-Credentials, Access-Control-Allow-Methods, Authorization", "X-Requested-With");
+//        httpResponse.getWriter().write(jsonArray.toJSONString());
     }
 
     @Override
-    public void doPost(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException,IOException{
+    public void doPost(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException{
         doGet(httpRequest, httpResponse);
     }
 }

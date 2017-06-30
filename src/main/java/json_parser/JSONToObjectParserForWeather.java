@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Date;
 
 /**
  * Created by AZagorskyi on 05.04.2017.
@@ -58,33 +59,15 @@ public class JSONToObjectParserForWeather {
         return object;
     }
 
-    public WeatherModel getPresentWeather(JSONObject object){
+    public WeatherModel getPresentWeather(JSONObject object) {
         WeatherModel presentWeather = new WeatherModel();
-        JSONObject dt = getJSONObjectByName(object, "list", "dt", 1);
-        JSONObject main = getJSONObjectByName(object, "list", "main", 1);
-        JSONObject wind = getJSONObjectByName(object, "list", "wind", 1);
+        JSONObject dt = getJSONObjectByName(object, "list", "dt", 7);
+        JSONObject main = getJSONObjectByName(object, "list", "main", 7);
+        JSONObject wind = getJSONObjectByName(object, "list", "wind", 7);
 
-        Long timeSeconds = Long.parseLong(dt.get("dt").toString());
-        presentWeather.setTimeInSeconds(timeSeconds);
-
-        Long speed = Math.round(Double.parseDouble((wind.get("speed")).toString()));
-        presentWeather.setWindSpeed(speed.intValue());
-
-        Long degree = Math.round(Double.parseDouble((wind.get("deg")).toString()));
-        presentWeather.setWindRout(degree.intValue());
-
-        Long pressure = Math.round(Double.parseDouble((main.get("pressure")).toString())/ Constant.FACTOR_PRESSURE);
-        presentWeather.setPressure(pressure.intValue());
-
-        return presentWeather;
-    }
-
-    public WeatherModel getFutureWeather(JSONObject object){
-        WeatherModel presentWeather = new WeatherModel();
-        JSONObject dt = getJSONObjectByName(object, "list", "dt", 10);
-        JSONObject main = getJSONObjectByName(object, "list", "main", 10);
-        JSONObject wind = getJSONObjectByName(object, "list", "wind", 10);
-        presentWeather.setTimeInSeconds(Long.parseLong(dt.get("dt").toString()));
+        long milliseconds = Long.parseLong(dt.get("dt").toString())*1000;
+        Date date = new Date(milliseconds);
+        presentWeather.setDate(date);
 
         Long speed = Math.round(Double.parseDouble((wind.get("speed")).toString()));
         presentWeather.setWindSpeed(speed.intValue());
