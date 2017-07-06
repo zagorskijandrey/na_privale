@@ -37,9 +37,9 @@ public class AuthenticationServlet extends HttpServlet{
             user = userDao.getUser(name, password);
 
         } catch (ClassNotFoundException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         } catch (SQLException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         }
 
         if (name == null || password == null

@@ -1,8 +1,7 @@
 package concurrent_tasks;
 
-import enumeration.Region;
+import enumeration.RegionEnum;
 
-import java.text.ParseException;
 import java.util.concurrent.SynchronousQueue;
 import java.util.logging.Logger;
 
@@ -12,20 +11,20 @@ import java.util.logging.Logger;
 public class TakeOutQueueWeatherDataRunnable_Consumer implements Runnable{
     private static Logger log = Logger.getLogger(TakeOutQueueWeatherDataRunnable_Consumer.class.getName());
 
-    private SynchronousQueue<Region> queue = null;
+    private SynchronousQueue<RegionEnum> queue = null;
 
-    public TakeOutQueueWeatherDataRunnable_Consumer(SynchronousQueue<Region> queue){
+    TakeOutQueueWeatherDataRunnable_Consumer(SynchronousQueue<RegionEnum> queue){
         this.queue = queue;
     }
 
     public void run() {
         try {
             int count = 0;
-            while (count < Region.values().length){
+            while (count < RegionEnum.values().length){
                 RefreshInformationInDataBase refresh = new RefreshInformationInDataBase();
-                Region region = this.queue.take();
-                refresh.executeForRegion(region);
-                log.info("Consumer " + region);
+                RegionEnum regionEnum = this.queue.take();
+                refresh.executeForRegion(regionEnum);
+                log.info("Consumer " + regionEnum);
                 ++count;
             }
         } catch (InterruptedException e) {

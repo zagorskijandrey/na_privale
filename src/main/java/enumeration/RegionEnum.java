@@ -3,7 +3,7 @@ package enumeration;
 /**
  * Created by AZagorskyi on 22.03.2017.
  */
-public enum Region {
+public enum RegionEnum {
     Vinnytsya("Vinnyts’ka Oblast’"), Dnipropetrovsk("Dnipropetrovska Oblast'"), Donetsk("Donets’ka Oblast’"),
     Zhytomyr("Zhytomyrs’ka Oblast’"), Zaporizhzhya("Zaporiz’ka Oblast’"), IvanoFrankivsk("Ivano-Frankivs’ka Oblast’"),
     Kiev("Kyyivs’ka Oblast’"), Kirovohrad("Kirovohrads’ka Oblast’"), Luhansk("Luhans’ka Oblast’"), Lutsk("Volyns’ka Oblast’"),
@@ -15,7 +15,7 @@ public enum Region {
 
     String region;
 
-    Region(String region) {
+    RegionEnum(String region) {
         this.region = region;
     }
 

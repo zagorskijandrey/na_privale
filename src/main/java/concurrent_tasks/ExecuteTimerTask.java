@@ -1,10 +1,8 @@
 package concurrent_tasks;
 
-import enumeration.Region;
+import enumeration.RegionEnum;
 
 import java.util.TimerTask;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.SynchronousQueue;
 
 /**
@@ -12,7 +10,7 @@ import java.util.concurrent.SynchronousQueue;
  */
 public class ExecuteTimerTask extends TimerTask{
     public void run() {
-        SynchronousQueue<Region> queue = new SynchronousQueue<Region>();
+        SynchronousQueue<RegionEnum> queue = new SynchronousQueue<RegionEnum>();
         (new Thread(new PutInQueueWeatherDataRunnable_Producer(queue))).start();
         (new Thread(new TakeOutQueueWeatherDataRunnable_Consumer(queue))).start();
     }

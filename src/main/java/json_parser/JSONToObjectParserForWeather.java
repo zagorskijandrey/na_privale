@@ -1,7 +1,7 @@
 package json_parser;
 
 import constant.Constant;
-import enumeration.Region;
+import enumeration.RegionEnum;
 import model.WeatherModel;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -43,8 +43,8 @@ public class JSONToObjectParserForWeather {
         return moonDay;
     }
 
-    public JSONObject parseWeatherDataJson(String weatherDataTodayUrl, Region region) throws IOException{
-        String trueUrl = weatherDataTodayUrl.replace("XXXXX", region.getRegion());
+    public JSONObject parseWeatherDataJson(String weatherDataTodayUrl, RegionEnum regionEnum) throws IOException{
+        String trueUrl = weatherDataTodayUrl.replace("XXXXX", regionEnum.getRegion());
         URL url = new URL(trueUrl);
         URLConnection connection = url.openConnection();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));

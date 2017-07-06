@@ -11,38 +11,16 @@ public class Constant {
     public static String SQL_QUERY_SAVE_WEATHER = "INSERT INTO weather SET time=?, wind_speed=?, " +
             "wind_rout=?, pressure=?, id_region=(SELECT id_region FROM region WHERE name=?)";
 
-    public static String SQL_QUERY_UPDATE_TOMORROW_WEATHER = "UPDATE tomorrow_weather SET wind_speed=?, " +
-            "wind_rout=?, pressure=? WHERE city=?";
-    public static String SQL_QUERY_UPDATE_TODAY_WEATHER = "UPDATE today_weather SET wind_speed=?, " +
-            "wind_rout=?, pressure=? WHERE city=?";
-    public static String SQL_QUERY_UPDATE_ONCE_YESTERDAY_WEATHER = "UPDATE once_yesterday_weather SET wind_speed=?, " +
-            "wind_rout=?, pressure=? WHERE city=?";
-    public static String SQL_QUERY_UPDATE_TWICE_YESTERDAY_WEATHER = "UPDATE twice_yesterday_weather SET wind_speed=?, " +
-            "wind_rout=?, pressure=? WHERE city=?";
-    public static String SQL_QUERY_UPDATE_THIRD_YESTERDAY_WEATHER = "UPDATE third_yesterday_weather SET wind_speed=?, " +
-            "wind_rout=?, pressure=? WHERE city=?";
-
     public static String SQL_QUERY_SELECT_WEATHER = "SELECT * FROM weather WHERE id_region=(SELECT id_region " +
             "FROM region WHERE name=?)";
-    public static String SQL_QUERY_SELECT_PRESSURES = "SELECT pressure FROM weather WHERE id_region=(SELECT id_region " +
-            "FROM region WHERE name=?) AND time BETWEEN ? AND ?";
-    public static String SQL_QUERY_SELECT_TOMORROW_WEATHER = "SELECT * FROM tomorrow_weather WHERE city=?";
-    public static String SQL_QUERY_SELECT_TODAY_WEATHER = "SELECT * FROM today_weather WHERE city=?";
-    public static String SQL_QUERY_SELECT_ONCE_YESTERDAY_WEATHER = "SELECT * FROM once_yesterday_weather WHERE city=?";
-    public static String SQL_QUERY_SELECT_TWICE_YESTERDAY_WEATHER = "SELECT * FROM twice_yesterday_weather WHERE city=?";
-    public static String SQL_QUERY_SELECT_THIRD_YESTERDAY_WEATHER = "SELECT * FROM third_yesterday_weather WHERE city=?";
+    public static String SQL_QUERY_SELECT_WEATHER_ALL_REGIONS = "SELECT wind_speed, wind_rout, id_region, MAX(time) FROM weather GROUP BY id_region";
+//    public static String SQL_QUERY_SELECT_PRESSURES = "SELECT pressure FROM weather WHERE id_region=(SELECT id_region " +
+//            "FROM region WHERE name=?) AND time BETWEEN ? AND ?";
+    public static String SQL_QUERY_SELECT_PRESSURES = "SELECT pressure FROM weather WHERE id_region=? AND time BETWEEN ? AND ?";
+    public static String SQL_QUERY_SELECT_PREDICTIONS = "SELECT * FROM region";
 
     public static String MOON_DATA_URL = "http://api.burningsoul.in/moon";
     public static String WEATHER_DATA_TODAY_URL = "http://api.openweathermap.org/data/2.5/forecast?q=XXXXX,ua&APPID=bf64caf37de45d7b2e9751adc28f384a";
-
-    public static LinkedHashMap<String, String> MAP_QUERY_REFRESH_DATA_BASE = null;
-
-    static {
-        MAP_QUERY_REFRESH_DATA_BASE = new LinkedHashMap<String, String>();
-        MAP_QUERY_REFRESH_DATA_BASE.put(SQL_QUERY_SELECT_TWICE_YESTERDAY_WEATHER, SQL_QUERY_UPDATE_THIRD_YESTERDAY_WEATHER);
-        MAP_QUERY_REFRESH_DATA_BASE.put(SQL_QUERY_SELECT_ONCE_YESTERDAY_WEATHER, SQL_QUERY_UPDATE_TWICE_YESTERDAY_WEATHER);
-        MAP_QUERY_REFRESH_DATA_BASE.put(SQL_QUERY_SELECT_TODAY_WEATHER, SQL_QUERY_UPDATE_ONCE_YESTERDAY_WEATHER);
-    }
 
     public static String SQL_QUERY_GET_FISHING_STORY_BY_ID = "SELECT * FROM fishing_story where id_fishing_story=?";
     public static String SQL_QUERY_GET_FISHING_STORIES = "SELECT * FROM fishing_story";

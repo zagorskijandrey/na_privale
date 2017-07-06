@@ -60,14 +60,6 @@ public class FishingStoriesServlet extends HttpServlet{
             httpResponse.setStatus(400);
             handler.responseFactory(httpResponse, null, error);
         }
-
-//        httpResponse.setContentType("application/json");
-//        httpResponse.setCharacterEncoding("UTF-8");
-//        httpResponse.setHeader("Access-Control-Allow-Origin", "*");
-//        httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
-//        httpResponse.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
-//        httpResponse.setHeader("Access-Control-Allow-Headers, Origin, X-Auth-Token, cache-control, Content-Type, Access-Control-Allow-Headers, Access-Control-Allow-Credentials, Access-Control-Allow-Methods, Authorization", "X-Requested-With");
-//        httpResponse.getWriter().write(jsonArray.toJSONString());
     }
 
     @Override

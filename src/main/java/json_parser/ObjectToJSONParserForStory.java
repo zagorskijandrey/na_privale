@@ -12,6 +12,7 @@ import java.util.ArrayList;
  */
 public class ObjectToJSONParserForStory {
 
+    @SuppressWarnings("unchecked")
     public JSONObject getJSONStory(String sqlQuery, String story_id){
         JSONObject jsonObject = new JSONObject();
         GetStoryData storyData = new GetStoryData(sqlQuery, story_id);
@@ -23,6 +24,7 @@ public class ObjectToJSONParserForStory {
         return jsonObject;
     }
 
+    @SuppressWarnings("unchecked")
     public JSONArray getJSONArrayStories(String sqlQuery){
         GetStoryData storyData = new GetStoryData(sqlQuery);
         ArrayList<Story> storiesList = storyData.getStoriesList();

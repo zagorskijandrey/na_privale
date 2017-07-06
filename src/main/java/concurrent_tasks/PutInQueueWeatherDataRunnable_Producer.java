@@ -1,6 +1,6 @@
 package concurrent_tasks;
 
-import enumeration.Region;
+import enumeration.RegionEnum;
 
 import java.util.concurrent.SynchronousQueue;
 import java.util.logging.Logger;
@@ -11,16 +11,16 @@ import java.util.logging.Logger;
 public class PutInQueueWeatherDataRunnable_Producer implements Runnable{
     private static Logger log = Logger.getLogger(PutInQueueWeatherDataRunnable_Producer.class.getName());
 
-    private SynchronousQueue<Region> queue = null;
+    private SynchronousQueue<RegionEnum> queue = null;
 
-    public PutInQueueWeatherDataRunnable_Producer(SynchronousQueue<Region> queue){
+    PutInQueueWeatherDataRunnable_Producer(SynchronousQueue<RegionEnum> queue){
         this.queue = queue;
     }
     public void run() {
         try {
-            for (Region region : Region.values()){
-                this.queue.put(region);
-                log.info("Producer " + region);
+            for (RegionEnum regionEnum : RegionEnum.values()){
+                this.queue.put(regionEnum);
+                log.info("Producer " + regionEnum);
             }
         } catch (InterruptedException e){
             e.printStackTrace();
