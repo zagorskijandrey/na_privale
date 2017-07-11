@@ -1,5 +1,6 @@
 package dao;
 
+import constant.Constant;
 import model.User;
 import mysql_connection.DataBaseConnection;
 
@@ -15,16 +16,16 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public User getUser(String name, String password) throws ClassNotFoundException, SQLException {
-        String sql = "SELECT * FROM employee where name=? AND password=?";
+//        String sql = "SELECT * FROM employee where username=? AND password=?";
         Connection connection = DataBaseConnection.getConnection();
-        PreparedStatement statement = connection.prepareStatement(sql);
+        PreparedStatement statement = connection.prepareStatement(Constant.SQL_QUERY_GET_USER);
         statement.setString(1, name);
         statement.setString(2, password);
         ResultSet result = statement.executeQuery();
         User user = null;
         while (result.next()){
             user = new User();
-            user.setName(result.getString("name"));
+            user.setUsername(result.getString("username"));
             user.setPassword(result.getString("password"));
         }
         return user;

@@ -28,5 +28,5 @@ public class Constant {
     public static String SQL_QUERY_GET_FISH_HUNTER_STORY_BY_ID = "SELECT * FROM fish_hunter_story where id_fish_hunter_story=?";
     public static String SQL_QUERY_GET_FISH_HUNTER_STORIES = "SELECT * FROM fish_hunter_story";
 
-    public static String SQL_QUERY_GET_USER = "SELECT * FROM user where name=? AND password=?";
+    public static String SQL_QUERY_GET_USER = "SELECT * FROM user WHERE username=? AND password=?";
 }
