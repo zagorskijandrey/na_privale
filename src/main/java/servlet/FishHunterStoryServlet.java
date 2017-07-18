@@ -21,7 +21,7 @@ public class FishHunterStoryServlet extends HttpServlet {
     public void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
         String story_id = httpRequest.getParameter("id");
         ObjectToJSONParserForStory objectToJSON = new ObjectToJSONParserForStory();
-        JSONObject jsonObject = objectToJSON.getJSONStory(Constant.SQL_QUERY_GET_FISH_HUNTER_STORY_BY_ID, story_id);
+        JSONObject jsonObject = objectToJSON.getJSONStory(Constant.SQL_QUERY_GET_HUNTER_STORY_BY_ID, story_id);
         httpResponse.setContentType("application/json");
         httpResponse.setCharacterEncoding("UTF-8");
         httpResponse.getWriter().write(jsonObject.toJSONString());

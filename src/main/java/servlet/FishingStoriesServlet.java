@@ -15,7 +15,7 @@ import java.io.IOException;
 /**
  * Created by AZagorskyi on 18.04.2017.
  */
-@WebServlet("/fishingStories")
+@WebServlet("/f_stories")
 public class FishingStoriesServlet extends HttpServlet{
 
     private BaseHandler handler = null;
@@ -29,26 +29,7 @@ public class FishingStoriesServlet extends HttpServlet{
     @Override
     public void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException{
         ObjectToJSONParserForStory objectToJSON = new ObjectToJSONParserForStory();
-//        JSONArray jsonArray = objectToJSON.getJSONArrayStories(Constant.SQL_QUERY_GET_FISHING_STORIES);
-        JSONArray jsonArray = new JSONArray();
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("id", 1);
-        jsonObject.put("name", "Рыбалка ночью");
-        jsonObject.put("text", "Отлично клевало.");
-        jsonArray.add(jsonObject);
-
-        JSONObject jsonObject1 = new JSONObject();
-        jsonObject1.put("id", 2);
-        jsonObject1.put("name", "Рыбалка днем");
-        jsonObject1.put("text", "Не клевало.");
-        jsonArray.add(jsonObject1);
-
-        JSONObject jsonObject2 = new JSONObject();
-        jsonObject2.put("id", 2);
-        jsonObject2.put("name", "Рыбалка на выходных");
-        jsonObject2.put("text", "Много людей ходят вдоль берега и отпугивают рыбу.");
-        jsonArray.add(jsonObject2);
-
+        JSONArray jsonArray = objectToJSON.getJSONArrayStories(Constant.SQL_QUERY_GET_FISHING_STORIES);
         JSONObject object = null;
         handler.setDefaultHeader(httpResponse);
         if (jsonArray.size() > 0){

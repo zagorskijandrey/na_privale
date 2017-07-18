@@ -1,8 +1,8 @@
 package servlet;
 
-import archiv.collect.CollectWeatherData;
-import archiv.collect.ICollectWeatherData;
-import archiv.get.GetPredictionData;
+import service.collect.CollectWeatherData;
+import service.collect.ICollectWeatherData;
+import service.get.GetPredictionData;
 import constant.Constant;
 import enumeration.RegionEnum;
 import json_parser.ObjectToJSONParserForPrediction;
@@ -16,6 +16,7 @@ import org.json.simple.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -78,6 +79,23 @@ public class MapFishingPredictionServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException,IOException{
         doGet(httpRequest, httpResponse);
+    }
+
+    @Override
+    public void doOptions(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//        response.setStatus(204);
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "GET, POST");
+//        "Access-Control-Allow-Headers, Origin, X-Auth-Token, cache-control, Content-Type, Access-Control-Allow-Headers, Access-Control-Allow-Credentials, Access-Control-Allow-Methods, Authorization", "X-Requested-With"
+        response.setHeader("Access-Control-Allow-Headers, Origin, X-Auth-Token, cache-control, Content-Type, Access-Control-Allow-Headers, Access-Control-Allow-Credentials, Access-Control-Allow-Methods, Authorization, X_ACCESS_TOKEN", "Content-Type");
+//        response.setHeader("Access-Control-Max-Age", "86400");
+        //Tell the browser what requests we allow.
+        response.setHeader("Allow", "GET, HEAD, POST, TRACE, OPTIONS");
+//        JSONObject o= new JSONObject();
+//        o.put("body", "ok");
+//        handler.responseFactory(response, o, null);
+        response.setStatus(204);
+//        handler.setDefaultHeader(response);
     }
 
     private RegionEnum getCity(String urlParameter){

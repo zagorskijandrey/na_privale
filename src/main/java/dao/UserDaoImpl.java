@@ -16,7 +16,6 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public User getUser(String name, String password) throws ClassNotFoundException, SQLException {
-//        String sql = "SELECT * FROM employee where username=? AND password=?";
         Connection connection = DataBaseConnection.getConnection();
         PreparedStatement statement = connection.prepareStatement(Constant.SQL_QUERY_GET_USER);
         statement.setString(1, name);

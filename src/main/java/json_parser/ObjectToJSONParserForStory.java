@@ -1,6 +1,6 @@
 package json_parser;
 
-import archiv.get.GetStoryData;
+import service.get.GetStoryData;
 import model.Story;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -20,7 +20,7 @@ public class ObjectToJSONParserForStory {
         jsonObject.put("id", story.getId());
         jsonObject.put("name", story.getName());
         jsonObject.put("story", story.getText());
-//        jsonObject.put("imageName", story.getImageName());
+        jsonObject.put("author", story.getAuthor());
         return jsonObject;
     }
 
@@ -34,7 +34,7 @@ public class ObjectToJSONParserForStory {
             jsonObject.put("id", story.getId());
             jsonObject.put("name", story.getName());
             jsonObject.put("story", story.getText().substring(0, 500).concat("..."));
-//            jsonObject.put("imageName", story.getImageName());
+            jsonObject.put("author", story.getAuthor());
             jsonArray.add(jsonObject);
         }
         return jsonArray;

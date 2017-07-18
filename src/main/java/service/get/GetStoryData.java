@@ -1,4 +1,4 @@
-package archiv.get;
+package service.get;
 
 import constant.Constant;
 import model.Story;
@@ -72,17 +72,21 @@ public class GetStoryData {
 
     private void setStory(Story story, ResultSet result){
         try{
-            if (this.sqlQuery.equals(Constant.SQL_QUERY_GET_FISHING_STORY_BY_ID) || this.sqlQuery.equals(Constant.SQL_QUERY_GET_FISHING_STORIES)) {
-                story.setId(Integer.parseInt(result.getString("id_fishing_story")));
-                story.setName(result.getString("fishing_story_name"));
-                story.setText(result.getString("fishing_story"));
-
-            } else if (this.sqlQuery.equals(Constant.SQL_QUERY_GET_FISH_HUNTER_STORY_BY_ID) || this.sqlQuery.equals(Constant.SQL_QUERY_GET_FISH_HUNTER_STORIES)) {
-                story.setId(Integer.parseInt(result.getString("id_fish_hunter_story")));
-                story.setName(result.getString("fish_hunter_story_name"));
-                story.setText(result.getString("fish_hunter_story"));
-
-            }
+            story.setId(Integer.parseInt(result.getString("id_story")));
+            story.setName(result.getString("name"));
+            story.setText(result.getString("story"));
+            story.setAuthor(result.getString("author"));
+//            if (this.sqlQuery.equals(Constant.SQL_QUERY_GET_FISHING_STORY_BY_ID) || this.sqlQuery.equals(Constant.SQL_QUERY_GET_FISHING_STORIES)) {
+//                story.setId(Integer.parseInt(result.getString("id_fishing_story")));
+//                story.setName(result.getString("fishing_story_name"));
+//                story.setText(result.getString("fishing_story"));
+//
+//            } else if (this.sqlQuery.equals(Constant.SQL_QUERY_GET_HUNTER_STORY_BY_ID) || this.sqlQuery.equals(Constant.SQL_QUERY_GET_HUNTER_STORIES)) {
+//                story.setId(Integer.parseInt(result.getString("id_fish_hunter_story")));
+//                story.setName(result.getString("fish_hunter_story_name"));
+//                story.setText(result.getString("fish_hunter_story"));
+//
+//            }
         } catch (SQLException e){
             e.getMessage();
         }

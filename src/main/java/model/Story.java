@@ -7,7 +7,7 @@ public class Story {
     private int id;
     private String name;
     private String text;
-    private String imageName;
+    private String author;
 
     public int getId() {
         return id;
@@ -30,10 +30,10 @@ public class Story {
         this.text = text;
     }
 
-    public String getImageName() {
-        return imageName;
+    public String getAuthor() {
+        return author;
     }
-    public void setImageName(String imageName) {
-        this.imageName = imageName;
+    public void setAuthor(String Author) {
+        this.author = author;
     }
 }

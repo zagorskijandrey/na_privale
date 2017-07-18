@@ -1,6 +1,6 @@
 package concurrent_tasks;
 
-import archiv.save.SaveWeatherData;
+import service.save.SaveWeatherData;
 import enumeration.RegionEnum;
 
 import java.util.logging.Logger;

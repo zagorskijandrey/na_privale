@@ -1,6 +1,5 @@
-package archiv.collect;
+package service.collect;
 
-import enumeration.RegionEnum;
 import model.WeatherModel;
 
 import java.util.List;

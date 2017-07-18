@@ -1,4 +1,4 @@
-package archiv.get;
+package service.get;
 
 import model.Region;
 import mysql_connection.DataBaseConnection;

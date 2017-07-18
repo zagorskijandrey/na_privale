@@ -1,4 +1,4 @@
-package archiv.collect;
+package service.collect;
 
 import model.WeatherModel;
 import mysql_connection.DataBaseConnection;
