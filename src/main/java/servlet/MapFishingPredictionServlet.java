@@ -1,5 +1,6 @@
 package servlet;
 
+import authentication.JwtUtil;
 import service.collect.CollectWeatherData;
 import service.collect.ICollectWeatherData;
 import service.get.GetPredictionData;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.*;
 
 /**
@@ -37,6 +39,9 @@ public class MapFishingPredictionServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)  throws ServletException, IOException{
+
+        Principal t = request.getUserPrincipal();
+        String token = JwtUtil.getSubject(request, "JWT-TOKEN", "signingKey");
         JSONToObjectParserForWeather jsonDataParserForWeather = new JSONToObjectParserForWeather();
 
         JSONObject objectMoonDay = jsonDataParserForWeather.parseMoonDataJson(Constant.MOON_DATA_URL);
@@ -82,19 +87,19 @@ public class MapFishingPredictionServlet extends HttpServlet {
     }
 
     @Override
-    public void doOptions(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //        response.setStatus(204);
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Methods", "GET, POST");
-//        "Access-Control-Allow-Headers, Origin, X-Auth-Token, cache-control, Content-Type, Access-Control-Allow-Headers, Access-Control-Allow-Credentials, Access-Control-Allow-Methods, Authorization", "X-Requested-With"
-        response.setHeader("Access-Control-Allow-Headers, Origin, X-Auth-Token, cache-control, Content-Type, Access-Control-Allow-Headers, Access-Control-Allow-Credentials, Access-Control-Allow-Methods, Authorization, X_ACCESS_TOKEN", "Content-Type");
-//        response.setHeader("Access-Control-Max-Age", "86400");
-        //Tell the browser what requests we allow.
-        response.setHeader("Allow", "GET, HEAD, POST, TRACE, OPTIONS");
-//        JSONObject o= new JSONObject();
-//        o.put("body", "ok");
-//        handler.responseFactory(response, o, null);
-        response.setStatus(204);
+//        response.setHeader("Access-Control-Allow-Origin", "*");
+////        response.setHeader("Access-Control-Allow-Methods", "GET, POST");
+////        "Access-Control-Allow-Headers, Origin, X-Auth-Token, cache-control, Content-Type, Access-Control-Allow-Headers, Access-Control-Allow-Credentials, Access-Control-Allow-Methods, Authorization", "X-Requested-With"
+//        response.setHeader("Access-Control-Allow-Headers, Origin, X-Auth-Token, cache-control, Content-Type, Access-Control-Allow-Headers, Access-Control-Allow-Credentials, Access-Control-Allow-Methods, Authorization, X_ACCESS_TOKEN", "Content-Type");
+////        response.setHeader("Access-Control-Max-Age", "86400");
+//        //Tell the browser what requests we allow.
+////        response.setHeader("Allow", "GET, HEAD, POST, TRACE, OPTIONS");
+////        JSONObject o= new JSONObject();
+////        o.put("body", "ok");
+////        handler.responseFactory(response, o, null);
+//        response.setStatus(204);
 //        handler.setDefaultHeader(response);
     }
 
