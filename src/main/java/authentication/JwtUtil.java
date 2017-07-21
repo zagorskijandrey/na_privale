@@ -1,5 +1,6 @@
 package authentication;
 
+import constant.Constant;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -19,10 +20,10 @@ public class JwtUtil {
         return builder.compact();
     }
 
-    public static String getSubject(HttpServletRequest httpServletRequest, String jwtTokenCookieName, String signingKey){
-        String token = CookieUtil.getValue(httpServletRequest, jwtTokenCookieName);
+    public static String getSubject(HttpServletRequest httpServletRequest){
+        String token = httpServletRequest.getHeader("Authorization").substring(Constant.TOKEN_PREFIX.length());
         if (token == null)
             return null;
-        return Jwts.parser().setSigningKey(signingKey).parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parser().setSigningKey(Constant.SIGNING_KEY).parseClaimsJws(token).getBody().getSubject();
     }
 }

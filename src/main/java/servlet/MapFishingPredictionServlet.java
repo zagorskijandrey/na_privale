@@ -40,12 +40,11 @@ public class MapFishingPredictionServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)  throws ServletException, IOException{
 
-        Principal t = request.getUserPrincipal();
-        String token = JwtUtil.getSubject(request, "JWT-TOKEN", "signingKey");
+        String token = JwtUtil.getSubject(request);
         JSONToObjectParserForWeather jsonDataParserForWeather = new JSONToObjectParserForWeather();
 
-        JSONObject objectMoonDay = jsonDataParserForWeather.parseMoonDataJson(Constant.MOON_DATA_URL);
-        int moonDay = jsonDataParserForWeather.getMoonDayTomorrow(objectMoonDay);
+//        JSONObject objectMoonDay = jsonDataParserForWeather.parseMoonDataJson(Constant.MOON_DATA_URL);
+        int moonDay = 12;//jsonDataParserForWeather.getMoonDayTomorrow(objectMoonDay);
 
         Date today = new Date();
         Calendar calendar = Calendar.getInstance();
@@ -84,23 +83,6 @@ public class MapFishingPredictionServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException,IOException{
         doGet(httpRequest, httpResponse);
-    }
-
-    @Override
-    public void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        response.setStatus(204);
-//        response.setHeader("Access-Control-Allow-Origin", "*");
-////        response.setHeader("Access-Control-Allow-Methods", "GET, POST");
-////        "Access-Control-Allow-Headers, Origin, X-Auth-Token, cache-control, Content-Type, Access-Control-Allow-Headers, Access-Control-Allow-Credentials, Access-Control-Allow-Methods, Authorization", "X-Requested-With"
-//        response.setHeader("Access-Control-Allow-Headers, Origin, X-Auth-Token, cache-control, Content-Type, Access-Control-Allow-Headers, Access-Control-Allow-Credentials, Access-Control-Allow-Methods, Authorization, X_ACCESS_TOKEN", "Content-Type");
-////        response.setHeader("Access-Control-Max-Age", "86400");
-//        //Tell the browser what requests we allow.
-////        response.setHeader("Allow", "GET, HEAD, POST, TRACE, OPTIONS");
-////        JSONObject o= new JSONObject();
-////        o.put("body", "ok");
-////        handler.responseFactory(response, o, null);
-//        response.setStatus(204);
-//        handler.setDefaultHeader(response);
     }
 
     private RegionEnum getCity(String urlParameter){

@@ -7,6 +7,8 @@ import java.util.LinkedHashMap;
  */
 public class Constant {
     public static double FACTOR_PRESSURE = 1.333;
+    public static String TOKEN_PREFIX = "Bearer ";
+    public static String SIGNING_KEY = "user_api";
 
     public static String SQL_QUERY_SAVE_WEATHER = "INSERT INTO weather SET time=?, wind_speed=?, " +
             "wind_rout=?, pressure=?, id_region=(SELECT id_region FROM region WHERE name=?)";

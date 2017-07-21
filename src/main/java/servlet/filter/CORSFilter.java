@@ -19,8 +19,6 @@ public class CORSFilter implements Filter {
 
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-        System.out.println("Request request.getMethod()");
-
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
@@ -29,7 +27,7 @@ public class CORSFilter implements Filter {
         resp.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
         resp.setHeader("Access-Control-Allow-Headers", "X-Requested-Withm, Origin, X-Auth-Token, cache-control, Content-Type, Authorization");
 
-        // Just ACCEPT and REPLY OK if OPTIONS
+        // ACCEPT and REPLY OK if OPTIONS
         if ( request.getMethod().equals("OPTIONS") ) {
             resp.setStatus(HttpServletResponse.SC_OK);
             return;

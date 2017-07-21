@@ -2,6 +2,7 @@ package servlet;
 
 import authentication.CookieUtil;
 import authentication.JwtUtil;
+import constant.Constant;
 import dao.UserDao;
 import dao.UserDaoImpl;
 import model.User;
@@ -23,8 +24,8 @@ import java.sql.SQLException;
  */
 @WebServlet("/login")
 public class AuthenticationServlet extends HttpServlet{
-    private static final String jwtTokenCookieName = "JWT-TOKEN";
-    private static final String signingKey = "signingKey";
+//    private static final String jwtTokenCookieName = "JWT-TOKEN";
+//    private static final String signingKey = "signingKey";
     private boolean isError = false;
 
     private BaseHandler handler = null;
@@ -79,8 +80,8 @@ public class AuthenticationServlet extends HttpServlet{
 //            httpResponse.getWriter().write("error");
         }
 
-        String token = JwtUtil.generateToken(signingKey, name);
-        CookieUtil.create(httpResponse, jwtTokenCookieName, token, false, -1, "localhost");
+        String token = JwtUtil.generateToken(Constant.SIGNING_KEY, name);
+//        CookieUtil.create(httpResponse, jwtTokenCookieName, token, false, -1, "localhost");
 
         handler.setDefaultHeader(httpResponse);
         if (!isError){
