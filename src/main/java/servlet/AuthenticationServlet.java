@@ -1,6 +1,5 @@
 package servlet;
 
-import authentication.CookieUtil;
 import authentication.JwtUtil;
 import constant.Constant;
 import dao.UserDao;
@@ -9,6 +8,7 @@ import model.User;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import redisson.RedisService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,8 +24,6 @@ import java.sql.SQLException;
  */
 @WebServlet("/login")
 public class AuthenticationServlet extends HttpServlet{
-//    private static final String jwtTokenCookieName = "JWT-TOKEN";
-//    private static final String signingKey = "signingKey";
     private boolean isError = false;
 
     private BaseHandler handler = null;
@@ -51,46 +49,42 @@ public class AuthenticationServlet extends HttpServlet{
         }
         JSONParser parser = new JSONParser();
         JSONObject joUser = null;
+        String name = null;
+        String password = null;
         try {
             joUser = (JSONObject) parser.parse(sb.toString());
+            name = joUser.get("username").toString();
+            password = joUser.get("password").toString();
         } catch (ParseException e) {
             e.printStackTrace();
+        } catch (NullPointerException ne) {
+            ne.printStackTrace();
         }
-        String name = joUser.get("username").toString();
-        String password = joUser.get("password").toString();
 
-
-//        String name = httpRequest.getParameter("username");
-//        String password = httpRequest.getParameter("password");
         UserDao userDao = new UserDaoImpl();
         User user = null;
         try {
             user = userDao.getUser(name, password);
-
+            if (name == null || password == null
+                    || !user.getUsername().equals(name)
+                    || !user.getPassword().equals(password)){
+                isError = true;
+            }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        if (name == null || password == null
-                || !user.getUsername().equals(name)
-                || !user.getPassword().equals(password)){
-            isError = true;
-//            httpResponse.getWriter().write("error");
-        }
-
-        String token = JwtUtil.generateToken(Constant.SIGNING_KEY, name);
-//        CookieUtil.create(httpResponse, jwtTokenCookieName, token, false, -1, "localhost");
-
         handler.setDefaultHeader(httpResponse);
         if (!isError){
+            String token = JwtUtil.generateToken(Constant.SIGNING_KEY, name);
             JSONObject object = new JSONObject();
             object.put("token", token);
             handler.responseFactory(httpResponse, object, null);
         } else {
-            String error = "Неверное заполнение полей!";
-            httpResponse.setStatus(400);
+            String error = "Неверное заполнение полей! Повторите.";
+            httpResponse.setStatus(401);
             handler.responseFactory(httpResponse, null, error);
         }
     }
