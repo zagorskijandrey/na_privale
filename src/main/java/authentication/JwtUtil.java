@@ -4,7 +4,7 @@ import constant.Constant;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import redisson.RedisService;
+import redis_connection.RedisService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;

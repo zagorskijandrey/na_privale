@@ -8,7 +8,6 @@ import model.User;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import redisson.RedisService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

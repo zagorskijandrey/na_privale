@@ -1,4 +1,4 @@
-package redisson;
+package redis_connection;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.exceptions.JedisException;
@@ -20,7 +20,7 @@ public class RedisService {
     public void putFieldToRedis(String username, String field, String value){
         if (jedis != null){
             jedis.hset(username, field, value);
-            jedis.expire(username, 10);
+            jedis.expire(username, 1000);
         }
     }
 
