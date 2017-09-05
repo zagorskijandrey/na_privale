@@ -27,6 +27,9 @@ public class UserDaoImpl implements UserDao{
             user.setUsername(result.getString("username"));
             user.setPassword(result.getString("password"));
         }
+        result.close();
+        statement.close();
+        DataBaseConnection.disconnect();
         return user;
     }
 }

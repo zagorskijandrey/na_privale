@@ -32,6 +32,9 @@ public class GetPredictionData {
                 setPredictionForRegion(region, result);
                 storiesList.add(region);
             }
+            result.close();
+            statement.close();
+            DataBaseConnection.disconnect();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {

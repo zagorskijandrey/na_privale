@@ -62,6 +62,9 @@ public class GetStoryData {
                 setStory(story, result);
                 storiesList.add(story);
             }
+            result.close();
+            statement.close();
+            DataBaseConnection.disconnect();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {

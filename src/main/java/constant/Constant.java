@@ -13,6 +13,12 @@ public class Constant {
     public static String SQL_QUERY_SAVE_WEATHER = "INSERT INTO weather SET time=?, wind_speed=?, " +
             "wind_rout=?, pressure=?, id_region=(SELECT id_region FROM region WHERE name=?)";
 
+    public static String SQL_QUERY_SAVE_FISHING_PAGE = "INSERT INTO fishing_page SET province=?, region=?, " +
+            "hamlet=?, comment=?, date=?, id_user=(SELECT id_user FROM user WHERE username=?)";
+
+    public static String SQL_QUERY_SAVE_FISHES = "INSERT INTO fish SET name=?, weight=?, " +
+            "distance=?, bait=?, time=?, id_page=(SELECT id_page FROM fishing_page WHERE id_page=?)";
+
     public static String SQL_QUERY_SELECT_WEATHER = "SELECT * FROM weather WHERE id_region=(SELECT id_region " +
             "FROM region WHERE name=?)";
     public static String SQL_QUERY_SELECT_WEATHER_ALL_REGIONS = "SELECT wind_speed, wind_rout, id_region, MAX(time) FROM weather GROUP BY id_region";
