@@ -9,4 +9,5 @@ import java.sql.SQLException;
  */
 public interface UserDao {
     User getUser(String name, String password) throws ClassNotFoundException, SQLException;
+    boolean saveUser(User user);
 }
