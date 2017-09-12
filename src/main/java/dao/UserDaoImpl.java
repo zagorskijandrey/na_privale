@@ -33,18 +33,20 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public boolean saveUser(User user){
-        Connection connection = null;
-        boolean isSave = false;
+        Connection connection;
+        boolean isSave;
         try {
             connection = DataBaseConnection.getConnection();
-            PreparedStatement statement = connection.prepareStatement(Constant.SQL_QUERY_GET_USER);
+            PreparedStatement statement = connection.prepareStatement(Constant.SQL_QUERY_SAVE_USER);
             statement.setString(1, user.getUsername());
             statement.setString(2, user.getPassword());
             statement.setString(3, user.getEmail());
             statement.setTimestamp(4, new Timestamp(new Date().getTime()));
             statement.setInt(5, 2);
+            statement.execute();
             statement.close();
             DataBaseConnection.disconnect();
+            isSave = true;
         } catch (ClassNotFoundException e) {
             isSave = false;
         } catch (SQLException e) {
