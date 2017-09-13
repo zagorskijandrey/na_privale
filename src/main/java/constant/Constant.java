@@ -38,4 +38,5 @@ public class Constant {
 
     public static String SQL_QUERY_GET_USER = "SELECT * FROM user WHERE username=? AND password=?";
     public static String SQL_QUERY_SAVE_USER = "INSERT INTO user SET  username=?, password=?, email=?, create_time=?, id_role=?";
+    public static String SQL_QUERY_GET_USER_BY_EMAIL = "SELECT * FROM user WHERE create_time=(SELECT MAX(create_time) FROM user WHERE email=?);";
 }

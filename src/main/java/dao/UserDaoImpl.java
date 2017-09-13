@@ -54,4 +54,29 @@ public class UserDaoImpl implements UserDao{
         }
         return isSave;
     }
+
+    @Override
+    public User getUserByEmail(String email){
+        Connection connection;
+        User user = null;
+        try {
+            connection = DataBaseConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(Constant.SQL_QUERY_GET_USER_BY_EMAIL);
+            statement.setString(1, email);
+            ResultSet result = statement.executeQuery();
+            while (result.next()){
+                user = new User();
+                user.setUsername(result.getString("username"));
+                user.setPassword(result.getString("password"));
+            }
+            result.close();
+            statement.close();
+            DataBaseConnection.disconnect();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
 }
