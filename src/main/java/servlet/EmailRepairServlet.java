@@ -61,7 +61,7 @@ public class EmailRepairServlet extends HttpServlet {
             user = userDao.getUserByEmail(email);
             if (user != null){
                 EmailDispatcher emailDispatcher = new EmailDispatcher();
-                isError = emailDispatcher.sendEmail("zagorskij.andrii@gmail.com", email, "127.0.0.1", user);
+                isError = emailDispatcher.sendEmail("zagorskij.andrey@gmail.com", email, "127.0.0.1", user);
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
