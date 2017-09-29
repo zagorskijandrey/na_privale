@@ -28,8 +28,10 @@ public class FishingStoriesServlet extends HttpServlet{
     @SuppressWarnings("unchecked")
     @Override
     public void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException{
+        int start = Integer.parseInt(httpRequest.getParameter("start"));
+        int total = Integer.parseInt(httpRequest.getParameter("total"));
         ObjectToJSONParserForStory objectToJSON = new ObjectToJSONParserForStory();
-        JSONArray jsonArray = objectToJSON.getJSONArrayStories(Constant.SQL_QUERY_GET_FISHING_STORIES);
+        JSONArray jsonArray = objectToJSON.getJSONArrayStories(Constant.SQL_QUERY_GET_FISHING_STORIES, start, total);
         JSONObject object = null;
         handler.setDefaultHeader(httpResponse);
         if (jsonArray.size() > 0){

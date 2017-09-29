@@ -49,12 +49,14 @@ public class GetStoryData {
         return story;
     }
 
-    public ArrayList<Story> getStoriesList(){
+    public ArrayList<Story> getStoriesList(int start,int total){
         ArrayList<Story> storiesList = null;
         Connection connection = null;
         try {
             connection = DataBaseConnection.getConnection();
             PreparedStatement statement = connection.prepareStatement(sqlQuery);
+            statement.setInt(1, start);
+            statement.setInt(2, total);
             ResultSet result = statement.executeQuery();
             storiesList = new ArrayList<Story>();
             while (result.next()){

@@ -28,7 +28,7 @@ public class HunterStoriesServlet extends HttpServlet{
     @Override
     public void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
         ObjectToJSONParserForStory objectToJSON = new ObjectToJSONParserForStory();
-        JSONArray jsonArray = objectToJSON.getJSONArrayStories(Constant.SQL_QUERY_GET_HUNTER_STORIES);
+        JSONArray jsonArray = objectToJSON.getJSONArrayStories(Constant.SQL_QUERY_GET_HUNTER_STORIES, 0, 2);
 
         JSONObject object = null;
         handler.setDefaultHeader(httpResponse);
