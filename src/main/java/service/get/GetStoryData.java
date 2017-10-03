@@ -4,10 +4,7 @@ import constant.Constant;
 import model.Story;
 import mysql_connection.DataBaseConnection;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 /**
@@ -16,6 +13,7 @@ import java.util.ArrayList;
 public class GetStoryData {
     private String sqlQuery = null;
     private String story_id = null;
+    private int countStories = -1;
 
     public GetStoryData(String sqlQuery){
         this.sqlQuery = sqlQuery;
@@ -54,17 +52,24 @@ public class GetStoryData {
         Connection connection = null;
         try {
             connection = DataBaseConnection.getConnection();
-            PreparedStatement statement = connection.prepareStatement(sqlQuery);
-            statement.setInt(1, start);
-            statement.setInt(2, total);
-            ResultSet result = statement.executeQuery();
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+            preparedStatement.setInt(1, start);
+            preparedStatement.setInt(2, total);
+            ResultSet result = preparedStatement.executeQuery();
             storiesList = new ArrayList<Story>();
             while (result.next()){
                 Story story = new Story();
                 setStory(story, result);
                 storiesList.add(story);
             }
+            Statement statement = connection.createStatement();
+            ResultSet resultCount = statement.executeQuery("SELECT FOUND_ROWS()");
+            if (resultCount.next()){
+                this.countStories = resultCount.getInt(1);
+            }
             result.close();
+            resultCount.close();
+            preparedStatement.close();
             statement.close();
             DataBaseConnection.disconnect();
         } catch (ClassNotFoundException e) {
@@ -95,5 +100,9 @@ public class GetStoryData {
         } catch (SQLException e){
             e.getMessage();
         }
+    }
+
+    public int getCountStories(){
+        return this.countStories;
     }
 }

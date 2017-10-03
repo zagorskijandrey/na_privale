@@ -25,7 +25,7 @@ public class ObjectToJSONParserForStory {
     }
 
     @SuppressWarnings("unchecked")
-    public JSONArray getJSONArrayStories(String sqlQuery, int start,int total){
+    public JSONObject getJSONObjectStories(String sqlQuery, int start,int total){
         GetStoryData storyData = new GetStoryData(sqlQuery);
         ArrayList<Story> storiesList = storyData.getStoriesList(start, total);
         JSONArray jsonArray = new JSONArray();
@@ -33,10 +33,21 @@ public class ObjectToJSONParserForStory {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("id", story.getId());
             jsonObject.put("name", story.getName());
-            jsonObject.put("text", story.getText().substring(0, 500).concat("..."));
+            jsonObject.put("text", getSubstringText(story));
             jsonObject.put("author", story.getAuthor());
             jsonArray.add(jsonObject);
         }
-        return jsonArray;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("stories_list", jsonArray);
+        jsonObject.put("count_stories", storyData.getCountStories());
+        return jsonObject;
+    }
+
+    private String getSubstringText(Story story){
+        String text = story.getText();
+        if (text.length() > 500){
+            text = text.substring(0, 500).concat("...");
+        }
+        return text;
     }
 }

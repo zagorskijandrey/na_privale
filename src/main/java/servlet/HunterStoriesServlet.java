@@ -27,14 +27,17 @@ public class HunterStoriesServlet extends HttpServlet{
     @SuppressWarnings("unchecked")
     @Override
     public void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
+        int start = Integer.parseInt(httpRequest.getParameter("start"));
+        int total = Integer.parseInt(httpRequest.getParameter("total"));
         ObjectToJSONParserForStory objectToJSON = new ObjectToJSONParserForStory();
-        JSONArray jsonArray = objectToJSON.getJSONArrayStories(Constant.SQL_QUERY_GET_HUNTER_STORIES, 0, 2);
+        JSONObject object = objectToJSON.getJSONObjectStories(Constant.SQL_QUERY_GET_HUNTER_STORIES, start, total);
+//        JSONArray jsonArray = objectToJSON.getJSONArrayStories(Constant.SQL_QUERY_GET_HUNTER_STORIES, 0, 2);
 
-        JSONObject object = null;
+//        JSONObject object = null;
         handler.setDefaultHeader(httpResponse);
-        if (jsonArray.size() > 0){
-            object = new JSONObject();
-            object.put("stories", jsonArray);
+        if (object != null){
+//            object = new JSONObject();
+//            object.put("stories", jsonArray);
             handler.responseFactory(httpResponse, object, null);
         } else {
             String error = "Ошибка сервиса!";

@@ -31,12 +31,12 @@ public class FishingStoriesServlet extends HttpServlet{
         int start = Integer.parseInt(httpRequest.getParameter("start"));
         int total = Integer.parseInt(httpRequest.getParameter("total"));
         ObjectToJSONParserForStory objectToJSON = new ObjectToJSONParserForStory();
-        JSONArray jsonArray = objectToJSON.getJSONArrayStories(Constant.SQL_QUERY_GET_FISHING_STORIES, start, total);
-        JSONObject object = null;
+        JSONObject object = objectToJSON.getJSONObjectStories(Constant.SQL_QUERY_GET_FISHING_STORIES, start, total);
+//        JSONObject object = null;
         handler.setDefaultHeader(httpResponse);
-        if (jsonArray.size() > 0){
-            object = new JSONObject();
-            object.put("stories", jsonArray);
+        if (object != null){
+//            object = new JSONObject();
+//            object.put("stories", jsonArray);
             handler.responseFactory(httpResponse, object, null);
         } else {
             String error = "Ошибка сервиса!";
