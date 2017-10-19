@@ -1,7 +1,9 @@
 package concurrent_tasks;
 
 import enumeration.RegionEnum;
+import service.save.SaveWeatherData;
 
+import java.io.IOException;
 import java.util.concurrent.SynchronousQueue;
 import java.util.logging.Logger;
 
@@ -27,7 +29,11 @@ public class TakeOutQueueWeatherDataRunnable_Consumer implements Runnable{
                 log.info("Consumer " + regionEnum);
                 ++count;
             }
+            SaveWeatherData saveWeather = new SaveWeatherData();
+            saveWeather.saveMoonDataFromDynamicJSON();
         } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

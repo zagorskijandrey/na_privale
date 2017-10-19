@@ -5,6 +5,7 @@ import fishing_prediction.service.ServiceForPeaceFish;
 import json_parser.JSONToObjectParserForWeather;
 import json_parser.ObjectToJSONParserForPrediction;
 import model.DateModel;
+import model.Moon;
 import model.Region;
 import model.WeatherModel;
 import org.json.simple.JSONArray;
@@ -23,26 +24,22 @@ public class CalculatePredictionPeace extends CalculatePrediction{
 
     @Override
     public JSONArray calculatePrediction() throws IOException {
-        JSONToObjectParserForWeather jsonDataParserForWeather = new JSONToObjectParserForWeather();
-
-        JSONObject objectMoonDay = jsonDataParserForWeather.parseMoonDataJson(Constant.MOON_DATA_URL);
-        int moonDay = jsonDataParserForWeather.getMoonDayTomorrow(objectMoonDay);
-
         Date today = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(today);
         DateModel dateModel = new DateModel(calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH));
 
-        ICollectWeatherData proxyCollectWeatherData = new CollectWeatherData();
-        Map<Integer, WeatherModel> mapWeather = proxyCollectWeatherData.getLastWeatherForRegions(Constant.SQL_QUERY_SELECT_WEATHER_ALL_REGIONS);
+        ICollectWeatherData collectWeatherData = new CollectWeatherData();
+        Map<Integer, WeatherModel> mapWeather = collectWeatherData.getLastWeatherForRegions(Constant.SQL_QUERY_SELECT_WEATHER_ALL_REGIONS);
+        Moon moon = collectWeatherData.getLastMoonDate(Constant.SQL_QUERY_SELECT_LAST_MOON);
         GetPredictionData regionData = new GetPredictionData(Constant.SQL_QUERY_SELECT_PREDICTIONS);
         ArrayList<Region> regionList = regionData.getPredictionForRegions();
         for (Region region: regionList){
             WeatherModel weatherModel = mapWeather.get(region.getId());
-            List<Integer> pressures = proxyCollectWeatherData.getPressuresByRegionId(Integer.toString(region.getId()), Constant.SQL_QUERY_SELECT_PRESSURES, weatherModel);
+            List<Integer> pressures = collectWeatherData.getPressuresByRegionId(Integer.toString(region.getId()), Constant.SQL_QUERY_SELECT_PRESSURES, weatherModel);
             int windRout = weatherModel.getWindRout();
             int windSpeed = weatherModel.getWindSpeed();
-            int rating = new ServiceForPeaceFish().calculatePeacePrediction(moonDay, dateModel.getMonth(),
+            int rating = new ServiceForPeaceFish().calculatePeacePrediction(moon.getPhase(), dateModel.getMonth(),
                     pressures, windRout, windSpeed);
             region.setPrediction(rating);
         }

@@ -1,5 +1,6 @@
 package service.collect;
 
+import model.Moon;
 import model.WeatherModel;
 
 import java.util.List;
@@ -13,4 +14,5 @@ public interface ICollectWeatherData {
     WeatherModel getLastWeatherByRegionId(String regionId, String sqlQuery);
     List<Integer> getPressuresByRegionId(String regionId, String sqlQuery, WeatherModel model);
     Map<Integer, WeatherModel> getLastWeatherForRegions(String sqlQuery);
+    Moon getLastMoonDate(String sqlQuery);
 }

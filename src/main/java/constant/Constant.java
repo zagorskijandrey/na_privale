@@ -13,6 +13,8 @@ public class Constant {
     public static String SQL_QUERY_SAVE_WEATHER = "INSERT INTO weather SET time=?, wind_speed=?, " +
             "wind_rout=?, pressure=?, id_region=(SELECT id_region FROM region WHERE name=?)";
 
+    public static String SQL_QUERY_SAVE_MOON = "INSERT INTO moon SET moon_phase=?, time=?, distance=?";
+
     public static String SQL_QUERY_SAVE_FISHING_PAGE = "INSERT INTO fishing_page SET province=?, region=?, " +
             "hamlet=?, comment=?, date=?, id_user=(SELECT id_user FROM user WHERE username=?)";
 
@@ -26,8 +28,10 @@ public class Constant {
 //            "FROM region WHERE name=?) AND time BETWEEN ? AND ?";
     public static String SQL_QUERY_SELECT_PRESSURES = "SELECT pressure FROM weather WHERE id_region=? AND time BETWEEN ? AND ?";
     public static String SQL_QUERY_SELECT_PREDICTIONS = "SELECT * FROM region";
+    public static String SQL_QUERY_SELECT_LAST_MOON = "SELECT * FROM moon ORDER BY id_moon DESC LIMIT 1";
 
-    public static String MOON_DATA_URL = "http://api.burningsoul.in/moon";
+//    public static String MOON_DATA_URL = "http://api.burningsoul.in/moon";
+    public static String MOON_DATA_URL = "http://farmsense-prod.apigee.net/v1/moonphases/?d=";
     public static String WEATHER_DATA_TODAY_URL = "http://api.openweathermap.org/data/2.5/forecast?q=XXXXX,ua&APPID=bf64caf37de45d7b2e9751adc28f384a";
 
     public static String SQL_QUERY_GET_FISHING_STORY_BY_ID = "SELECT * FROM fishing_story where id_story=?";

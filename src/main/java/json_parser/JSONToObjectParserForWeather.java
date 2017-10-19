@@ -2,6 +2,7 @@ package json_parser;
 
 import constant.Constant;
 import enumeration.RegionEnum;
+import model.Moon;
 import model.WeatherModel;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -24,23 +25,36 @@ public class JSONToObjectParserForWeather {
         URLConnection connection = url.openConnection();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         JSONParser parser = new JSONParser();
-        JSONObject object = null;
+        JSONObject jsonObject = null;
         try {
-            object = (JSONObject) parser.parse(bufferedReader);
+            JSONArray jsonArray = (JSONArray) parser.parse(bufferedReader);
+            jsonObject = (JSONObject) jsonArray.get(0);
             bufferedReader.close();
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return object;
+        return jsonObject;
     }
 
-    public int getMoonDayTomorrow(JSONObject object){
-        Long valueLong = Math.round(Double.parseDouble((object.get("age")).toString()));
+//    public int getMoonDayTomorrow(JSONObject object){
+//        Long valueLong = Math.round(Double.parseDouble((object.get("age")).toString()));
+//        Integer moonDay = valueLong.intValue() + 1;
+//        if (moonDay == 30){
+//            moonDay = 1;
+//        }
+//        return moonDay;
+//    }
+
+    public Moon getMoonDayTomorrow(JSONObject object){
+        Moon moon = new Moon();
+        Long valueLong = Math.round(Double.parseDouble((object.get("Age")).toString()));
         Integer moonDay = valueLong.intValue() + 1;
         if (moonDay == 30){
             moonDay = 1;
         }
-        return moonDay;
+        moon.setPhase(moonDay);
+        moon.setDistance(Float.parseFloat((object.get("Distance").toString())));
+        return moon;
     }
 
     public JSONObject parseWeatherDataJson(String weatherDataTodayUrl, RegionEnum regionEnum) throws IOException{

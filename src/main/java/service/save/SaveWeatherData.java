@@ -3,6 +3,7 @@ package service.save;
 import constant.Constant;
 import enumeration.RegionEnum;
 import json_parser.JSONToObjectParserForWeather;
+import model.Moon;
 import model.WeatherModel;
 import mysql_connection.DataBaseConnection;
 import org.json.simple.JSONObject;
@@ -12,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.logging.Logger;
 
 /**
@@ -28,6 +30,34 @@ public class SaveWeatherData {
             WeatherModel presentWeather = jsonDataParserForWeather.getPresentWeather(objectWeatherData);
             saveWeatherData(presentWeather, regionEnum, Constant.SQL_QUERY_SAVE_WEATHER);
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveMoonDataFromDynamicJSON() throws IOException {
+        Date date = new Date();
+        // Milliseconds real without half hour
+        long millis = date.getTime() - 1800000;
+        JSONToObjectParserForWeather jsonDataParserForWeather = new JSONToObjectParserForWeather();
+        JSONObject objectMoonDay = jsonDataParserForWeather.parseMoonDataJson(Constant.MOON_DATA_URL + millis);
+        Moon moon = jsonDataParserForWeather.getMoonDayTomorrow(objectMoonDay);
+        saveMoonData(moon, Constant.SQL_QUERY_SAVE_MOON, millis);
+        log.info("Save moon date");
+    }
+
+    private void saveMoonData(Moon moon, String sqlQuery, long milliseconds){
+        try{
+            Connection connection = DataBaseConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sqlQuery);
+            statement.setInt(1, moon.getPhase());
+            statement.setTimestamp(2, new Timestamp(milliseconds));
+            statement.setFloat(3, moon.getDistance());
+            statement.execute();
+            statement.close();
+            connection.close();
+        } catch(SQLException sql) {
+            sql.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

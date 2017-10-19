@@ -1,5 +1,6 @@
 package service.collect;
 
+import model.Moon;
 import model.WeatherModel;
 import mysql_connection.DataBaseConnection;
 
@@ -97,5 +98,30 @@ public class CollectWeatherData implements ICollectWeatherData{
         }
         log.info("This collect setPressures");
         return pressures;
+    }
+
+    public Moon getLastMoonDate(String sqlQuery){
+        Moon moon = null;
+        try {
+            moon = new Moon();
+            Connection connection = DataBaseConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sqlQuery);
+            ResultSet result = statement.executeQuery();
+            while (result.next()){
+                moon.setPhase(result.getInt("moon_phase"));
+                moon.setCreateTime(result.getDate("time"));
+                moon.setDistance(result.getFloat("distance"));
+            }
+            result.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException sql){
+            log.info(sql.getSQLState());
+            sql.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            log.info(e.toString());
+            e.printStackTrace();
+        }
+        return moon;
     }
 }
