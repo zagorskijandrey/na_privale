@@ -2,8 +2,8 @@ package servlet;
 
 import authentication.JwtUtil;
 import constant.Constant;
-import dao.UserDao;
-import dao.UserDaoImpl;
+import dao.user.UserDao;
+import dao.user.UserDaoImpl;
 import model.User;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

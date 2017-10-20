@@ -1,7 +1,7 @@
 package servlet;
 
-import dao.UserDao;
-import dao.UserDaoImpl;
+import dao.user.UserDao;
+import dao.user.UserDaoImpl;
 import mail_dispatch.EmailDispatcher;
 import model.User;
 import org.json.simple.JSONObject;

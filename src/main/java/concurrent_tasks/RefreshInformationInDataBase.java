@@ -1,6 +1,7 @@
 package concurrent_tasks;
 
-import service.save.SaveWeatherData;
+import dao.weather.WeatherDaoSave;
+import dao.weather.WeatherDaoSaveImpl;
 import enumeration.RegionEnum;
 
 import java.util.logging.Logger;
@@ -10,10 +11,10 @@ import java.util.logging.Logger;
  */
 public class RefreshInformationInDataBase {
     private static Logger log = Logger.getLogger(RefreshInformationInDataBase.class.getName());
-    private SaveWeatherData saveWeather = null;
+    private WeatherDaoSave saveWeather = null;
 
     RefreshInformationInDataBase() {
-        this.saveWeather = new SaveWeatherData();
+        this.saveWeather = new WeatherDaoSaveImpl();
     }
 
     void executeForRegion(RegionEnum regionEnum){

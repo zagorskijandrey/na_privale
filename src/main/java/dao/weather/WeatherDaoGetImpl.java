@@ -1,4 +1,4 @@
-package service.collect;
+package dao.weather;
 
 import model.Moon;
 import model.WeatherModel;
@@ -12,10 +12,9 @@ import java.util.logging.Logger;
 /**
  * Created by AZagorskyi on 06.04.2017.
  */
-public class CollectWeatherData implements ICollectWeatherData{
-    private static Logger log = Logger.getLogger(CollectWeatherData.class.getName());
+public class WeatherDaoGetImpl implements WeatherDaoGet {
+    private static Logger log = Logger.getLogger(WeatherDaoGetImpl.class.getName());
 
-    @Override
     public Map<Integer, WeatherModel> getLastWeatherForRegions(String sqlQuery) {
         Map<Integer, WeatherModel> mapWeather = null;
         try {

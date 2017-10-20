@@ -1,9 +1,9 @@
 package concurrent_tasks;
 
+import dao.weather.WeatherDaoSave;
 import enumeration.RegionEnum;
-import service.save.SaveWeatherData;
+import dao.weather.WeatherDaoSaveImpl;
 
-import java.io.IOException;
 import java.util.concurrent.SynchronousQueue;
 import java.util.logging.Logger;
 
@@ -29,11 +29,9 @@ public class TakeOutQueueWeatherDataRunnable_Consumer implements Runnable{
                 log.info("Consumer " + regionEnum);
                 ++count;
             }
-            SaveWeatherData saveWeather = new SaveWeatherData();
+            WeatherDaoSave saveWeather = new WeatherDaoSaveImpl();
             saveWeather.saveMoonDataFromDynamicJSON();
         } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         }
     }

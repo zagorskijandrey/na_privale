@@ -3,8 +3,8 @@
  */
 package servlet;
 
-import dao.UserDao;
-import dao.UserDaoImpl;
+import dao.user.UserDao;
+import dao.user.UserDaoImpl;
 import json_parser.JSONToObjectParserForUser;
 import model.User;
 import org.json.simple.JSONObject;

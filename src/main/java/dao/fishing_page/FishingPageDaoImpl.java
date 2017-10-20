@@ -1,9 +1,10 @@
 /**
  * Created by AZagorskyi on 04.09.2017.
  */
-package dao;
+package dao.fishing_page;
 
 import constant.Constant;
+import dao.fishing_page.FishingPageDao;
 import model.FishingPage;
 import mysql_connection.DataBaseConnection;
 

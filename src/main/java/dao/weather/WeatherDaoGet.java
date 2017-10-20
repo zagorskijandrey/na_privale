@@ -1,4 +1,4 @@
-package service.collect;
+package dao.weather;
 
 import model.Moon;
 import model.WeatherModel;
@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * Created by andrey on 12.04.2017.
  */
-public interface ICollectWeatherData {
+public interface WeatherDaoGet {
 
     WeatherModel getLastWeatherByRegionId(String regionId, String sqlQuery);
     List<Integer> getPressuresByRegionId(String regionId, String sqlQuery, WeatherModel model);

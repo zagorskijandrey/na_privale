@@ -1,6 +1,5 @@
-package service.get;
+package dao.story;
 
-import constant.Constant;
 import model.Story;
 import mysql_connection.DataBaseConnection;
 
@@ -10,29 +9,29 @@ import java.util.ArrayList;
 /**
  * Created by AZagorskyi on 14.04.2017.
  */
-public class GetStoryData {
+public class StoryDaoImpl implements StoryDao {
     private String sqlQuery = null;
     private String story_id = null;
     private int countStories = -1;
 
-    public GetStoryData(String sqlQuery){
+    public StoryDaoImpl(String sqlQuery) {
         this.sqlQuery = sqlQuery;
     }
 
-    public GetStoryData(String sqlQuery, String story_id){
+    public StoryDaoImpl(String sqlQuery, String story_id) {
         this.sqlQuery = sqlQuery;
         this.story_id = story_id;
     }
 
-    public Story getStory(){
+    public Story getStory() {
         Story story = null;
-        try{
+        try {
             Connection connection = DataBaseConnection.getConnection();
             PreparedStatement statement = connection.prepareStatement(sqlQuery);
             statement.setString(1, story_id);
             ResultSet result = statement.executeQuery();
             story = new Story();
-            while (result.next()){
+            while (result.next()) {
                 setStory(story, result);
             }
             result.close();
@@ -47,7 +46,7 @@ public class GetStoryData {
         return story;
     }
 
-    public ArrayList<Story> getStoriesList(int start,int total){
+    public ArrayList<Story> getStoriesList(int start, int total) {
         ArrayList<Story> storiesList = null;
         Connection connection = null;
         try {
@@ -57,14 +56,14 @@ public class GetStoryData {
             preparedStatement.setInt(2, total);
             ResultSet result = preparedStatement.executeQuery();
             storiesList = new ArrayList<Story>();
-            while (result.next()){
+            while (result.next()) {
                 Story story = new Story();
                 setStory(story, result);
                 storiesList.add(story);
             }
             Statement statement = connection.createStatement();
             ResultSet resultCount = statement.executeQuery("SELECT FOUND_ROWS()");
-            if (resultCount.next()){
+            if (resultCount.next()) {
                 this.countStories = resultCount.getInt(1);
             }
             result.close();
@@ -80,29 +79,18 @@ public class GetStoryData {
         return storiesList;
     }
 
-    private void setStory(Story story, ResultSet result){
-        try{
+    private void setStory(Story story, ResultSet result) {
+        try {
             story.setId(Integer.parseInt(result.getString("id_story")));
             story.setName(result.getString("name"));
             story.setText(result.getString("story"));
             story.setAuthor(result.getString("author"));
-//            if (this.sqlQuery.equals(Constant.SQL_QUERY_GET_FISHING_STORY_BY_ID) || this.sqlQuery.equals(Constant.SQL_QUERY_GET_FISHING_STORIES)) {
-//                story.setId(Integer.parseInt(result.getString("id_fishing_story")));
-//                story.setName(result.getString("fishing_story_name"));
-//                story.setText(result.getString("fishing_story"));
-//
-//            } else if (this.sqlQuery.equals(Constant.SQL_QUERY_GET_HUNTER_STORY_BY_ID) || this.sqlQuery.equals(Constant.SQL_QUERY_GET_HUNTER_STORIES)) {
-//                story.setId(Integer.parseInt(result.getString("id_fish_hunter_story")));
-//                story.setName(result.getString("fish_hunter_story_name"));
-//                story.setText(result.getString("fish_hunter_story"));
-//
-//            }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.getMessage();
         }
     }
 
-    public int getCountStories(){
+    public int getCountStories() {
         return this.countStories;
     }
 }

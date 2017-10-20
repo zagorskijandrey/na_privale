@@ -1,6 +1,7 @@
-package dao;
+package dao.user;
 
 import constant.Constant;
+import dao.user.UserDao;
 import model.User;
 import mysql_connection.DataBaseConnection;
 
@@ -10,7 +11,7 @@ import java.util.Date;
 /**
  * Created by andrey on 25.06.2017.
  */
-public class UserDaoImpl implements UserDao{
+public class UserDaoImpl implements UserDao {
 
     @Override
     public User getUser(String name, String password) throws ClassNotFoundException, SQLException {

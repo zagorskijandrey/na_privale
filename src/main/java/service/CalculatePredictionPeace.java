@@ -1,18 +1,17 @@
 package service;
 
 import constant.Constant;
+import dao.prediction.PredictionDataDao;
 import fishing_prediction.service.ServiceForPeaceFish;
-import json_parser.JSONToObjectParserForWeather;
 import json_parser.ObjectToJSONParserForPrediction;
 import model.DateModel;
 import model.Moon;
 import model.Region;
 import model.WeatherModel;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import service.collect.CollectWeatherData;
-import service.collect.ICollectWeatherData;
-import service.get.GetPredictionData;
+import dao.weather.WeatherDaoGetImpl;
+import dao.weather.WeatherDaoGet;
+import dao.prediction.PredictionDataDaoImpl;
 
 import java.io.IOException;
 import java.util.*;
@@ -29,10 +28,10 @@ public class CalculatePredictionPeace extends CalculatePrediction{
         calendar.setTime(today);
         DateModel dateModel = new DateModel(calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH));
 
-        ICollectWeatherData collectWeatherData = new CollectWeatherData();
+        WeatherDaoGet collectWeatherData = new WeatherDaoGetImpl();
         Map<Integer, WeatherModel> mapWeather = collectWeatherData.getLastWeatherForRegions(Constant.SQL_QUERY_SELECT_WEATHER_ALL_REGIONS);
         Moon moon = collectWeatherData.getLastMoonDate(Constant.SQL_QUERY_SELECT_LAST_MOON);
-        GetPredictionData regionData = new GetPredictionData(Constant.SQL_QUERY_SELECT_PREDICTIONS);
+        PredictionDataDao regionData = new PredictionDataDaoImpl(Constant.SQL_QUERY_SELECT_PREDICTIONS);
         ArrayList<Region> regionList = regionData.getPredictionForRegions();
         for (Region region: regionList){
             WeatherModel weatherModel = mapWeather.get(region.getId());

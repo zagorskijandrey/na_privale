@@ -4,8 +4,8 @@
 package servlet;
 
 import authentication.JwtUtil;
-import dao.FishingPageDao;
-import dao.FishingPageDaoImpl;
+import dao.fishing_page.FishingPageDao;
+import dao.fishing_page.FishingPageDaoImpl;
 import json_parser.JSONToObjectParserForFishingPage;
 import model.FishingPage;
 

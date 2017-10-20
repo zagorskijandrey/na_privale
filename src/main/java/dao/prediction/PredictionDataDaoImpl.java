@@ -1,4 +1,4 @@
-package service.get;
+package dao.prediction;
 
 import model.Region;
 import mysql_connection.DataBaseConnection;
@@ -12,10 +12,10 @@ import java.util.ArrayList;
 /**
  * Created by AZagorskyi on 04.07.2017.
  */
-public class GetPredictionData {
+public class PredictionDataDaoImpl implements PredictionDataDao{
     private String sqlQuery = null;
 
-    public GetPredictionData(String sqlQuery) {
+    public PredictionDataDaoImpl(String sqlQuery) {
         this.sqlQuery = sqlQuery;
     }
 

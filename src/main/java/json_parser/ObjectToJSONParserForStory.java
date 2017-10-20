@@ -1,6 +1,7 @@
 package json_parser;
 
-import service.get.GetStoryData;
+import dao.story.StoryDao;
+import dao.story.StoryDaoImpl;
 import model.Story;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -15,7 +16,7 @@ public class ObjectToJSONParserForStory {
     @SuppressWarnings("unchecked")
     public JSONObject getJSONStory(String sqlQuery, String story_id){
         JSONObject jsonObject = new JSONObject();
-        GetStoryData storyData = new GetStoryData(sqlQuery, story_id);
+        StoryDao storyData = new StoryDaoImpl(sqlQuery, story_id);
         Story story = storyData.getStory();
         jsonObject.put("id", story.getId());
         jsonObject.put("name", story.getName());
@@ -26,7 +27,7 @@ public class ObjectToJSONParserForStory {
 
     @SuppressWarnings("unchecked")
     public JSONObject getJSONObjectStories(String sqlQuery, int start,int total){
-        GetStoryData storyData = new GetStoryData(sqlQuery);
+        StoryDao storyData = new StoryDaoImpl(sqlQuery);
         ArrayList<Story> storiesList = storyData.getStoriesList(start, total);
         JSONArray jsonArray = new JSONArray();
         for (Story story: storiesList){

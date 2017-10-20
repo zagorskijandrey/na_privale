@@ -1,4 +1,4 @@
-package service.save;
+package dao.weather;
 
 import constant.Constant;
 import enumeration.RegionEnum;
@@ -19,8 +19,8 @@ import java.util.logging.Logger;
 /**
  * Created by AZagorskyi on 05.04.2017.
  */
-public class SaveWeatherData {
-    private static Logger log = Logger.getLogger(SaveWeatherData.class.getName());
+public class WeatherDaoSaveImpl implements WeatherDaoSave {
+    private static Logger log = Logger.getLogger(WeatherDaoSaveImpl.class.getName());
 
     public void saveWeatherDataFromDynamicJSON(RegionEnum regionEnum) {
         JSONToObjectParserForWeather jsonDataParserForWeather = new JSONToObjectParserForWeather();
@@ -34,30 +34,18 @@ public class SaveWeatherData {
         }
     }
 
-    public void saveMoonDataFromDynamicJSON() throws IOException {
+    public void saveMoonDataFromDynamicJSON(){
         Date date = new Date();
         // Milliseconds real without half hour
         long millis = date.getTime() - 1800000;
         JSONToObjectParserForWeather jsonDataParserForWeather = new JSONToObjectParserForWeather();
-        JSONObject objectMoonDay = jsonDataParserForWeather.parseMoonDataJson(Constant.MOON_DATA_URL + millis);
-        Moon moon = jsonDataParserForWeather.getMoonDayTomorrow(objectMoonDay);
-        saveMoonData(moon, Constant.SQL_QUERY_SAVE_MOON, millis);
-        log.info("Save moon date");
-    }
-
-    private void saveMoonData(Moon moon, String sqlQuery, long milliseconds){
-        try{
-            Connection connection = DataBaseConnection.getConnection();
-            PreparedStatement statement = connection.prepareStatement(sqlQuery);
-            statement.setInt(1, moon.getPhase());
-            statement.setTimestamp(2, new Timestamp(milliseconds));
-            statement.setFloat(3, moon.getDistance());
-            statement.execute();
-            statement.close();
-            connection.close();
-        } catch(SQLException sql) {
-            sql.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        JSONObject objectMoonDay = null;
+        try {
+            objectMoonDay = jsonDataParserForWeather.parseMoonDataJson(Constant.MOON_DATA_URL + millis);
+            Moon moon = jsonDataParserForWeather.getMoonDayTomorrow(objectMoonDay);
+            saveMoonData(moon, Constant.SQL_QUERY_SAVE_MOON, millis);
+            log.info("Save moon date");
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -79,6 +67,23 @@ public class SaveWeatherData {
             sql.printStackTrace();
         } catch (ClassNotFoundException e) {
             log.info(e.toString());
+            e.printStackTrace();
+        }
+    }
+
+    private void saveMoonData(Moon moon, String sqlQuery, long milliseconds){
+        try{
+            Connection connection = DataBaseConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sqlQuery);
+            statement.setInt(1, moon.getPhase());
+            statement.setTimestamp(2, new Timestamp(milliseconds));
+            statement.setFloat(3, moon.getDistance());
+            statement.execute();
+            statement.close();
+            connection.close();
+        } catch(SQLException sql) {
+            sql.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
