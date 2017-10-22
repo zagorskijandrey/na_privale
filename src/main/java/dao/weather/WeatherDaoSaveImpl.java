@@ -36,14 +36,13 @@ public class WeatherDaoSaveImpl implements WeatherDaoSave {
 
     public void saveMoonDataFromDynamicJSON(){
         Date date = new Date();
-        // Milliseconds real without half hour
-        long millis = date.getTime() - 1800000;
+        long seconds = Math.round(date.getTime()/1000);
         JSONToObjectParserForWeather jsonDataParserForWeather = new JSONToObjectParserForWeather();
         JSONObject objectMoonDay = null;
         try {
-            objectMoonDay = jsonDataParserForWeather.parseMoonDataJson(Constant.MOON_DATA_URL + millis);
+            objectMoonDay = jsonDataParserForWeather.parseMoonDataJson(Constant.MOON_DATA_URL + seconds);
             Moon moon = jsonDataParserForWeather.getMoonDayTomorrow(objectMoonDay);
-            saveMoonData(moon, Constant.SQL_QUERY_SAVE_MOON, millis);
+            saveMoonData(moon, Constant.SQL_QUERY_SAVE_MOON, date.getTime());
             log.info("Save moon date");
         } catch (IOException e) {
             e.printStackTrace();
