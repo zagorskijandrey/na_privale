@@ -7,6 +7,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by AZagorskyi on 14.04.2017.
@@ -28,7 +29,7 @@ public class ObjectToJSONParserForStory {
     @SuppressWarnings("unchecked")
     public JSONObject getJSONObjectStories(String sqlQuery, int start,int total){
         StoryDao storyData = new StoryDaoImpl(sqlQuery);
-        ArrayList<Story> storiesList = storyData.getStoriesList(start, total);
+        List<Story> storiesList = storyData.getStoriesList(start, total);
         JSONArray jsonArray = new JSONArray();
         for (Story story: storiesList){
             JSONObject jsonObject = new JSONObject();

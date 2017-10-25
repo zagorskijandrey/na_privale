@@ -4,14 +4,25 @@
 package dao.fishing_page;
 
 import constant.Constant;
-import dao.fishing_page.FishingPageDao;
 import model.FishingPage;
 import mysql_connection.DataBaseConnection;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FishingPageDaoImpl implements FishingPageDao {
+    private String sqlQuery = null;
+    private int countFishingPages = -1;
 
+    public FishingPageDaoImpl(){
+    }
+
+    public FishingPageDaoImpl(String sql){
+        this.sqlQuery = sql;
+    }
+
+    @Override
     public void saveFishingPage(String username, FishingPage fishingPage) throws ClassNotFoundException, SQLException {
         Connection connection = DataBaseConnection.getConnection();
         PreparedStatement statement = connection.prepareStatement(Constant.SQL_QUERY_SAVE_FISHING_PAGE, Statement.RETURN_GENERATED_KEYS);
@@ -32,6 +43,46 @@ public class FishingPageDaoImpl implements FishingPageDao {
         DataBaseConnection.disconnect();
     }
 
+    @Override
+    public FishingPage getFishingPageById(String username, int id){
+        return null;
+    }
+
+    @Override
+    public List<FishingPage> getFishingPageList(String username, int start, int total) {
+        List<FishingPage> fishingPageList = null;
+        Connection connection = null;
+        try {
+            connection = DataBaseConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(this.sqlQuery);
+            preparedStatement.setString(1, username);
+            preparedStatement.setInt(2, start);
+            preparedStatement.setInt(3, total);
+            ResultSet result = preparedStatement.executeQuery();
+            fishingPageList = new ArrayList<FishingPage>();
+            while (result.next()) {
+                FishingPage fishingPage = new FishingPage();
+                setFishingPage(fishingPage, result);
+                fishingPageList.add(fishingPage);
+            }
+            Statement statement = connection.createStatement();
+            ResultSet resultCount = statement.executeQuery("SELECT FOUND_ROWS()");
+            if (resultCount.next()) {
+                this.countFishingPages = resultCount.getInt(1);
+            }
+            result.close();
+            resultCount.close();
+            preparedStatement.close();
+            statement.close();
+            DataBaseConnection.disconnect();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return fishingPageList;
+    }
+
     private void saveFishes(int idPage, FishingPage fishingPage) throws ClassNotFoundException, SQLException {
         if (fishingPage.getFishes().size() > 0){
             Connection connection = DataBaseConnection.getConnection();
@@ -47,5 +98,23 @@ public class FishingPageDaoImpl implements FishingPageDao {
                 statement.close();
             }
         }
+    }
+
+    private void setFishingPage(FishingPage fishingPage, ResultSet result) {
+        try {
+            fishingPage.setId(Integer.parseInt(result.getString("id_page")));
+            fishingPage.setProvince(result.getString("province"));
+            fishingPage.setRegion(result.getString("region"));
+            fishingPage.setHamlet(result.getString("hamlet"));
+            fishingPage.setComment(result.getString("comment"));
+            fishingPage.setDate(result.getDate("date"));
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+    }
+
+    @Override
+    public int getCountFishingPages() {
+        return this.countFishingPages;
     }
 }

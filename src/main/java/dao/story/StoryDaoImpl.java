@@ -5,6 +5,7 @@ import mysql_connection.DataBaseConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by AZagorskyi on 14.04.2017.
@@ -46,8 +47,8 @@ public class StoryDaoImpl implements StoryDao {
         return story;
     }
 
-    public ArrayList<Story> getStoriesList(int start, int total) {
-        ArrayList<Story> storiesList = null;
+    public List<Story> getStoriesList(int start, int total) {
+        List<Story> storiesList = null;
         Connection connection = null;
         try {
             connection = DataBaseConnection.getConnection();

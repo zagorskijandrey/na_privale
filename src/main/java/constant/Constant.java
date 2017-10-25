@@ -1,7 +1,5 @@
 package constant;
 
-import java.util.LinkedHashMap;
-
 /**
  * Created by AZagorskyi on 06.04.2017.
  */
@@ -15,6 +13,8 @@ public class Constant {
 
     public static String SQL_QUERY_SAVE_MOON = "INSERT INTO moon SET moon_phase=?, time=?, distance=?";
 
+    public static String SQL_QUERY_GET_FISHING_PAGE_LIST = "SELECT SQL_CALC_FOUND_ROWS * FROM fishing_page " +
+            "WHERE id_user=(SELECT id_user FROM user WHERE username=?) LIMIT ?, ? ";
     public static String SQL_QUERY_SAVE_FISHING_PAGE = "INSERT INTO fishing_page SET province=?, region=?, " +
             "hamlet=?, comment=?, date=?, id_user=(SELECT id_user FROM user WHERE username=?)";
 
@@ -35,7 +35,6 @@ public class Constant {
     public static String WEATHER_DATA_TODAY_URL = "http://api.openweathermap.org/data/2.5/forecast?q=XXXXX,ua&APPID=bf64caf37de45d7b2e9751adc28f384a";
 
     public static String SQL_QUERY_GET_FISHING_STORY_BY_ID = "SELECT * FROM fishing_story where id_story=?";
-//    public static String SQL_QUERY_GET_FISHING_STORIES = "SELECT * FROM fishing_story";
     public static String SQL_QUERY_GET_FISHING_STORIES = "SELECT SQL_CALC_FOUND_ROWS * FROM fishing_story LIMIT ?, ?";
 
     public static String SQL_QUERY_GET_HUNTER_STORY_BY_ID = "SELECT * FROM hunter_story where id_story=?";

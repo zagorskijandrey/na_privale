@@ -78,12 +78,6 @@ public class JSONToObjectParserForFishingPage {
             for(int i=0; i<jsonArray.size(); i++){
                 Fish fish = new Fish();
                 JSONObject jsonObjectArray = (JSONObject) jsonArray.get(i);
-//                fish.setName(jsonObjectArray.get("name") != null? jsonObjectArray.get("name").toString() : "");
-//                fish.setWeight(Float.parseFloat(jsonObjectArray.get("weight") != null? jsonObjectArray.get("weight").toString() : "0"));
-//                fish.setDistance(Float.parseFloat(jsonObjectArray.get("distance") != null? jsonObjectArray.get("distance").toString() : "0"));
-//                fish.setBait(jsonObjectArray.get("bait") != null? jsonObjectArray.get("bait").toString() : "");
-//                fish.setTime(jsonObjectArray.get("time") != null? jsonObjectArray.get("time").toString() : "");
-
                 if (jsonObjectArray.get("name") != null)
                     fish.setName(jsonObjectArray.get("name").toString());
                 if (jsonObjectArray.get("weight") != null)
