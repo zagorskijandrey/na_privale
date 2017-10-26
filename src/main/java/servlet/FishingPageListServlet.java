@@ -32,9 +32,8 @@ public class FishingPageListServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException {
-        handler.setDefaultHeader(httpResponse);
-
         String username = JwtUtil.getSubject(httpRequest);
+        handler.setDefaultHeader(httpResponse);
         if (username != null){
             int start = Integer.parseInt(httpRequest.getParameter("start"));
             int total = Integer.parseInt(httpRequest.getParameter("total"));
