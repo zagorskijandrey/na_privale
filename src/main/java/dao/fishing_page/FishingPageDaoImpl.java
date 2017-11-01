@@ -49,15 +49,34 @@ public class FishingPageDaoImpl implements FishingPageDao {
     }
 
     @Override
-    public List<FishingPage> getFishingPageList(String username, int start, int total) {
+    public List<FishingPage> getFishingPageList(String username, int start, int total, String filter, String sort) {
         List<FishingPage> fishingPageList = null;
         Connection connection = null;
         try {
             connection = DataBaseConnection.getConnection();
+            if (sort.equals("asc") && this.sqlQuery.contains("desc")){
+                this.sqlQuery = this.sqlQuery.replaceAll("desc", sort);
+            } else {
+                if (sort.equals("desc") && this.sqlQuery.contains("asc")){
+                    this.sqlQuery = this.sqlQuery.replaceAll("asc", sort);
+                }
+            }
             PreparedStatement preparedStatement = connection.prepareStatement(this.sqlQuery);
+//            if (sort.equals("asc") && this.sqlQuery.contains("desc")){
+//                this.sqlQuery = this.sqlQuery.replaceAll("desc", sort);
+//            } else {
+//                if (sort.equals("desc") && this.sqlQuery.contains("asc")){
+//                    this.sqlQuery = this.sqlQuery.replaceAll("asc", sort);
+//                }
+//            }
             preparedStatement.setString(1, username);
-            preparedStatement.setInt(2, start);
-            preparedStatement.setInt(3, total);
+            if(filter != null){
+                preparedStatement.setString(2, filter + "%");
+            } else {
+                preparedStatement.setString(2, "%");
+            }
+            preparedStatement.setInt(3, start);
+            preparedStatement.setInt(4, total);
             ResultSet result = preparedStatement.executeQuery();
             fishingPageList = new ArrayList<FishingPage>();
             while (result.next()) {

@@ -14,7 +14,7 @@ public class Constant {
     public static String SQL_QUERY_SAVE_MOON = "INSERT INTO moon SET moon_phase=?, time=?, distance=?";
 
     public static String SQL_QUERY_GET_FISHING_PAGE_LIST = "SELECT SQL_CALC_FOUND_ROWS * FROM fishing_page " +
-            "WHERE id_user=(SELECT id_user FROM user WHERE username=?) LIMIT ?, ? ";
+            "WHERE id_user=(SELECT id_user FROM user WHERE username=?) AND region LIKE ? ORDER BY date desc LIMIT ?, ? ";
     public static String SQL_QUERY_SAVE_FISHING_PAGE = "INSERT INTO fishing_page SET province=?, region=?, " +
             "hamlet=?, comment=?, date=?, id_user=(SELECT id_user FROM user WHERE username=?)";
 

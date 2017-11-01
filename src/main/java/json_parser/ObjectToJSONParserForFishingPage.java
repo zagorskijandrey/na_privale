@@ -28,9 +28,9 @@ public class ObjectToJSONParserForFishingPage {
     }
 
     @SuppressWarnings("unchecked")
-    public JSONObject getJSONObjectFishingPages(String sqlQuery, String username, int start,int total){
+    public JSONObject getJSONObjectFishingPages(String sqlQuery, String username, int start,int total, String filter, String sort){
         FishingPageDao fishingPageDao = new FishingPageDaoImpl(sqlQuery);
-        List<FishingPage> fishingPageList = fishingPageDao.getFishingPageList(username,start, total);
+        List<FishingPage> fishingPageList = fishingPageDao.getFishingPageList(username,start, total, filter, sort);
         JSONArray jsonArray = new JSONArray();
         for (FishingPage fishingPage: fishingPageList){
 //            JSONObject jsonObject = new JSONObject();

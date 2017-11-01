@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface FishingPageDao {
     void saveFishingPage(String username, FishingPage fishingPage) throws ClassNotFoundException, SQLException;
-    List<FishingPage> getFishingPageList(String username, int start, int total);
+    List<FishingPage> getFishingPageList(String username, int start, int total, String filter, String sort);
     FishingPage getFishingPageById(String username, int id);
     int getCountFishingPages();
 }

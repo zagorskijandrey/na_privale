@@ -36,7 +36,7 @@ public class WeatherDaoSaveImpl implements WeatherDaoSave {
 
     public void saveMoonDataFromDynamicJSON(){
         Date date = new Date();
-        long seconds = Math.round(date.getTime()/1000);
+        long seconds = Math.round(date.getTime()/1000) - 30;
         JSONToObjectParserForWeather jsonDataParserForWeather = new JSONToObjectParserForWeather();
         JSONObject objectMoonDay = null;
         try {

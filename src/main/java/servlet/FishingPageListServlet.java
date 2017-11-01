@@ -37,8 +37,10 @@ public class FishingPageListServlet extends HttpServlet {
         if (username != null){
             int start = Integer.parseInt(httpRequest.getParameter("start"));
             int total = Integer.parseInt(httpRequest.getParameter("total"));
+            String filter = httpRequest.getParameter("filter");
+            String sort = httpRequest.getParameter("sort");
             ObjectToJSONParserForFishingPage objectToJSON = new ObjectToJSONParserForFishingPage();
-            JSONObject object = objectToJSON.getJSONObjectFishingPages(Constant.SQL_QUERY_GET_FISHING_PAGE_LIST, username, start, total);
+            JSONObject object = objectToJSON.getJSONObjectFishingPages(Constant.SQL_QUERY_GET_FISHING_PAGE_LIST, username, start, total, filter, sort);
             if (object != null){
                 handler.responseFactory(httpResponse, object, null);
             } else {
