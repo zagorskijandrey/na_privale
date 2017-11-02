@@ -8,6 +8,7 @@ import dao.fishing_page.FishingPageDao;
 import dao.fishing_page.FishingPageDaoImpl;
 import json_parser.JSONToObjectParserForFishingPage;
 import model.FishingPage;
+import org.json.simple.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,6 +32,7 @@ public class FishingPageServlet extends HttpServlet {
     public void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException {
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void doPost(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
 
@@ -52,8 +54,10 @@ public class FishingPageServlet extends HttpServlet {
                 httpResponse.setStatus(500);
                 handler.responseFactory(httpResponse, null, error);
             }
+            JSONObject object = new JSONObject();
+            object.put("body", "success");
             httpResponse.setStatus(200);
-            handler.responseFactory(httpResponse, null, null);
+            handler.responseFactory(httpResponse, object, null);
         } else {
             String error = "Войдите в систему!";
             httpResponse.setStatus(401);
