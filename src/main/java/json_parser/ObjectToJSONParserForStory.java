@@ -27,9 +27,9 @@ public class ObjectToJSONParserForStory {
     }
 
     @SuppressWarnings("unchecked")
-    public JSONObject getJSONObjectStories(String sqlQuery, int start,int total){
+    public JSONObject getJSONObjectStories(String sqlQuery, int start,int total, String filter){
         StoryDao storyData = new StoryDaoImpl(sqlQuery);
-        List<Story> storiesList = storyData.getStoriesList(start, total);
+        List<Story> storiesList = storyData.getStoriesList(start, total, filter);
         JSONArray jsonArray = new JSONArray();
         for (Story story: storiesList){
             JSONObject jsonObject = new JSONObject();

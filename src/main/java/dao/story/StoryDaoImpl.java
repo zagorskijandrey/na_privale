@@ -47,14 +47,19 @@ public class StoryDaoImpl implements StoryDao {
         return story;
     }
 
-    public List<Story> getStoriesList(int start, int total) {
+    public List<Story> getStoriesList(int start, int total, String filter) {
         List<Story> storiesList = null;
         Connection connection = null;
         try {
             connection = DataBaseConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-            preparedStatement.setInt(1, start);
-            preparedStatement.setInt(2, total);
+            if(filter != null){
+                preparedStatement.setString(1, filter + "%");
+            } else {
+                preparedStatement.setString(1, "%");
+            }
+            preparedStatement.setInt(2, start);
+            preparedStatement.setInt(3, total);
             ResultSet result = preparedStatement.executeQuery();
             storiesList = new ArrayList<Story>();
             while (result.next()) {

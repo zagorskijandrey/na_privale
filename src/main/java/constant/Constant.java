@@ -35,10 +35,10 @@ public class Constant {
     public static String WEATHER_DATA_TODAY_URL = "http://api.openweathermap.org/data/2.5/forecast?q=XXXXX,ua&APPID=bf64caf37de45d7b2e9751adc28f384a";
 
     public static String SQL_QUERY_GET_FISHING_STORY_BY_ID = "SELECT * FROM fishing_story where id_story=?";
-    public static String SQL_QUERY_GET_FISHING_STORIES = "SELECT SQL_CALC_FOUND_ROWS * FROM fishing_story LIMIT ?, ?";
+    public static String SQL_QUERY_GET_FISHING_STORIES = "SELECT SQL_CALC_FOUND_ROWS * FROM fishing_story WHERE name LIKE ? LIMIT ?, ?";
 
     public static String SQL_QUERY_GET_HUNTER_STORY_BY_ID = "SELECT * FROM hunter_story where id_story=?";
-    public static String SQL_QUERY_GET_HUNTER_STORIES = "SELECT SQL_CALC_FOUND_ROWS * FROM hunter_story LIMIT ?, ?";
+    public static String SQL_QUERY_GET_HUNTER_STORIES = "SELECT SQL_CALC_FOUND_ROWS * FROM hunter_story WHERE name LIKE ? LIMIT ?, ?";
 
     public static String SQL_QUERY_GET_USER = "SELECT * FROM user WHERE username=? AND password=?";
     public static String SQL_QUERY_SAVE_USER = "INSERT INTO user SET  username=?, password=?, email=?, create_time=?, id_role=?";

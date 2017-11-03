@@ -1,8 +1,10 @@
+/**
+ * Created by andrey on 24.06.2017.
+ */
 package servlet;
 
 import constant.Constant;
 import json_parser.ObjectToJSONParserForStory;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import javax.servlet.ServletException;
@@ -12,9 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Created by andrey on 24.06.2017.
- */
 @WebServlet("/h_stories")
 public class HunterStoriesServlet extends HttpServlet{
     private BaseHandler handler = null;
@@ -29,15 +28,11 @@ public class HunterStoriesServlet extends HttpServlet{
     public void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
         int start = Integer.parseInt(httpRequest.getParameter("start"));
         int total = Integer.parseInt(httpRequest.getParameter("total"));
+        String filter = httpRequest.getParameter("filter");
         ObjectToJSONParserForStory objectToJSON = new ObjectToJSONParserForStory();
-        JSONObject object = objectToJSON.getJSONObjectStories(Constant.SQL_QUERY_GET_HUNTER_STORIES, start, total);
-//        JSONArray jsonArray = objectToJSON.getJSONArrayStories(Constant.SQL_QUERY_GET_HUNTER_STORIES, 0, 2);
-
-//        JSONObject object = null;
+        JSONObject object = objectToJSON.getJSONObjectStories(Constant.SQL_QUERY_GET_HUNTER_STORIES, start, total, filter);
         handler.setDefaultHeader(httpResponse);
         if (object != null){
-//            object = new JSONObject();
-//            object.put("stories", jsonArray);
             handler.responseFactory(httpResponse, object, null);
         } else {
             String error = "Ошибка сервиса!";

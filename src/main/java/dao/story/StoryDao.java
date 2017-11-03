@@ -10,6 +10,6 @@ import java.util.List;
  */
 public interface StoryDao {
     Story getStory();
-    List<Story> getStoriesList(int start, int total);
+    List<Story> getStoriesList(int start, int total, String filter);
     int getCountStories();
 }
