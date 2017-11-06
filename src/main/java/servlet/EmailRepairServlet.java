@@ -69,7 +69,6 @@ public class EmailRepairServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        handler.setDefaultHeader(httpResponse);
         if (isError){
             JSONObject object = new JSONObject();
             object.put("email", email);

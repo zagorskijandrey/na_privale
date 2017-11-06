@@ -1,8 +1,9 @@
-package servlet;
+package servlet.location;
 
 import constant.Constant;
-import json_parser.ObjectToJSONParserForStory;
+import json_parser.ObjectToJSONParserForLocation;
 import org.json.simple.JSONObject;
+import servlet.BaseHandler;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,11 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Created by andrey on 22.10.2017.
+ * Created by AZagorskyi on 06.11.2017.
  */
-@WebServlet("/hunterStory")
-public class HunterStoryServlet extends HttpServlet {
-
+@WebServlet("/province")
+public class ProvinceServlet extends HttpServlet {
     private BaseHandler handler = null;
 
     @Override
@@ -25,16 +25,13 @@ public class HunterStoryServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException {
-        String story_id = httpRequest.getParameter("id");
-        ObjectToJSONParserForStory objectToJSON = new ObjectToJSONParserForStory();
-        JSONObject jsonObject = objectToJSON.getJSONStory(Constant.SQL_QUERY_GET_HUNTER_STORY_BY_ID, story_id);
-        handler.setDefaultHeader(httpResponse);
+        String country_id = httpRequest.getParameter("id");
+        ObjectToJSONParserForLocation objectToJSON = new ObjectToJSONParserForLocation();
+        JSONObject jsonObject = objectToJSON.getJSONObjectProvinces(Constant.SQL_QUERY_GET_PROVINCES_BY_COUNTRY_ID, Integer.parseInt(country_id));
         if (jsonObject != null){
-            JSONObject object = new JSONObject();
-            object.put("story", jsonObject);
-            handler.responseFactory(httpResponse, object, null);
+            handler.responseFactory(httpResponse, jsonObject, null);
         } else {
-            String error = "Данная статья не найдена!";
+            String error = "Данная область не найдена!";
             httpResponse.setStatus(400);
             handler.responseFactory(httpResponse, null, error);
         }

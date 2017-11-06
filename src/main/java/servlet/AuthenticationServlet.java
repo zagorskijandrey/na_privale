@@ -75,7 +75,6 @@ public class AuthenticationServlet extends HttpServlet{
             e.printStackTrace();
         }
 
-        handler.setDefaultHeader(httpResponse);
         if (!isError){
             String token = JwtUtil.generateToken(Constant.SIGNING_KEY, name);
             JSONObject object = new JSONObject();

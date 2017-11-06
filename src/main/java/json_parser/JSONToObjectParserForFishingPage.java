@@ -36,15 +36,6 @@ public class JSONToObjectParserForFishingPage {
         try {
             joFishingPage = (JSONObject) parser.parse(stringBuffer.toString());
             fishingPage = new FishingPage();
-//            fishingPage.setProvince(joFishingPage.get("province") != null ? joFishingPage.get("province").toString() : "");
-//            fishingPage.setRegion(joFishingPage.get("region") != null ? joFishingPage.get("region").toString() : "");
-//            fishingPage.setHamlet(joFishingPage.get("hamlet") != null ? joFishingPage.get("hamlet").toString() : "");
-//            fishingPage.setComment(joFishingPage.get("comment") != null ? joFishingPage.get("comment").toString() : "");
-//            if (joFishingPage.get("fishes") != null) {
-//                JSONArray jsonArray = (JSONArray) joFishingPage.get("fishes");
-//                fishingPage.setFishes(this.getFishFromJSON(jsonArray));
-//            }
-
             if (joFishingPage.get("province") != null)
                 fishingPage.setProvince(joFishingPage.get("province").toString());
             if (joFishingPage.get("region") != null)
@@ -61,6 +52,9 @@ public class JSONToObjectParserForFishingPage {
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
                 String date = joFishingPage.get("date").toString();
                 fishingPage.setDate(dateFormat.parse(date));
+            }
+            if (joFishingPage.get("id_hamlet") != null){
+                fishingPage.setIdHamlet(Integer.parseInt(joFishingPage.get("id_hamlet").toString()));
             }
         } catch (ParseException e) {
             e.printStackTrace();

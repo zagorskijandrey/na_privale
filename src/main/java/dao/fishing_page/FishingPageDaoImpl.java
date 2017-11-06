@@ -32,6 +32,7 @@ public class FishingPageDaoImpl implements FishingPageDao {
         statement.setString(4, fishingPage.getComment());
         statement.setTimestamp(5, new Timestamp(fishingPage.getDate().getTime()));
         statement.setString(6, username);
+        statement.setInt(7, fishingPage.getIdHamlet());
         statement.executeUpdate();
 
         ResultSet keys = statement.getGeneratedKeys();
@@ -62,13 +63,6 @@ public class FishingPageDaoImpl implements FishingPageDao {
                 }
             }
             PreparedStatement preparedStatement = connection.prepareStatement(this.sqlQuery);
-//            if (sort.equals("asc") && this.sqlQuery.contains("desc")){
-//                this.sqlQuery = this.sqlQuery.replaceAll("desc", sort);
-//            } else {
-//                if (sort.equals("desc") && this.sqlQuery.contains("asc")){
-//                    this.sqlQuery = this.sqlQuery.replaceAll("asc", sort);
-//                }
-//            }
             preparedStatement.setString(1, username);
             if(filter != null){
                 preparedStatement.setString(2, filter + "%");

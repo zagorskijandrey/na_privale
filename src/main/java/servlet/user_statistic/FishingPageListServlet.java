@@ -1,4 +1,4 @@
-package servlet;
+package servlet.user_statistic;
 
 import authentication.JwtUtil;
 import constant.Constant;
@@ -9,6 +9,7 @@ import json_parser.ObjectToJSONParserForFishingPage;
 import json_parser.ObjectToJSONParserForStory;
 import model.FishingPage;
 import org.json.simple.JSONObject;
+import servlet.BaseHandler;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,7 +34,6 @@ public class FishingPageListServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException {
         String username = JwtUtil.getSubject(httpRequest);
-        handler.setDefaultHeader(httpResponse);
         if (username != null){
             int start = Integer.parseInt(httpRequest.getParameter("start"));
             int total = Integer.parseInt(httpRequest.getParameter("total"));

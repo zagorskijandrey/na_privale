@@ -1,11 +1,9 @@
-/**
- * Created by AZagorskyi on 18.04.2017.
- */
-package servlet;
+package servlet.story;
 
 import constant.Constant;
 import json_parser.ObjectToJSONParserForStory;
 import org.json.simple.JSONObject;
+import servlet.BaseHandler;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,8 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/f_stories")
-public class FishingStoriesServlet extends HttpServlet{
+/**
+ * Created by andrey on 22.10.2017.
+ */
+@WebServlet("/hunterStory")
+public class HunterStoryServlet extends HttpServlet {
 
     private BaseHandler handler = null;
 
@@ -23,19 +24,17 @@ public class FishingStoriesServlet extends HttpServlet{
         handler = new BaseHandler();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException{
-        int start = Integer.parseInt(httpRequest.getParameter("start"));
-        int total = Integer.parseInt(httpRequest.getParameter("total"));
-        String filter = httpRequest.getParameter("filter");
+    public void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException {
+        String story_id = httpRequest.getParameter("id");
         ObjectToJSONParserForStory objectToJSON = new ObjectToJSONParserForStory();
-        JSONObject object = objectToJSON.getJSONObjectStories(Constant.SQL_QUERY_GET_FISHING_STORIES, start, total, filter);
-        handler.setDefaultHeader(httpResponse);
-        if (object != null){
+        JSONObject jsonObject = objectToJSON.getJSONStory(Constant.SQL_QUERY_GET_HUNTER_STORY_BY_ID, story_id);
+        if (jsonObject != null){
+            JSONObject object = new JSONObject();
+            object.put("story", jsonObject);
             handler.responseFactory(httpResponse, object, null);
         } else {
-            String error = "Ошибка сервиса!";
+            String error = "Данная статья не найдена!";
             httpResponse.setStatus(400);
             handler.responseFactory(httpResponse, null, error);
         }

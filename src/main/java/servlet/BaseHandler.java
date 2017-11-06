@@ -8,19 +8,10 @@ import java.io.IOException;
 /**
  * Created by AZagorskyi on 30.06.2017.
  */
- class BaseHandler {
-
-    void setDefaultHeader(HttpServletResponse httpResponse){
-//        httpResponse.setContentType("application/json");
-//        httpResponse.setCharacterEncoding("UTF-8");
-//        httpResponse.setHeader("Access-Control-Allow-Origin", "*");
-//        httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
-//        httpResponse.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
-//        httpResponse.setHeader("Access-Control-Allow-Headers, Origin, X-Auth-Token, cache-control, Content-Type, Access-Control-Allow-Headers, Access-Control-Allow-Credentials, Access-Control-Allow-Methods, Authorization", "X-Requested-With");
-    }
+ public class BaseHandler {
 
     @SuppressWarnings("unchecked")
-    void responseFactory(HttpServletResponse httpResponse, JSONObject body, String errorMessage){
+    public void responseFactory(HttpServletResponse httpResponse, JSONObject body, String errorMessage){
         JSONObject jsonResponse = new JSONObject();
         String status = "OK";
         if (httpResponse.getStatus() >= 400){

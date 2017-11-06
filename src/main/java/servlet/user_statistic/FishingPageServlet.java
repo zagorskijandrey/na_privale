@@ -1,7 +1,7 @@
 /**
  * Created by AZagorskyi on 04.09.2017.
  */
-package servlet;
+package servlet.user_statistic;
 
 import authentication.JwtUtil;
 import dao.fishing_page.FishingPageDao;
@@ -9,6 +9,7 @@ import dao.fishing_page.FishingPageDaoImpl;
 import json_parser.JSONToObjectParserForFishingPage;
 import model.FishingPage;
 import org.json.simple.JSONObject;
+import servlet.BaseHandler;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,8 +36,6 @@ public class FishingPageServlet extends HttpServlet {
     @SuppressWarnings("unchecked")
     @Override
     public void doPost(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
-
-        handler.setDefaultHeader(httpResponse);
 
         String username = JwtUtil.getSubject(httpRequest);
         if (username != null){

@@ -2,10 +2,13 @@ package dao.user;
 
 import constant.Constant;
 import dao.user.UserDao;
+import model.Hamlet;
+import model.Story;
 import model.User;
 import mysql_connection.DataBaseConnection;
 
 import java.sql.*;
+import java.util.*;
 import java.util.Date;
 
 /**
@@ -79,5 +82,51 @@ public class UserDaoImpl implements UserDao {
             e.printStackTrace();
         }
         return user;
+    }
+
+    @Override
+    public Map<Integer, Hamlet> getPastFishingLocationByUser(String name){
+        Map<Integer, Hamlet> hamletMap = null;
+        Connection connection = null;
+        try {
+            connection = DataBaseConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(Constant.SQL_QUERY_GET_PAST_FISHING_LOCATION_BY_USER);
+            preparedStatement.setString(1, name);
+            ResultSet result = preparedStatement.executeQuery();
+            hamletMap = new HashMap<Integer, Hamlet>();
+            while (result.next()) {
+                Hamlet hamlet = new Hamlet();
+                setHamlet(hamlet, result);
+                if (hamletMap.values())
+                setStory(story, result);
+                storiesList.add(story);
+            }
+            Statement statement = connection.createStatement();
+            ResultSet resultCount = statement.executeQuery("SELECT FOUND_ROWS()");
+            if (resultCount.next()) {
+                this.countStories = resultCount.getInt(1);
+            }
+            result.close();
+            resultCount.close();
+            preparedStatement.close();
+            statement.close();
+            DataBaseConnection.disconnect();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return hamletMap;
+    }
+
+    private void setHamlet(Hamlet hamlet, ResultSet result) {
+        try {
+            hamlet.setId(Integer.parseInt(result.getString("id_hamlet")));
+            hamlet.setName(result.getString("name"));
+            hamlet.setLongitude(result.getDouble("lon"));
+            hamlet.setLatitude(result.getDouble("lat"));
+        } catch (SQLException e) {
+            e.getMessage();
+        }
     }
 }

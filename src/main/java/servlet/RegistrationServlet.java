@@ -36,7 +36,6 @@ public class RegistrationServlet extends HttpServlet {
 
         JSONToObjectParserForUser jsonToObjectParserForUser = new JSONToObjectParserForUser();
         User user = jsonToObjectParserForUser.getUserFromJSON(request);
-        handler.setDefaultHeader(response);
 
         RedisService redisService = new RedisService();
         if (redisService.getFieldWithRedis(user.getUsername(), "username") != null){

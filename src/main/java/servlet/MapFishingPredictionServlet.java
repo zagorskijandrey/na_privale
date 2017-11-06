@@ -30,8 +30,6 @@ public class MapFishingPredictionServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)  throws ServletException, IOException{
 
         JSONArray jsonArray = null;
-        handler.setDefaultHeader(response);
-
         String username = JwtUtil.getSubject(request);
         if (username != null){
             jsonArray = new CalculatePredictionPeace().calculatePrediction();

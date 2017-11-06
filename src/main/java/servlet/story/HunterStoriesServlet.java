@@ -1,11 +1,12 @@
 /**
  * Created by andrey on 24.06.2017.
  */
-package servlet;
+package servlet.story;
 
 import constant.Constant;
 import json_parser.ObjectToJSONParserForStory;
 import org.json.simple.JSONObject;
+import servlet.BaseHandler;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,7 +32,6 @@ public class HunterStoriesServlet extends HttpServlet{
         String filter = httpRequest.getParameter("filter");
         ObjectToJSONParserForStory objectToJSON = new ObjectToJSONParserForStory();
         JSONObject object = objectToJSON.getJSONObjectStories(Constant.SQL_QUERY_GET_HUNTER_STORIES, start, total, filter);
-        handler.setDefaultHeader(httpResponse);
         if (object != null){
             handler.responseFactory(httpResponse, object, null);
         } else {

@@ -15,6 +15,7 @@ public class FishingPage {
     private String comment;
     private List<Fish> fishes;
     private Date date;
+    private int idHamlet;
 
     public int getId() {
         return id;
@@ -70,5 +71,13 @@ public class FishingPage {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public int getIdHamlet() {
+        return idHamlet;
+    }
+
+    public void setIdHamlet(int idHamlet) {
+        this.idHamlet = idHamlet;
     }
 }
