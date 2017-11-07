@@ -1,8 +1,7 @@
 package servlet.user_statistic;
 
 import authentication.JwtUtil;
-import constant.Constant;
-import json_parser.ObjectToJSONParserForFishingPage;
+import json_parser.ObjectToJSONParserForPastFishingMap;
 import org.json.simple.JSONObject;
 import servlet.BaseHandler;
 
@@ -29,8 +28,8 @@ public class PastFishingMapServlet extends HttpServlet {
     public void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException {
         String username = JwtUtil.getSubject(httpRequest);
         if (username != null){
-            ObjectToJSONParserPastFishingMap objectToJSON = new ObjectToJSONParserPastFishingMap();
-            JSONObject object = objectToJSON.getJSONObjectFishingPages(Constant.SQL_QUERY_GET_FISHING_PAGE_LIST, username, start, total, filter, sort);
+            ObjectToJSONParserForPastFishingMap objectToJSON = new ObjectToJSONParserForPastFishingMap();
+            JSONObject object = objectToJSON.getJSONObjectPastFishingLocation(username);
             if (object != null){
                 handler.responseFactory(httpResponse, object, null);
             } else {

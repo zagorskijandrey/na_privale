@@ -3,6 +3,7 @@ package dao.user;
 import constant.Constant;
 import dao.user.UserDao;
 import model.Hamlet;
+import io.reactivex.Observable;
 import model.Story;
 import model.User;
 import mysql_connection.DataBaseConnection;
@@ -85,31 +86,35 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Map<Integer, Hamlet> getPastFishingLocationByUser(String name){
-        Map<Integer, Hamlet> hamletMap = null;
+    public Map<Hamlet, Integer> getPastFishingLocationByUser(String name){
+        Map<Hamlet, Integer> hamletMap = null;
         Connection connection = null;
         try {
             connection = DataBaseConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(Constant.SQL_QUERY_GET_PAST_FISHING_LOCATION_BY_USER);
             preparedStatement.setString(1, name);
             ResultSet result = preparedStatement.executeQuery();
-            hamletMap = new HashMap<Integer, Hamlet>();
+            hamletMap = new HashMap<Hamlet, Integer>();
             while (result.next()) {
                 Hamlet hamlet = new Hamlet();
                 setHamlet(hamlet, result);
-                if (hamletMap.values())
-                setStory(story, result);
-                storiesList.add(story);
+//                Observable<String> observer = Observable.just("Hello");
+                if (hamletMap.containsKey(hamlet)){
+                    int tempKey = hamletMap.get(hamlet);
+                    hamletMap.put(hamlet, ++tempKey);
+                } else {
+                    hamletMap.put(hamlet, 1);
+                }
             }
-            Statement statement = connection.createStatement();
-            ResultSet resultCount = statement.executeQuery("SELECT FOUND_ROWS()");
-            if (resultCount.next()) {
-                this.countStories = resultCount.getInt(1);
-            }
+//            Statement statement = connection.createStatement();
+//            ResultSet resultCount = statement.executeQuery("SELECT FOUND_ROWS()");
+//            if (resultCount.next()) {
+//                this.countStories = resultCount.getInt(1);
+//            }
             result.close();
-            resultCount.close();
+//            resultCount.close();
             preparedStatement.close();
-            statement.close();
+//            statement.close();
             DataBaseConnection.disconnect();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
