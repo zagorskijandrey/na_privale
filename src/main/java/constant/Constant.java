@@ -43,7 +43,8 @@ public class Constant {
     public static String SQL_QUERY_GET_USER = "SELECT * FROM user WHERE username=? AND password=?";
     public static String SQL_QUERY_SAVE_USER = "INSERT INTO user SET  username=?, password=?, email=?, create_time=?, id_role=?";
     public static String SQL_QUERY_GET_USER_BY_EMAIL = "SELECT * FROM user WHERE create_time=(SELECT MAX(create_time) FROM user WHERE email=?)";
-    public static String SQL_QUERY_GET_PAST_FISHING_LOCATION_BY_USER = "SELECT * FROM fishing_page, hamlet " +
+    public static String SQL_QUERY_GET_PAST_FISHING_LOCATION_BY_USER = "SELECT fishing_page.id_hamlet, fishing_page.id_user," +
+            "hamlet.id_hamlet, hamlet.name, hamlet.lon, hamlet.lat FROM fishing_page, hamlet " +
             "WHERE fishing_page.id_hamlet=hamlet.id_hamlet AND id_user=(SELECT id_user FROM user WHERE username=?) ";
 
     public static String SQL_QUERY_GET_COUNTRIES = "SELECT * FROM country";

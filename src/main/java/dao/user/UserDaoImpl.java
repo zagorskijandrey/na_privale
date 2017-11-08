@@ -1,10 +1,7 @@
 package dao.user;
 
 import constant.Constant;
-import dao.user.UserDao;
 import model.Hamlet;
-import io.reactivex.Observable;
-import model.Story;
 import model.User;
 import mysql_connection.DataBaseConnection;
 
@@ -96,9 +93,7 @@ public class UserDaoImpl implements UserDao {
             ResultSet result = preparedStatement.executeQuery();
             hamletMap = new HashMap<Hamlet, Integer>();
             while (result.next()) {
-                Hamlet hamlet = new Hamlet();
-                setHamlet(hamlet, result);
-//                Observable<String> observer = Observable.just("Hello");
+                Hamlet hamlet = setHamlet(result);
                 if (hamletMap.containsKey(hamlet)){
                     int tempKey = hamletMap.get(hamlet);
                     hamletMap.put(hamlet, ++tempKey);
@@ -106,15 +101,8 @@ public class UserDaoImpl implements UserDao {
                     hamletMap.put(hamlet, 1);
                 }
             }
-//            Statement statement = connection.createStatement();
-//            ResultSet resultCount = statement.executeQuery("SELECT FOUND_ROWS()");
-//            if (resultCount.next()) {
-//                this.countStories = resultCount.getInt(1);
-//            }
             result.close();
-//            resultCount.close();
             preparedStatement.close();
-//            statement.close();
             DataBaseConnection.disconnect();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -124,14 +112,16 @@ public class UserDaoImpl implements UserDao {
         return hamletMap;
     }
 
-    private void setHamlet(Hamlet hamlet, ResultSet result) {
+    private Hamlet setHamlet(ResultSet result) {
+        Hamlet hamlet = null;
         try {
-            hamlet.setId(Integer.parseInt(result.getString("id_hamlet")));
-            hamlet.setName(result.getString("name"));
-            hamlet.setLongitude(result.getDouble("lon"));
-            hamlet.setLatitude(result.getDouble("lat"));
+            hamlet = new Hamlet(Integer.parseInt(result.getString("id_hamlet")),
+                    result.getString("name"),
+                    result.getDouble("lon"),
+                    result.getDouble("lat"));
         } catch (SQLException e) {
             e.getMessage();
         }
+        return hamlet;
     }
 }

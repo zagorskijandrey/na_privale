@@ -33,7 +33,7 @@ public class ObjectToJSONParserForPastFishingMap {
         jsonObjectHamlet.put("name", hamlet.getKey().getName());
         jsonObjectHamlet.put("lon", hamlet.getKey().getLongitude());
         jsonObjectHamlet.put("lat", hamlet.getKey().getLatitude());
-        jsonObjectHamlet.put("count", hamlet.getValue());
+        jsonObjectHamlet.put("amount", hamlet.getValue());
         return jsonObjectHamlet;
     }
 }
