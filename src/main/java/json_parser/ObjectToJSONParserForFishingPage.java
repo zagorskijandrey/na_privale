@@ -3,11 +3,12 @@ package json_parser;
 import dao.fishing_page.FishingPageDao;
 import dao.fishing_page.FishingPageDaoImpl;
 import model.FishingPage;
-import model.Story;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by AZagorskyi on 25.10.2017.
@@ -45,6 +46,22 @@ public class ObjectToJSONParserForFishingPage {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("fishing_page_list", jsonArray);
         jsonObject.put("count_fishing_pages", fishingPageDao.getCountFishingPages());
+        return jsonObject;
+    }
+
+    @SuppressWarnings("unchecked")
+    public JSONObject getJSONObjectHamletsDescription(String sqlQuery, String username, int idHamlet){
+        FishingPageDao fishingPageDao = new FishingPageDaoImpl(sqlQuery);
+        Map<Date, String> hamletsDescription = fishingPageDao.getHamletsDescription(username, idHamlet);
+        JSONArray jsonArray = new JSONArray();
+        for (Map.Entry<Date, String> hamlet: hamletsDescription.entrySet()){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("date", hamlet.getKey().toString());
+            jsonObject.put("comment", hamlet.getValue());
+            jsonArray.add(jsonObject);
+        }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("hamlets_description", jsonArray);
         return jsonObject;
     }
 

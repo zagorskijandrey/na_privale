@@ -15,6 +15,8 @@ public class Constant {
 
     public static String SQL_QUERY_GET_FISHING_PAGE_LIST = "SELECT SQL_CALC_FOUND_ROWS * FROM fishing_page " +
             "WHERE id_user=(SELECT id_user FROM user WHERE username=?) AND region LIKE ? ORDER BY date desc LIMIT ?, ? ";
+    public static String SQL_QUERY_GET_HAMLET_DESCRIPTION_LIST_BY_USER_AND_HAMLET_ID = "SELECT SQL_CALC_FOUND_ROWS comment, date " +
+            "FROM fishing_page WHERE id_user=(SELECT id_user FROM user WHERE username=?) AND id_hamlet=?";
     public static String SQL_QUERY_SAVE_FISHING_PAGE = "INSERT INTO fishing_page SET province=?, region=?, " +
             "hamlet=?, comment=?, date=?, id_user=(SELECT id_user FROM user WHERE username=?), id_hamlet=?";
 

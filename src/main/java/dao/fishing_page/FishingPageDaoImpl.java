@@ -8,8 +8,8 @@ import model.FishingPage;
 import mysql_connection.DataBaseConnection;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.Date;
 
 public class FishingPageDaoImpl implements FishingPageDao {
     private String sqlQuery = null;
@@ -94,6 +94,37 @@ public class FishingPageDaoImpl implements FishingPageDao {
             e.printStackTrace();
         }
         return fishingPageList;
+    }
+
+    public Map<Date, String> getHamletsDescription(String username, int idHamlet){
+        Map<Date, String> hamletsDescription = null;
+        Connection connection = null;
+        try {
+            connection = DataBaseConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(this.sqlQuery);
+            preparedStatement.setString(1, username);
+            preparedStatement.setInt(2, idHamlet);
+            ResultSet result = preparedStatement.executeQuery();
+            hamletsDescription = new HashMap<Date, String>();
+            while (result.next()) {
+                hamletsDescription.put(result.getDate("date"), result.getString("comment"));
+            }
+            Statement statement = connection.createStatement();
+//            ResultSet resultCount = statement.executeQuery("SELECT FOUND_ROWS()");
+//            if (resultCount.next()) {
+//                this.countFishingPages = resultCount.getInt(1);
+//            }
+            result.close();
+//            resultCount.close();
+            preparedStatement.close();
+            statement.close();
+            DataBaseConnection.disconnect();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return hamletsDescription;
     }
 
     private void saveFishes(int idPage, FishingPage fishingPage) throws ClassNotFoundException, SQLException {
