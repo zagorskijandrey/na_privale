@@ -2,6 +2,7 @@ package json_parser;
 
 import constant.Constant;
 import enumeration.RegionEnum;
+import io.reactivex.Observable;
 import model.Moon;
 import model.WeatherModel;
 import org.json.simple.JSONArray;
@@ -20,10 +21,15 @@ import java.util.Date;
  * Created by AZagorskyi on 05.04.2017.
  */
 public class JSONToObjectParserForWeather {
+    BufferedReader bufferedReader;
+
     public JSONObject parseMoonDataJson(String moonDataUrl) throws IOException {
         URL url = new URL(moonDataUrl);
-        URLConnection connection = url.openConnection();
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        sendBuffer(url).subscribe(res -> {
+            bufferedReader = res;
+        }, error -> new Throwable("Connection with by url " + url + " failed."));
+//        URLConnection connection = url.openConnection();
+//        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         JSONParser parser = new JSONParser();
         JSONObject jsonObject = null;
         try {
@@ -34,6 +40,23 @@ public class JSONToObjectParserForWeather {
             e.printStackTrace();
         }
         return jsonObject;
+    }
+
+    private Observable<BufferedReader> sendBuffer(URL url){
+        return Observable.create(source -> {
+            URLConnection connection = url.openConnection();
+            final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            source.onNext(bufferedReader);
+            source.onComplete();
+
+//            if (bufferedReader != null){
+//                source.onNext(bufferedReader);
+//                source.onComplete();
+//            } else {
+//                source.onError(new Error(
+//                        "Connection with by url " + url + " failed."));
+//            }
+        });
     }
 
 //    public int getMoonDayTomorrow(JSONObject object){
