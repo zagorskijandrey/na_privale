@@ -2,6 +2,7 @@ package json_parser;
 
 import dao.fishing_page.FishingPageDao;
 import dao.fishing_page.FishingPageDaoImpl;
+import model.Fish;
 import model.FishingPage;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -15,16 +16,9 @@ import java.util.Map;
  */
 public class ObjectToJSONParserForFishingPage {
     @SuppressWarnings("unchecked")
-    public JSONObject getJSONObjectFishingPage(String sqlQuery, String username, int page_id){
+    public JSONObject getJSONObjectFishingPage(String sqlQuery, int page_id){
         FishingPageDao fishingPageDao = new FishingPageDaoImpl(sqlQuery);
-        FishingPage fishingPage = fishingPageDao.getFishingPageById(username,page_id);
-//        JSONObject jsonObject = convertObjectToJSON(fishingPage);
-//        StoryDao storyData = new StoryDaoImpl(sqlQuery, page_id);
-//        Story story = storyData.getStory();
-//        jsonObject.put("id", story.getId());
-//        jsonObject.put("name", story.getName());
-//        jsonObject.put("text", story.getText());
-//        jsonObject.put("author", story.getAuthor());
+        FishingPage fishingPage = fishingPageDao.getFishingPageById(page_id);
         return convertObjectToJSON(fishingPage);
     }
 
@@ -34,13 +28,6 @@ public class ObjectToJSONParserForFishingPage {
         List<FishingPage> fishingPageList = fishingPageDao.getFishingPageList(username,start, total, filter, sort);
         JSONArray jsonArray = new JSONArray();
         for (FishingPage fishingPage: fishingPageList){
-//            JSONObject jsonObject = new JSONObject();
-//            jsonObject.put("id", fishingPage.getId());
-//            jsonObject.put("province", fishingPage.getProvince());
-//            jsonObject.put("region", fishingPage.getRegion());
-//            jsonObject.put("hamlet", fishingPage.getHamlet());
-//            jsonObject.put("comment", fishingPage.getComment());
-//            jsonObject.put("date", fishingPage.getDate());
             jsonArray.add(convertObjectToJSON(fishingPage));
         }
         JSONObject jsonObject = new JSONObject();
@@ -74,7 +61,24 @@ public class ObjectToJSONParserForFishingPage {
         jsonObject.put("hamlet", fishingPage.getHamlet());
         jsonObject.put("comment", fishingPage.getComment());
         jsonObject.put("date", fishingPage.getDate().toString());
+        jsonObject.put("fishes", convertArrayToJSON(fishingPage.getFishes()));
         return jsonObject;
+    }
+
+    @SuppressWarnings("unchecked")
+    private JSONArray convertArrayToJSON(List<Fish> fishes){
+        JSONArray jsonArray = new JSONArray();
+        for(Fish fish : fishes){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", fish.getId());
+            jsonObject.put("name", fish.getName());
+            jsonObject.put("weight", fish.getWeight());
+            jsonObject.put("distance", fish.getDistance());
+            jsonObject.put("bait", fish.getBait());
+            jsonObject.put("time", fish.getTime());
+            jsonArray.add(jsonObject);
+        }
+        return jsonArray;
     }
 
     private String getSubstringText(FishingPage fishingPage){

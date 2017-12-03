@@ -13,6 +13,8 @@ public class Constant {
 
     public static String SQL_QUERY_SAVE_MOON = "INSERT INTO moon SET moon_phase=?, time=?, distance=?";
 
+    public static String SQL_QUERY_GET_FISHING_PAGE = "SELECT * FROM fishing_page WHERE id_page=?";
+
     public static String SQL_QUERY_GET_FISHING_PAGE_LIST = "SELECT SQL_CALC_FOUND_ROWS * FROM fishing_page " +
             "WHERE id_user=(SELECT id_user FROM user WHERE username=?) AND region LIKE ? ORDER BY date desc LIMIT ?, ? ";
     public static String SQL_QUERY_GET_HAMLET_DESCRIPTION_LIST_BY_USER_AND_HAMLET_ID = "SELECT SQL_CALC_FOUND_ROWS comment, date " +
@@ -22,6 +24,7 @@ public class Constant {
 
     public static String SQL_QUERY_SAVE_FISHES = "INSERT INTO fish SET name=?, weight=?, " +
             "distance=?, bait=?, time=?, id_page=(SELECT id_page FROM fishing_page WHERE id_page=?)";
+    public static String SQL_QUERY_GET_FISHES_BY_FISHING_PAGE_ID = "SELECT * FROM fish WHERE id_page=?";
 
     public static String SQL_QUERY_SELECT_WEATHER = "SELECT * FROM weather WHERE id_region=(SELECT id_region " +
             "FROM region WHERE name=?)";

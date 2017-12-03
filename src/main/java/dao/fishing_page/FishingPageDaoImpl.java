@@ -4,6 +4,7 @@
 package dao.fishing_page;
 
 import constant.Constant;
+import model.Fish;
 import model.FishingPage;
 import mysql_connection.DataBaseConnection;
 
@@ -45,8 +46,33 @@ public class FishingPageDaoImpl implements FishingPageDao {
     }
 
     @Override
-    public FishingPage getFishingPageById(String username, int id){
-        return null;
+    public FishingPage getFishingPageById(int idPage){
+        FishingPage fishingPage = null;
+        Connection connection = null;
+        try {
+            connection = DataBaseConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(this.sqlQuery);
+            preparedStatement.setInt(1, idPage);
+            ResultSet result = preparedStatement.executeQuery();
+            fishingPage = new FishingPage();
+            while (result.next()) {
+                fishingPage.setId(result.getInt("id_page"));
+                fishingPage.setProvince(result.getString("province"));
+                fishingPage.setRegion(result.getString("region"));
+                fishingPage.setHamlet(result.getString("hamlet"));
+                fishingPage.setComment(result.getString("comment"));
+                fishingPage.setDate(result.getDate("date"));
+            }
+            result.close();
+            preparedStatement.close();
+            DataBaseConnection.disconnect();
+            fishingPage.setFishes(getFishes(idPage));
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return fishingPage;
     }
 
     @Override
@@ -76,6 +102,7 @@ public class FishingPageDaoImpl implements FishingPageDao {
             while (result.next()) {
                 FishingPage fishingPage = new FishingPage();
                 setFishingPage(fishingPage, result);
+                fishingPage.setFishes(getFishes(fishingPage.getId()));
                 fishingPageList.add(fishingPage);
             }
             Statement statement = connection.createStatement();
@@ -142,6 +169,36 @@ public class FishingPageDaoImpl implements FishingPageDao {
                 statement.close();
             }
         }
+    }
+
+    private List<Fish> getFishes(int idPage) throws ClassNotFoundException, SQLException {
+        List<Fish> fishes = null;
+        Connection connection = null;
+        try {
+            connection = DataBaseConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(Constant.SQL_QUERY_GET_FISHES_BY_FISHING_PAGE_ID);
+            preparedStatement.setInt(1, idPage);
+            ResultSet result = preparedStatement.executeQuery();
+            fishes = new ArrayList<Fish>();
+            while (result.next()) {
+                Fish fish = new Fish();
+                fish.setId(result.getInt("id_fish"));
+                fish.setName(result.getString("name"));
+                fish.setWeight(result.getFloat("weight"));
+                fish.setDistance(result.getFloat("distance"));
+                fish.setBait(result.getString("bait"));
+                fish.setTime(result.getString("time"));
+                fishes.add(fish);
+            }
+            result.close();
+            preparedStatement.close();
+            DataBaseConnection.disconnect();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return fishes;
     }
 
     private void setFishingPage(FishingPage fishingPage, ResultSet result) {

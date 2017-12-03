@@ -4,9 +4,11 @@
 package servlet.user_statistic;
 
 import authentication.JwtUtil;
+import constant.Constant;
 import dao.fishing_page.FishingPageDao;
 import dao.fishing_page.FishingPageDaoImpl;
 import json_parser.JSONToObjectParserForFishingPage;
+import json_parser.ObjectToJSONParserForFishingPage;
 import model.FishingPage;
 import org.json.simple.JSONObject;
 import servlet.BaseHandler;
@@ -29,8 +31,28 @@ public class FishingPageServlet extends HttpServlet {
         handler = new BaseHandler();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException {
+        String username = JwtUtil.getSubject(httpRequest);
+        if (username != null) {
+            String fishing_page_id = httpRequest.getParameter("id");
+            ObjectToJSONParserForFishingPage objectToJSON = new ObjectToJSONParserForFishingPage();
+            JSONObject jsonObject = objectToJSON.getJSONObjectFishingPage(Constant.SQL_QUERY_GET_FISHING_PAGE, Integer.parseInt(fishing_page_id));
+            if (jsonObject != null) {
+                JSONObject object = new JSONObject();
+                object.put("page", jsonObject);
+                handler.responseFactory(httpResponse, object, null);
+            } else {
+                String error = "Данная рыбалка не найдена!";
+                httpResponse.setStatus(400);
+                handler.responseFactory(httpResponse, null, error);
+            }
+        } else {
+            String error = "Войдите в систему!";
+            httpResponse.setStatus(401);
+            handler.responseFactory(httpResponse, null, error);
+        }
     }
 
     @SuppressWarnings("unchecked")

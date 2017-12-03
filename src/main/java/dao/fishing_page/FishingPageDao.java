@@ -13,7 +13,7 @@ import java.util.Map;
 public interface FishingPageDao {
     void saveFishingPage(String username, FishingPage fishingPage) throws ClassNotFoundException, SQLException;
     List<FishingPage> getFishingPageList(String username, int start, int total, String filter, String sort);
-    FishingPage getFishingPageById(String username, int id);
+    FishingPage getFishingPageById(int id);
     int getCountFishingPages();
     Map<Date, String> getHamletsDescription(String username, int idHamlet);
 }
