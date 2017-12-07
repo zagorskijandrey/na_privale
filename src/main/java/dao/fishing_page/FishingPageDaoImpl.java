@@ -34,6 +34,7 @@ public class FishingPageDaoImpl implements FishingPageDao {
         statement.setTimestamp(5, new Timestamp(fishingPage.getDate().getTime()));
         statement.setString(6, username);
         statement.setInt(7, fishingPage.getIdHamlet());
+        statement.setInt(8, fishingPage.getIdProvince());
         statement.executeUpdate();
 
         ResultSet keys = statement.getGeneratedKeys();
@@ -62,6 +63,7 @@ public class FishingPageDaoImpl implements FishingPageDao {
                 fishingPage.setHamlet(result.getString("hamlet"));
                 fishingPage.setComment(result.getString("comment"));
                 fishingPage.setDate(result.getDate("date"));
+                fishingPage.setIdProvince(result.getInt("id_province"));
             }
             result.close();
             preparedStatement.close();
@@ -203,12 +205,13 @@ public class FishingPageDaoImpl implements FishingPageDao {
 
     private void setFishingPage(FishingPage fishingPage, ResultSet result) {
         try {
-            fishingPage.setId(Integer.parseInt(result.getString("id_page")));
+            fishingPage.setId(result.getInt("id_page"));
             fishingPage.setProvince(result.getString("province"));
             fishingPage.setRegion(result.getString("region"));
             fishingPage.setHamlet(result.getString("hamlet"));
             fishingPage.setComment(result.getString("comment"));
             fishingPage.setDate(result.getDate("date"));
+            fishingPage.setIdProvince(result.getInt("id_province"));
         } catch (SQLException e) {
             e.getMessage();
         }

@@ -10,4 +10,8 @@ public abstract class CalculatePrediction {
     public JSONArray calculatePrediction() throws IOException{
         return null;
     };
+
+    public JSONArray calculatePastPrediction() throws IOException{
+        return null;
+    };
 }

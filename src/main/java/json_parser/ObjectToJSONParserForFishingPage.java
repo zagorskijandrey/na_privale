@@ -62,6 +62,7 @@ public class ObjectToJSONParserForFishingPage {
         jsonObject.put("comment", fishingPage.getComment());
         jsonObject.put("date", fishingPage.getDate().toString());
         jsonObject.put("fishes", convertArrayToJSON(fishingPage.getFishes()));
+        jsonObject.put("id_province", fishingPage.getIdProvince());
         return jsonObject;
     }
 

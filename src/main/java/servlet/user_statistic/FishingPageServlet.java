@@ -11,6 +11,7 @@ import json_parser.JSONToObjectParserForFishingPage;
 import json_parser.ObjectToJSONParserForFishingPage;
 import model.FishingPage;
 import org.json.simple.JSONObject;
+import service.CalculatePredictionPeace;
 import servlet.BaseHandler;
 
 import javax.servlet.ServletException;
@@ -20,6 +21,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @WebServlet("/f_page")
 public class FishingPageServlet extends HttpServlet {
@@ -33,15 +38,25 @@ public class FishingPageServlet extends HttpServlet {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException {
+    public void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
         String username = JwtUtil.getSubject(httpRequest);
         if (username != null) {
             String fishing_page_id = httpRequest.getParameter("id");
             ObjectToJSONParserForFishingPage objectToJSON = new ObjectToJSONParserForFishingPage();
-            JSONObject jsonObject = objectToJSON.getJSONObjectFishingPage(Constant.SQL_QUERY_GET_FISHING_PAGE, Integer.parseInt(fishing_page_id));
-            if (jsonObject != null) {
+            JSONObject jsonObjectPage = objectToJSON.getJSONObjectFishingPage(Constant.SQL_QUERY_GET_FISHING_PAGE, Integer.parseInt(fishing_page_id));
+            Date date = null;
+            try {
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                date = format.parse( jsonObjectPage.get("date").toString());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            JSONObject jsonObjectPeaceMarks = new CalculatePredictionPeace().calculatePastPrediction(Integer.parseInt(jsonObjectPage.get("id").toString()), date);
+
+            if (jsonObjectPage != null) {
                 JSONObject object = new JSONObject();
-                object.put("page", jsonObject);
+                object.put("page", jsonObjectPage);
+                object.put("peace_marks", jsonObjectPeaceMarks);
                 handler.responseFactory(httpResponse, object, null);
             } else {
                 String error = "Данная рыбалка не найдена!";

@@ -15,6 +15,7 @@ public class FishingPage {
     private List<Fish> fishes;
     private Date date;
     private int idHamlet;
+    private int idProvince;
 
     public int getId() {
         return id;
@@ -78,5 +79,13 @@ public class FishingPage {
 
     public void setIdHamlet(int idHamlet) {
         this.idHamlet = idHamlet;
+    }
+
+    public int getIdProvince() {
+        return idProvince;
+    }
+
+    public void setIdProvince(int idProvince) {
+        this.idProvince = idProvince;
     }
 }

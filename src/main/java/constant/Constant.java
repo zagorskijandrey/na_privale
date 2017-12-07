@@ -20,20 +20,20 @@ public class Constant {
     public static String SQL_QUERY_GET_HAMLET_DESCRIPTION_LIST_BY_USER_AND_HAMLET_ID = "SELECT SQL_CALC_FOUND_ROWS comment, date " +
             "FROM fishing_page WHERE id_user=(SELECT id_user FROM user WHERE username=?) AND id_hamlet=?";
     public static String SQL_QUERY_SAVE_FISHING_PAGE = "INSERT INTO fishing_page SET province=?, region=?, " +
-            "hamlet=?, comment=?, date=?, id_user=(SELECT id_user FROM user WHERE username=?), id_hamlet=?";
+            "hamlet=?, comment=?, date=?, id_user=(SELECT id_user FROM user WHERE username=?), id_hamlet=?, id_province=?";
 
     public static String SQL_QUERY_SAVE_FISHES = "INSERT INTO fish SET name=?, weight=?, " +
             "distance=?, bait=?, time=?, id_page=(SELECT id_page FROM fishing_page WHERE id_page=?)";
     public static String SQL_QUERY_GET_FISHES_BY_FISHING_PAGE_ID = "SELECT * FROM fish WHERE id_page=?";
 
-    public static String SQL_QUERY_SELECT_WEATHER = "SELECT * FROM weather WHERE id_region=(SELECT id_region " +
-            "FROM region WHERE name=?)";
+    public static String SQL_QUERY_SELECT_WEATHER_BY_PROVINCE_ID = "SELECT * FROM weather WHERE id_region=? and DATE(time)= DATE(?)";
     public static String SQL_QUERY_SELECT_WEATHER_ALL_REGIONS = "SELECT wind_speed, wind_rout, id_region, MAX(time) FROM weather GROUP BY id_region";
     //    public static String SQL_QUERY_SELECT_PRESSURES = "SELECT pressure FROM weather WHERE id_region=(SELECT id_region " +
 //            "FROM region WHERE name=?) AND time BETWEEN ? AND ?";
     public static String SQL_QUERY_SELECT_PRESSURES = "SELECT pressure FROM weather WHERE id_region=? AND time BETWEEN ? AND ?";
     public static String SQL_QUERY_SELECT_PREDICTIONS = "SELECT * FROM region";
     public static String SQL_QUERY_SELECT_LAST_MOON = "SELECT * FROM moon ORDER BY id_moon DESC LIMIT 1";
+    public static String SQL_QUERY_SELECT_MOON_BY_DATE = "SELECT moon_phase FROM moon WHERE DATE(time)= DATE(?)";
 
 //    public static String MOON_DATA_URL = "http://api.burningsoul.in/moon";
     public static String MOON_DATA_URL = "http://farmsense-prod.apigee.net/v1/moonphases/?d=";

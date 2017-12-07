@@ -20,17 +20,17 @@ public class PredictionDataDaoImpl implements PredictionDataDao{
     }
 
     public ArrayList<Region> getPredictionForRegions() {
-        ArrayList<Region> storiesList = null;
+        ArrayList<Region> regionList = null;
         Connection connection = null;
         try {
             connection = DataBaseConnection.getConnection();
             PreparedStatement statement = connection.prepareStatement(sqlQuery);
             ResultSet result = statement.executeQuery();
-            storiesList = new ArrayList<Region>();
+            regionList = new ArrayList<Region>();
             while (result.next()) {
                 Region region = new Region();
                 setPredictionForRegion(region, result);
-                storiesList.add(region);
+                regionList.add(region);
             }
             result.close();
             statement.close();
@@ -40,7 +40,7 @@ public class PredictionDataDaoImpl implements PredictionDataDao{
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return storiesList;
+        return regionList;
     }
 
     private void setPredictionForRegion(Region region, ResultSet result) {

@@ -56,6 +56,9 @@ public class JSONToObjectParserForFishingPage {
             if (joFishingPage.get("id_hamlet") != null){
                 fishingPage.setIdHamlet(Integer.parseInt(joFishingPage.get("id_hamlet").toString()));
             }
+            if (joFishingPage.get("id_province") != null){
+                fishingPage.setIdProvince(Integer.parseInt(joFishingPage.get("id_province").toString()));
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         } catch (NullPointerException ne) {

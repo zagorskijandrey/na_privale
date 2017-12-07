@@ -12,6 +12,7 @@ import org.json.simple.JSONArray;
 import dao.weather.WeatherDaoGetImpl;
 import dao.weather.WeatherDaoGet;
 import dao.prediction.PredictionDataDaoImpl;
+import org.json.simple.JSONObject;
 
 import java.io.IOException;
 import java.util.*;
@@ -35,15 +36,44 @@ public class CalculatePredictionPeace extends CalculatePrediction{
         ArrayList<Region> regionList = regionData.getPredictionForRegions();
         for (Region region: regionList){
             WeatherModel weatherModel = mapWeather.get(region.getId());
-            List<Integer> pressures = collectWeatherData.getPressuresByRegionId(Integer.toString(region.getId()), Constant.SQL_QUERY_SELECT_PRESSURES, weatherModel);
+            List<Integer> pressures = collectWeatherData.getPressuresByRegionId(Constant.SQL_QUERY_SELECT_PRESSURES, region.getId(), null);
             int windRout = weatherModel.getWindRout();
             int windSpeed = weatherModel.getWindSpeed();
-            int rating = new ServiceForPeaceFish().calculatePeacePrediction(moon.getPhase(), dateModel.getMonth(),
+            Map<String, Integer> mapMarks = new ServiceForPeaceFish().calculatePeacePrediction(moon.getPhase(), dateModel.getMonth(),
                     pressures, windRout, windSpeed);
-            region.setPrediction(rating);
+
+            int ratingSum = 0;
+            for(Map.Entry<String, Integer> pare: mapMarks.entrySet()){
+                ratingSum += pare.getValue();
+            }
+//            int rating = new ServiceForPeaceFish().calculatePeacePrediction(moon.getPhase(), dateModel.getMonth(),
+//                    pressures, windRout, windSpeed);
+            region.setPrediction(ratingSum/5);
         }
 
         ObjectToJSONParserForPrediction objectToJSONParserForPrediction = new ObjectToJSONParserForPrediction();
         return objectToJSONParserForPrediction.getJSONArrayRegions(regionList);
+    }
+
+    @SuppressWarnings("unchecked")
+    public JSONObject calculatePastPrediction(int provinceId, Date date) throws IOException {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int month = calendar.get(Calendar.MONTH);
+
+        WeatherDaoGet collectWeatherData = new WeatherDaoGetImpl();
+        WeatherModel weatherModel = collectWeatherData.getWeatherByProvinceIdAndDate(Constant.SQL_QUERY_SELECT_WEATHER_BY_PROVINCE_ID, provinceId, date);
+        int phase = collectWeatherData.getMoonPhaseByDate(Constant.SQL_QUERY_SELECT_MOON_BY_DATE, date);
+        List<Integer> pressures = collectWeatherData.getPressuresByRegionId(Constant.SQL_QUERY_SELECT_PRESSURES, provinceId, date);
+        int windRout = weatherModel.getWindRout();
+        int windSpeed = weatherModel.getWindSpeed();
+        Map<String, Integer> mapMarks = new ServiceForPeaceFish().calculatePeacePrediction(phase, month,
+                pressures, windRout, windSpeed);
+
+        JSONObject jsonObject = new JSONObject();
+        for(Map.Entry<String, Integer> pare: mapMarks.entrySet()){
+            jsonObject.put(pare.getKey(), pare.getValue());
+        }
+        return jsonObject;
     }
 }

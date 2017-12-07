@@ -3,23 +3,32 @@ package fishing_prediction.service;
 import fishing_prediction.AverageWaterTemperatureInMonth;
 import fishing_prediction.MoonRelationPeaceFish;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by AZagorskyi on 22.03.2017.
  */
 public class ServiceForPeaceFish {
 
-    public int calculatePeacePrediction(int moonDay, int month, List<Integer> arrayAtmospherePressure, int windRout, int windSpeed){
+    public Map<String, Integer> calculatePeacePrediction(int moonDay, int month, List<Integer> arrayAtmospherePressure, int windRout, int windSpeed){
+        Map<String, Integer> map = new LinkedHashMap<>();
         int ratingForMoonDay = MoonRelationPeaceFish.getRatingByMoonDay(moonDay);
+        map.put("moonMark", ratingForMoonDay);
         int temperature = AverageWaterTemperatureInMonth.getTemperatureByMonth(month);
         int temperaturePredictionValue = getTemperaturePredictionValue(temperature);
+        map.put("temperatureMark", temperaturePredictionValue);
         int atmospherePressurePredictionValue = getAtmospherePressurePredictionValue(arrayAtmospherePressure);
+        map.put("atmospherePressureMark", atmospherePressurePredictionValue);
         int windRoutValue = getWindRoutPredictionValue(windRout, temperature);
+        map.put("windRoutMark", windRoutValue);
         int windSpeedValue = getWindSpeedValue(windSpeed);
+        map.put("windSpeedMark", windSpeedValue);
+        return map;
 
-        return (ratingForMoonDay + temperaturePredictionValue + atmospherePressurePredictionValue +
-                windRoutValue + windSpeedValue)/5;
+//        return (ratingForMoonDay + temperaturePredictionValue + atmospherePressurePredictionValue +
+//                windRoutValue + windSpeedValue)/5;
     }
 
     private int getTemperaturePredictionValue(int temperature){
