@@ -35,8 +35,8 @@ public class Constant {
     public static String SQL_QUERY_SELECT_LAST_MOON = "SELECT * FROM moon ORDER BY id_moon DESC LIMIT 1";
     public static String SQL_QUERY_SELECT_MOON_BY_DATE = "SELECT moon_phase FROM moon WHERE DATE(time)= DATE(?)";
 
-//    public static String MOON_DATA_URL = "http://api.burningsoul.in/moon";
-    public static String MOON_DATA_URL = "http://farmsense-prod.apigee.net/v1/moonphases/?d=";
+    public static String MOON_DATA_URL = "http://api.burningsoul.in/moon/";
+//    public static String MOON_DATA_URL = "http://farmsense-prod.apigee.net/v1/moonphases/?d=";
     public static String WEATHER_DATA_TODAY_URL = "http://api.openweathermap.org/data/2.5/forecast?q=XXXXX,ua&APPID=bf64caf37de45d7b2e9751adc28f384a";
 
     public static String SQL_QUERY_GET_FISHING_STORY_BY_ID = "SELECT * FROM fishing_story where id_story=?";

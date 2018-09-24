@@ -33,8 +33,9 @@ public class JSONToObjectParserForWeather {
         JSONParser parser = new JSONParser();
         JSONObject jsonObject = null;
         try {
-            JSONArray jsonArray = (JSONArray) parser.parse(bufferedReader);
-            jsonObject = (JSONObject) jsonArray.get(0);
+//            JSONArray jsonArray = (JSONArray) parser.parse(bufferedReader);
+//            jsonObject = (JSONObject) jsonArray.get(0);
+            jsonObject = (JSONObject) parser.parse(bufferedReader);
             bufferedReader.close();
         } catch (ParseException e) {
             e.printStackTrace();
@@ -70,13 +71,13 @@ public class JSONToObjectParserForWeather {
 
     public Moon getMoonDayTomorrow(JSONObject object){
         Moon moon = new Moon();
-        Long valueLong = Math.round(Double.parseDouble((object.get("Age")).toString()));
+        Long valueLong = Math.round(Double.parseDouble((object.get("age")).toString()));
         Integer moonDay = valueLong.intValue() + 1;
         if (moonDay == 30){
             moonDay = 1;
         }
         moon.setPhase(moonDay);
-        moon.setDistance(Float.parseFloat((object.get("Distance").toString())));
+        moon.setDistance(Float.parseFloat(("69999" /*object.get("Distance").toString()*/)));
         return moon;
     }
 

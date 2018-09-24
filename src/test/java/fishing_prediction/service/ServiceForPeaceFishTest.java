@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -39,7 +40,16 @@ public class ServiceForPeaceFishTest {
         int windRout = 300;
         int windSpeed = 16;
 
-        assertEquals(6, serviceForPeaceFish.calculatePeacePrediction(moonDay,
-                month, pressures, windRout, windSpeed));
+
+        Map<String, Integer> mapMarks = serviceForPeaceFish.calculatePeacePrediction(moonDay,
+                month, pressures, windRout, windSpeed);
+        int count = 0;
+        int sum = 0;
+        for(Map.Entry<String, Integer> pare: mapMarks.entrySet()){
+            ++count;
+            sum = sum + pare.getValue();
+        }
+
+        assertEquals(6, sum/count);
     }
 }
